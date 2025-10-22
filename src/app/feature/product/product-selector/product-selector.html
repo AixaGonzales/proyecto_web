@@ -1,0 +1,35 @@
+<div class="product-selector-page">
+    <h2>Productos</h2>
+
+    <!-- Componente de búsqueda y filtro -->
+    <app-search-filter [placeholderText]="'Buscar Producto...'" (searchChange)="searchTerm = $event; filterProducts()"
+        (clearAll)="searchTerm=''; filterProducts()">
+    </app-search-filter>
+
+    <div class="product-list" *ngIf="filteredProducts.length > 0; else noResults">
+        <!-- Iterar sobre los productos filtrados -->
+        <mat-card *ngFor="let product of filteredProducts" (click)="toggleSelect(product)" class="product-card"
+            [class.selected]="isSelected(product)" tabindex="0" role="button"
+            [attr.aria-label]="'Seleccionar producto ' + product.nameProduct">
+            <img [src]="product.imageUrl || 'assets/default-product.png'"
+                alt="{{ product.nameProduct }} ({{ product.category }})" class="product-image" />
+            <div class="product-info">
+                <h3>{{ product.nameProduct }}</h3>
+                <p>{{ product.description }}</p>
+                <p>Precio: {{ product.price | currency:'PEN' }}</p>
+                <p>Categoría: {{ product.category }}</p>
+                <p>Unidades disponibles: {{ product.units }}</p>
+            </div>
+        </mat-card>
+    </div>
+
+    <ng-template #noResults>
+        <p>No se encontraron productos.</p>
+    </ng-template>
+
+    <div class="product-selector-actions">
+        <button mat-button color="primary" (click)="confirmSelection()"
+            [disabled]="selectedProducts.length === 0">Confirmar</button>
+        <button mat-button color="warn" (click)="cancelSelection()">Cancelar</button>
+    </div>
+</div>

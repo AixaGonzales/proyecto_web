@@ -1,0 +1,210 @@
+<!-- src/app/feature/employee/employee-edit/employee-edit.html -->
+<div class="container">
+    <mat-card>
+        <mat-card-header>
+            <mat-card-title>
+                <mat-icon>edit</mat-icon>
+                Editar Empleado
+            </mat-card-title>
+            <mat-card-subtitle>Modifique la información del empleado</mat-card-subtitle>
+        </mat-card-header>
+
+        <mat-card-content>
+            @if (isLoading) {
+            <div class="loading-container">
+                <mat-spinner diameter="50"></mat-spinner>
+                <p>Cargando información del empleado...</p>
+            </div>
+            } @else {
+            <form [formGroup]="employeeForm" (ngSubmit)="onSubmit()" class="employee-form">
+
+                <!-- Fila 1: Nombres y Apellidos -->
+                <div class="form-row">
+                    <mat-form-field appearance="outline" class="form-field">
+                        <mat-label>Nombres *</mat-label>
+                        <input matInput formControlName="firstName" placeholder="Ingrese los nombres">
+                        <mat-icon matPrefix>person</mat-icon>
+
+                        @if (firstName?.hasError('required') && firstName?.touched) {
+                        <mat-error>Los nombres son requeridos</mat-error>
+                        }
+                        @if (firstName?.hasError('minlength') && firstName?.touched) {
+                        <mat-error>Mínimo 2 caracteres</mat-error>
+                        }
+                        @if (firstName?.hasError('maxlength') && firstName?.touched) {
+                        <mat-error>Máximo 100 caracteres</mat-error>
+                        }
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline" class="form-field">
+                        <mat-label>Apellidos *</mat-label>
+                        <input matInput formControlName="lastName" placeholder="Ingrese los apellidos">
+                        <mat-icon matPrefix>person_outline</mat-icon>
+
+                        @if (lastName?.hasError('required') && lastName?.touched) {
+                        <mat-error>Los apellidos son requeridos</mat-error>
+                        }
+                        @if (lastName?.hasError('minlength') && lastName?.touched) {
+                        <mat-error>Mínimo 2 caracteres</mat-error>
+                        }
+                        @if (lastName?.hasError('maxlength') && lastName?.touched) {
+                        <mat-error>Máximo 100 caracteres</mat-error>
+                        }
+                    </mat-form-field>
+                </div>
+
+                <!-- Fila 2: Tipo y Número de Documento -->
+                <div class="form-row">
+                    <mat-form-field appearance="outline" class="form-field">
+                        <mat-label>Tipo de Documento *</mat-label>
+                        <mat-select formControlName="documentType">
+                            @for (type of documentTypes; track type) {
+                            <mat-option [value]="type">{{ type }}</mat-option>
+                            }
+                        </mat-select>
+                        <mat-icon matPrefix>badge</mat-icon>
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline" class="form-field">
+                        <mat-label>Número de Documento *</mat-label>
+                        <input matInput formControlName="documentNumber" placeholder="Ej: 12345678">
+                        <mat-icon matPrefix>numbers</mat-icon>
+
+                        @if (documentNumber?.hasError('required') && documentNumber?.touched) {
+                        <mat-error>El número de documento es requerido</mat-error>
+                        }
+                        @if (documentNumber?.hasError('minlength') && documentNumber?.touched) {
+                        <mat-error>Mínimo 8 caracteres</mat-error>
+                        }
+                        @if (documentNumber?.hasError('maxlength') && documentNumber?.touched) {
+                        <mat-error>Máximo 20 caracteres</mat-error>
+                        }
+                    </mat-form-field>
+                </div>
+
+                <!-- Fila 3: Email y Teléfono -->
+                <div class="form-row">
+                    <mat-form-field appearance="outline" class="form-field">
+                        <mat-label>Email</mat-label>
+                        <input matInput formControlName="email" type="email" placeholder="ejemplo@correo.com">
+                        <mat-icon matPrefix>email</mat-icon>
+
+                        @if (email?.hasError('email') && email?.touched) {
+                        <mat-error>Formato de email inválido</mat-error>
+                        }
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline" class="form-field">
+                        <mat-label>Teléfono</mat-label>
+                        <input matInput formControlName="phone" placeholder="Ej: +51 987654321">
+                        <mat-icon matPrefix>phone</mat-icon>
+
+                        @if (phone?.hasError('pattern') && phone?.touched) {
+                        <mat-error>Formato de teléfono inválido</mat-error>
+                        }
+                    </mat-form-field>
+                </div>
+
+                <!-- Dirección -->
+                <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>Dirección</mat-label>
+                    <input matInput formControlName="address" placeholder="Ingrese la dirección completa">
+                    <mat-icon matPrefix>home</mat-icon>
+
+                    @if (address?.hasError('maxlength') && address?.touched) {
+                    <mat-error>Máximo 200 caracteres</mat-error>
+                    }
+                </mat-form-field>
+
+                <!-- Fila 4: Cargo y Fecha de Contratación -->
+                <div class="form-row">
+                    <mat-form-field appearance="outline" class="form-field">
+                        <mat-label>Cargo *</mat-label>
+                        <mat-select formControlName="position">
+                            @for (position of positions; track position) {
+                            <mat-option [value]="position">{{ position }}</mat-option>
+                            }
+                        </mat-select>
+                        <mat-icon matPrefix>work</mat-icon>
+
+                        @if (position?.hasError('required') && position?.touched) {
+                        <mat-error>El cargo es requerido</mat-error>
+                        }
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline" class="form-field">
+                        <mat-label>Fecha de Contratación *</mat-label>
+                        <input matInput [matDatepicker]="hirePicker" formControlName="hireDate">
+                        <mat-datepicker-toggle matIconSuffix [for]="hirePicker"></mat-datepicker-toggle>
+                        <mat-datepicker #hirePicker></mat-datepicker>
+                        <mat-icon matPrefix>event</mat-icon>
+
+                        @if (hireDate?.hasError('required') && hireDate?.touched) {
+                        <mat-error>La fecha de contratación es requerida</mat-error>
+                        }
+                    </mat-form-field>
+                </div>
+
+                <!-- Fila 5: Fecha de Nacimiento y Género -->
+                <div class="form-row">
+                    <mat-form-field appearance="outline" class="form-field">
+                        <mat-label>Fecha de Nacimiento</mat-label>
+                        <input matInput [matDatepicker]="birthPicker" formControlName="fechaNacimiento">
+                        <mat-datepicker-toggle matIconSuffix [for]="birthPicker"></mat-datepicker-toggle>
+                        <mat-datepicker #birthPicker></mat-datepicker>
+                        <mat-icon matPrefix>cake</mat-icon>
+                    </mat-form-field>
+
+                    <mat-form-field appearance="outline" class="form-field">
+                        <mat-label>Género</mat-label>
+                        <mat-select formControlName="genero">
+                            <mat-option value="">Seleccionar</mat-option>
+                            @for (genero of generos; track genero) {
+                            <mat-option [value]="genero">{{ genero }}</mat-option>
+                            }
+                        </mat-select>
+                        <mat-icon matPrefix>wc</mat-icon>
+                    </mat-form-field>
+                </div>
+
+                <!-- Estado -->
+                <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>Estado *</mat-label>
+                    <mat-select formControlName="status">
+                        <mat-option value="A">Activo</mat-option>
+                        <mat-option value="I">Inactivo</mat-option>
+                    </mat-select>
+                    <mat-icon matPrefix>toggle_on</mat-icon>
+                </mat-form-field>
+
+                <!-- Acciones -->
+                <div class="form-actions">
+                    <div class="form-status" [class.dirty]="isFormDirty">
+                        @if (isFormDirty) {
+                        <span>⚠️ Tienes cambios sin guardar</span>
+                        } @else {
+                        <span>✅ Todos los cambios guardados</span>
+                        }
+                    </div>
+
+                    <div class="actions">
+                        <button mat-button type="button" (click)="onCancel()" [disabled]="isSubmitting">
+                            <mat-icon>cancel</mat-icon>
+                            Cancelar
+                        </button>
+                        <button mat-raised-button color="primary" type="submit"
+                            [disabled]="!employeeForm.valid || isSubmitting">
+                            @if (isSubmitting) {
+                            <mat-spinner diameter="20"></mat-spinner>
+                            } @else {
+                            <mat-icon>save</mat-icon>
+                            }
+                            {{ isSubmitting ? 'Guardando...' : 'Actualizar Empleado' }}
+                        </button>
+                    </div>
+                </div>
+            </form>
+            }
+        </mat-card-content>
+    </mat-card>
+</div>

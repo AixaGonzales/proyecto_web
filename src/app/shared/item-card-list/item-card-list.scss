@@ -1,0 +1,33 @@
+.card-list-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    justify-content: flex-start;
+}
+
+.item-card {
+    width: 150px;
+    cursor: pointer;
+    border: 2px solid transparent;
+    transition: border-color 0.3s ease;
+
+    &.selected {
+        border-color: #5d4037; // color principal (marrón)
+    }
+
+    img {
+        height: 100px;
+        object-fit: cover;
+    }
+
+    h3 {
+        font-size: 1rem;
+        margin: 8px 0 4px;
+    }
+
+    p {
+        font-size: 0.85rem;
+        color: #666;
+        margin: 0;
+    }
+}

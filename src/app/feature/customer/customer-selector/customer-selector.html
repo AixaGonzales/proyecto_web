@@ -1,0 +1,110 @@
+<!-- src/app/feature/customer/customer-selector/customer-selector.html -->
+<div class="customer-selector-page">
+    <div class="selector-header">
+        <h2>Seleccionar Cliente</h2>
+        <div class="search-container">
+            <div class="search-field">
+                <mat-icon class="search-icon">search</mat-icon>
+                <input type="text" [(ngModel)]="searchTerm" (input)="handleSearch($event)"
+                    placeholder="Buscar cliente por nombre..." class="search-input">
+                @if (searchTerm) {
+                <button mat-icon-button class="clear-btn" (click)="clearSearch()" matTooltip="Limpiar búsqueda">
+                    <mat-icon>close</mat-icon>
+                </button>
+                }
+            </div>
+        </div>
+    </div>
+
+    <div class="customer-list-container">
+        @if (filteredCustomers.length > 0) {
+        <div class="customer-grid">
+            @for (customer of filteredCustomers; track customer.idCustomer) {
+            <mat-card (click)="selectCustomer(customer)" class="customer-card" [class.selected]="isSelected(customer)"
+                tabindex="0" role="button"
+                [attr.aria-label]="'Seleccionar cliente ' + customer.firstName + ' ' + customer.lastName">
+
+                <div class="card-content">
+                    <div class="avatar-section">
+                        <img [src]="getCustomerImage(customer.gender)"
+                            [alt]="'Foto de ' + customer.firstName + ' ' + customer.lastName" class="customer-avatar"
+                            onerror="this.src='assets/images/default-avatar.png'">
+                        <div class="status-indicator" [class.active]="customer.status === 'A'"></div>
+                    </div>
+
+                    <div class="customer-details">
+                        <h3 class="customer-name">{{ customer.firstName }} {{ customer.lastName }}</h3>
+
+                        <div class="contact-info">
+                            <mat-icon class="info-icon">email</mat-icon>
+                            @if (customer.email) {
+                            <span class="info-text">{{ customer.email }}</span>
+                            } @else {
+                            <span class="no-info">Sin email</span>
+                            }
+                        </div>
+
+                        <div class="contact-info">
+                            <mat-icon class="info-icon">phone</mat-icon>
+                            @if (customer.phone) {
+                            <span class="info-text">{{ customer.phone }}</span>
+                            } @else {
+                            <span class="no-info">Sin teléfono</span>
+                            }
+                        </div>
+
+                        @if (customer.documentType && customer.documentNumber) {
+                        <div class="document-info">
+                            <div class="doc-badge">
+                                <span class="doc-type">{{ getDocTypeDisplay(customer.documentType) }}</span>
+                                <span class="doc-number">{{ customer.documentNumber }}</span>
+                            </div>
+                        </div>
+                        }
+
+                        <div class="customer-meta">
+                            @if (customer.age) {
+                            <span class="age-badge">{{ customer.age }} años</span>
+                            }
+                            <span class="gender-badge" [class]="customer.gender.toLowerCase()">
+                                {{ getGenderDisplay(customer.gender) }}
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="selection-indicator">
+                        @if (isSelected(customer)) {
+                        <mat-icon class="selected-icon">check_circle</mat-icon>
+                        }
+                    </div>
+                </div>
+            </mat-card>
+            }
+        </div>
+        } @else {
+        <div class="no-results">
+            <mat-icon class="no-results-icon">search_off</mat-icon>
+            <h3>No se encontraron clientes</h3>
+            @if (searchTerm) {
+            <p>Intenta con otros términos de búsqueda</p>
+            } @else {
+            <p>No hay clientes disponibles</p>
+            }
+        </div>
+        }
+    </div>
+
+    <div class="selector-actions">
+        <button mat-stroked-button color="warn" (click)="cancelSelection()" class="cancel-btn">
+            <mat-icon>close</mat-icon>
+            Cancelar
+        </button>
+
+        @if (selectedCustomer) {
+        <div class="selection-info">
+            <span class="selected-label">Cliente seleccionado:</span>
+            <strong>{{ selectedCustomer.firstName }} {{ selectedCustomer.lastName }}</strong>
+        </div>
+        }
+    </div>
+</div>

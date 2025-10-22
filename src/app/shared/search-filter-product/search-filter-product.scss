@@ -1,0 +1,233 @@
+@use "sass:color";
+@use '@angular/material' as mat;
+@use 'sass:map';
+
+// Variables de color
+$gris-claro: #E0E0E0;
+$blanco-roto: #F4F4F4;
+$color-negro: #000000;
+
+.search-container {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  width: 60%;
+  padding: 8px 0;
+  margin-bottom: 1.1%;
+
+  @media (max-width: 600px) {
+    flex-direction: column;
+    gap: 12px;
+  }
+}
+
+.search-field {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  height: 40px;
+  padding: 0 16px;
+  border-radius: 10px;
+  background: white;
+  border: 1px solid #E0E0E0;
+  transition: all 0.3s ease;
+
+  &:hover {
+    border-color: #BDBDBD;
+  }
+
+  &:focus-within {
+    border-color: #070F2B;
+    box-shadow: 0 0 0 2px rgba(7, 15, 43, 0.2);
+  }
+
+  .search-icon {
+    color: #8D8D8D;
+    margin-right: 12px;
+  }
+
+  .search-input {
+    flex: 1;
+    border: none;
+    outline: none;
+    background: transparent;
+    font-size: 14px;
+    color: #333333;
+
+    &::placeholder {
+      color: #8D8D8D;
+    }
+  }
+
+  .clear-btn {
+    color: #8D8D8D;
+    margin-left: 8px;
+  }
+}
+
+.floating-filter-buttons {
+  display: flex;
+  gap: 15px;
+  align-items: center;
+
+  .floating-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 60px;
+    height: 40px;
+    border-radius: 6px;
+    border: 1px solid $gris-claro;
+    background-color: $blanco-roto;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+    transition: all 0.3s ease;
+    cursor: pointer;
+    padding: 0;
+    margin: 0;
+    overflow: hidden;
+
+    // Estilos para los iconos dentro de los botones
+    mat-icon {
+      font-size: 22px;
+      width: 22px;
+      height: 22px;
+      color: $color-negro;
+    }
+
+    // Efecto hover
+    &:hover {
+      background-color: color.adjust($blanco-roto, $lightness: -5%);
+      border-color: color.adjust($gris-claro, $lightness: -10%);
+    }
+
+    // Efecto activo
+    &:active {
+      transform: scale(0.95);
+    }
+  }
+
+  // Versión responsive para móviles
+  @media (max-width: 768px) {
+    .floating-button {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+
+      mat-icon {
+        font-size: 24px;
+      }
+    }
+  }
+}
+
+.filter-menu,
+.age-menu {
+  padding: 8px 0;
+  min-width: 200px;
+
+  .mat-menu-item {
+    height: 40px;
+    line-height: 40px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    &.active {
+      color: #070F2B;
+      font-weight: 500;
+    }
+
+    mat-icon {
+      color: inherit;
+    }
+  }
+}
+
+.age-menu {
+  min-width: 280px;
+  padding: 8px;
+}
+
+.age-range-picker {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 12px;
+  width: fit-content;
+
+  .age-input-container {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .age-input {
+    width: 70px;
+    height: 40px;
+    padding: 0 12px;
+    border: 1px solid #E0E0E0;
+    border-radius: 20px;
+    font-size: 14px;
+    text-align: center;
+    outline: none;
+    transition: all 0.3s ease;
+    background: white;
+    color: #000000;
+
+    /* Oculta las flechas/spinners */
+    &::-webkit-outer-spin-button,
+    &::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+
+
+    &:focus {
+      border-color: #4285F4;
+      box-shadow: 0 0 0 2px rgba(66, 133, 244, 0.2);
+    }
+
+    &::placeholder {
+      color: #9E9E9E;
+    }
+  }
+
+  .separator {
+    color: #757575;
+    font-weight: 500;
+    font-size: 14px;
+  }
+
+  .apply-btn {
+    align-self: center;
+    background: #4285F4;
+    color: white;
+    border-radius: 50%;
+    width: 36px;
+    height: 36px;
+    transition: all 0.3s ease;
+
+    &:hover {
+      background: #3367D6;
+      transform: scale(1.05);
+    }
+
+    &:disabled {
+      background: #E0E0E0;
+      color: #9E9E9E;
+      transform: none;
+      cursor: not-allowed;
+    }
+
+    mat-icon {
+      font-size: 20px;
+    }
+  }
+
+  .error-message {
+    color: #D32F2F;
+    font-size: 12px;
+    margin-top: 4px;
+    text-align: center;
+  }
+}

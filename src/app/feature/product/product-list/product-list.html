@@ -1,0 +1,105 @@
+<div class="product-list-container">
+
+  <div class="header-section">
+    <h2 class="titleh2">Gestión de Productos</h2>
+
+
+
+
+    <!-- Contenedor de búsqueda y botones -->
+    <div class="header-actions">
+      <!-- Campo de búsqueda -->
+      <!-- Reemplaza tu actual app-search-filter por este: -->
+      <app-search-filter-product placeholderText="Buscar Producto..." [showExtraFilters]="true"
+        (searchChange)="handleSearch($event)" (filterChange)="handleFilter($event)">
+      </app-search-filter-product>
+    </div>
+  </div>
+
+
+
+  <!-- Botones flotantes -->
+  <div class="floating-action-buttons">
+    <!-- Botón de Reportes -->
+    <a class="floating-button" (click)="reportPdf()" tooltip="Ver Reportes">
+      <mat-icon>insert_chart_outlined</mat-icon>
+    </a>
+
+    <!-- Botón Registrar Producto -->
+    <a class="floating-button" routerLink="/register-product" tooltip="Agregar Producto">
+      <mat-icon>add_box</mat-icon>
+    </a>
+  </div>
+
+
+
+  <!-- Tabla de productos -->
+  <div class="table-responsive">
+    <table class="tabla-productos mat-elevation-z2">
+      <thead>
+        <tr>
+          <th>Producto</th>
+          <th>Descripción</th>
+          <th>Precio</th>
+          <th>Categoría</th>
+          <th>Unidades</th>
+          <th>Estado</th>
+          <th>Fecha de Creación</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let product of filteredProducts; trackBy: trackById" class="product-row">
+          <td data-label="Producto">{{ product.nameProduct }}</td>
+          <td data-label="Descripcion">{{ product.description }}</td>
+            <!-- PIPE -->
+          <td data-label="Precio">{{ product.price | currency:'PEN '}}</td>
+          <td data-label="Categoria">{{ product.category }}</td>
+          <td data-label="Unidades">{{ product.units }}</td>
+          <td data-label="Estado">
+            <span class="status-badge" [class.active]="product.status === 'A'"
+              [class.inactive]="product.status !== 'A'">
+              {{ product.status === 'A' ? 'Activo' : 'Inactivo' }}
+              {{ product.status | statusTransform }}
+            </span>
+          
+          </td>
+          <td data-label="Fecha de Creación">{{ product.creationDate | date: 'dd/MM/yyyy' }}</td>
+          <td class="actions" data-label="Acciones">
+
+            <button mat-icon-button class="details-button" (click)="openDetailsDialog(product.id)"
+              matTooltip="Ver detalles" aria-label="Ver detalles">
+              <mat-icon>visibility</mat-icon>
+            </button>
+
+            <button mat-icon-button class="edit-button" (click)="openEditDialog(product.id, product.status)"
+              matTooltip="Editar" aria-label="Editar">
+              <mat-icon>edit</mat-icon>
+            </button>
+            <ng-container *ngIf="product.status === 'A'; else restoreButton">
+              <button mat-icon-button class="delete-button" (click)="deleteProduct(product.id)" matTooltip="Eliminar"
+                aria-label="Eliminar">
+                <mat-icon>delete</mat-icon>
+              </button>
+            </ng-container>
+
+            <ng-template #restoreButton>
+              <button mat-icon-button class="restore-button" (click)="restoreProduct(product.id)" matTooltip="Restaurar"
+                aria-label="Restaurar">
+                <mat-icon>restore</mat-icon>
+              </button>
+            </ng-template>
+
+          </td>
+        </tr>
+        <tr *ngIf="filteredProducts.length === 0" class="no-results-row">
+          <td colspan="9">
+            <div class="no-results-message">
+              <mat-icon>search_off</mat-icon>
+              <span>No se encontraron productos</span>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>

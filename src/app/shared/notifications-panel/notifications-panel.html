@@ -1,0 +1,91 @@
+<div class="notifications-container">
+    <mat-card class="notifications-card">
+        <mat-card-header class="notifications-header">
+            <div class="header-content">
+                <div class="header-title">
+                    <mat-icon class="header-icon">notifications</mat-icon>
+                    <span class="title-text">Notificaciones</span>
+                    <mat-chip *ngIf="unreadCount > 0" class="unread-badge" color="warn">
+                        {{unreadCount}}
+                    </mat-chip>
+                </div>
+
+                <div class="header-actions">
+                    <button *ngIf="unreadCount > 0" mat-icon-button (click)="markAllAsRead()"
+                        matTooltip="Marcar todo como leído" class="action-btn">
+                        <mat-icon>mark_email_read</mat-icon>
+                    </button>
+                    <button mat-icon-button (click)="clearAll()" matTooltip="Limpiar todas" class="action-btn">
+                        <mat-icon>clear_all</mat-icon>
+                    </button>
+                </div>
+            </div>
+        </mat-card-header>
+
+        <mat-card-content class="card-content">
+            <mat-list class="notifications-list" role="list">
+                <ng-container *ngIf="!loading; else loadingTemplate">
+
+                    <!-- Notificaciones -->
+                    <mat-list-item *ngFor="let notification of notifications" class="notification-item"
+                        [class.unread]="!notification.read" [class.read]="notification.read"
+                        (click)="markAsRead(notification)" role="listitem">
+
+                        <div matListItemIcon class="notification-icon-container">
+                            <mat-icon class="notification-icon" [style.color]="getNotificationColor(notification)">
+                                {{getNotificationIcon(notification)}}
+                            </mat-icon>
+                            <div *ngIf="!notification.read" class="unread-dot"></div>
+                        </div>
+
+                        <div matListItemTitle class="notification-content">
+                            <div class="notification-message">{{notification.message}}</div>
+                            <div class="notification-meta">
+                                <span class="notification-time">{{notification.date | date:'HH:mm'}}</span>
+                                <span class="notification-priority" [class]="'priority-' + notification.priority">
+                                    {{notification.priority === 'high' ? '¡Importante!' : 'Recordatorio'}}
+                                </span>
+                            </div>
+                        </div>
+
+                        <button mat-icon-button class="mark-read-btn"
+                            (click)="markAsRead(notification); $event.stopPropagation()" matTooltip="Marcar como leído">
+                            <mat-icon>check_circle</mat-icon>
+                        </button>
+                    </mat-list-item>
+
+                    <!-- Estado vacío -->
+                    <mat-list-item *ngIf="notifications.length === 0 && !loading" class="empty-state">
+                        <div matListItemIcon class="empty-icon">
+                            <mat-icon>notifications_off</mat-icon>
+                        </div>
+                        <div matListItemTitle class="empty-content">
+                            <div class="empty-title">Sin notificaciones</div>
+                            <div class="empty-subtitle">Todo está al día</div>
+                        </div>
+                    </mat-list-item>
+
+                </ng-container>
+
+                <!-- Loading State -->
+                <ng-template #loadingTemplate>
+                    <mat-list-item class="loading-state">
+                        <mat-spinner diameter="24" color="accent"></mat-spinner>
+                        <div class="loading-text">Cargando notificaciones...</div>
+                    </mat-list-item>
+                </ng-template>
+            </mat-list>
+        </mat-card-content>
+
+        <!-- Footer con acciones -->
+        <mat-card-actions *ngIf="hasNotifications" class="notifications-footer">
+            <button mat-button color="primary" (click)="loadBirthdayNotifications()" class="refresh-btn">
+                <mat-icon>refresh</mat-icon>
+                Actualizar
+            </button>
+            <span class="footer-text">
+                {{notifications.length}} notificación{{notifications.length !== 1 ? 'es' : ''}}
+            </span>
+        </mat-card-actions>
+    </mat-card>
+</div>

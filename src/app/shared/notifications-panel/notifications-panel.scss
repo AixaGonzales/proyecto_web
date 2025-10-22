@@ -1,0 +1,296 @@
+.notifications-container {
+  width: 380px;
+  max-height: 600px;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+  border: 1px solid #e0e0e0;
+
+  .notifications-card {
+    margin: 0;
+    box-shadow: none;
+    border-radius: 12px;
+
+    .notifications-header {
+      padding: 16px 20px 12px;
+      background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+      border-bottom: 1px solid #f0f0f0;
+      border-radius: 12px 12px 0 0;
+
+      .header-content {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+
+        .header-title {
+          display: flex;
+          align-items: center;
+          gap: 8px;
+
+          .header-icon {
+            color: #E16B47;
+            font-size: 24px;
+            width: 24px;
+            height: 24px;
+          }
+
+          .title-text {
+            font-size: 18px;
+            font-weight: 600;
+            color: #2c3e50;
+          }
+
+          .unread-badge {
+            font-size: 12px;
+            font-weight: 600;
+            height: 20px;
+          }
+        }
+
+        .header-actions {
+          display: flex;
+          gap: 4px;
+
+          .action-btn {
+            width: 36px;
+            height: 36px;
+            color: #666;
+
+            &:hover {
+              background: rgba(225, 107, 71, 0.08);
+              color: #E16B47;
+            }
+          }
+        }
+      }
+    }
+
+    .card-content {
+      padding: 0;
+      max-height: 400px;
+      overflow-y: auto;
+
+      .notifications-list {
+        padding: 0;
+
+        .notification-item {
+          padding: 12px 16px;
+          border-bottom: 1px solid #f8f8f8;
+          cursor: pointer;
+          transition: all 0.2s ease;
+          position: relative;
+
+          &.unread {
+            background: #fafafa;
+            border-left: 4px solid #E16B47;
+
+            &:hover {
+              background: #fff5f0;
+            }
+          }
+
+          &.read {
+            opacity: 0.8;
+
+            &:hover {
+              background: #f9f9f9;
+            }
+          }
+
+          .notification-icon-container {
+            position: relative;
+            margin-right: 12px;
+
+            .notification-icon {
+              font-size: 20px;
+              width: 20px;
+              height: 20px;
+            }
+
+            .unread-dot {
+              position: absolute;
+              top: -2px;
+              right: -2px;
+              width: 8px;
+              height: 8px;
+              background: #E16B47;
+              border-radius: 50%;
+              border: 2px solid white;
+            }
+          }
+
+          .notification-content {
+            flex: 1;
+            min-width: 0;
+
+            .notification-message {
+              font-size: 14px;
+              font-weight: 500;
+              line-height: 1.4;
+              color: #2c3e50;
+              margin-bottom: 4px;
+            }
+
+            .notification-meta {
+              display: flex;
+              justify-content: space-between;
+              align-items: center;
+              font-size: 12px;
+
+              .notification-time {
+                color: #666;
+              }
+
+              .notification-priority {
+                padding: 2px 6px;
+                border-radius: 10px;
+                font-size: 10px;
+                font-weight: 600;
+
+                &.priority-high {
+                  background: #ffe6e6;
+                  color: #d32f2f;
+                }
+
+                &.priority-medium {
+                  background: #fff3e0;
+                  color: #f57c00;
+                }
+
+                &.priority-low {
+                  background: #f5f5f5;
+                  color: #666;
+                }
+              }
+            }
+          }
+
+          .mark-read-btn {
+            opacity: 0;
+            transition: opacity 0.2s ease;
+            color: #666;
+
+            &:hover {
+              color: #4caf50;
+            }
+          }
+
+          &:hover .mark-read-btn {
+            opacity: 1;
+          }
+        }
+
+        .empty-state {
+          padding: 40px 20px;
+          flex-direction: column;
+          text-align: center;
+          color: #999;
+
+          .empty-icon {
+            margin-bottom: 12px;
+
+            mat-icon {
+              font-size: 48px;
+              width: 48px;
+              height: 48px;
+              color: #ddd;
+            }
+          }
+
+          .empty-content {
+            .empty-title {
+              font-size: 16px;
+              font-weight: 500;
+              margin-bottom: 4px;
+            }
+
+            .empty-subtitle {
+              font-size: 14px;
+              color: #888;
+            }
+          }
+        }
+
+        .loading-state {
+          padding: 32px 20px;
+          flex-direction: column;
+          text-align: center;
+
+          .loading-text {
+            margin-top: 12px;
+            color: #666;
+            font-size: 14px;
+          }
+        }
+      }
+    }
+
+    .notifications-footer {
+      padding: 12px 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-top: 1px solid #f0f0f0;
+      background: #fafafa;
+      border-radius: 0 0 12px 12px;
+
+      .refresh-btn {
+        font-size: 12px;
+        color: #666;
+
+        mat-icon {
+          font-size: 16px;
+          width: 16px;
+          height: 16px;
+          margin-right: 4px;
+        }
+
+        &:hover {
+          color: #E16B47;
+        }
+      }
+
+      .footer-text {
+        font-size: 12px;
+        color: #888;
+      }
+    }
+  }
+}
+
+// Scrollbar personalizado
+.notifications-list::-webkit-scrollbar {
+  width: 6px;
+}
+
+.notifications-list::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 3px;
+}
+
+.notifications-list::-webkit-scrollbar-thumb {
+  background: #c1c1c1;
+  border-radius: 3px;
+
+  &:hover {
+    background: #a8a8a8;
+  }
+}
+
+// Animaciones
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.notification-item {
+  animation: slideIn 0.3s ease;
+}

@@ -1,0 +1,174 @@
+/* Variables de color */
+$primary-color: #5D4037; // Marrón café principal
+$secondary-color: #D7CCC8; // Beige claro
+$accent-color: #8D6E63; // Marrón medio
+$text-color: #3E2723; // Marrón oscuro
+$light-gray: #F5F5F5;
+$error-color: #D32F2F;
+
+/* Tarjeta principal - Más compacta */
+.customer-card {
+    width: 550px;
+    max-width: 95vw;
+    height: auto;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+
+    /* Cabecera */
+    mat-card-header {
+        padding: 0 0 10px 0;
+        position: relative;
+        margin-bottom: 6px;
+
+        .header-content {
+            display: flex;
+            align-items: center;
+            width: 100%;
+            position: relative;
+
+            .header-logo {
+                height: 40px;
+                width: auto;
+                margin-right: 12px;
+            }
+
+            mat-card-title {
+                flex-grow: 1;
+                text-align: center;
+                font-size: 1.3rem;
+                color: $primary-color;
+                font-weight: 500;
+                margin: 0;
+                padding-right: 35px;
+                line-height: 1.2;
+            }
+
+            .close-button {
+                position: absolute;
+                right: 0;
+                top: 50%;
+                transform: translateY(-50%);
+                width: 32px;
+                height: 32px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                margin: 0;
+                border-radius: 50%;
+
+                mat-icon {
+                    font-size: 20px;
+                    width: 20px;
+                    height: 20px;
+                    line-height: 20px;
+                }
+
+                &:hover {
+                    background-color: rgba(0, 0, 0, 0.04);
+                }
+            }
+        }
+    }
+
+    /* Divisor */
+    mat-divider {
+        margin-bottom: 12px;
+        border-top-width: 1px;
+    }
+}
+
+/* Formulario simétrico más compacto */
+.double-column-form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+    .form-row {
+        display: flex;
+        gap: 10px;
+        width: 100%;
+
+        .double-field {
+            flex: 1;
+            min-width: 0;
+        }
+    }
+}
+
+/* Estilos para campos de formulario más compactos */
+mat-form-field {
+    font-size: 0.85em;
+    width: 100%;
+
+    .mat-form-field-wrapper {
+        padding-bottom: 0.6em;
+    }
+
+    .mat-form-field-flex {
+        padding: 0.2em 0.5em;
+        height: 40px;
+    }
+
+    .mat-form-field-infix {
+        padding: 0.3em 0;
+        border-top: 0.4em solid transparent;
+    }
+
+    .mat-input-element {
+        height: 1.1em;
+    }
+
+    .mat-select-value {
+        line-height: 1.1em;
+    }
+}
+
+/* Divisor de sección */
+.section-divider {
+    margin: 8px 0 12px 0 !important;
+}
+
+/* Acciones del formulario */
+.form-actions {
+    margin-top: 15px;
+    padding-top: 8px;
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+
+    button {
+        min-width: 80px;
+        padding: 4px 8px;
+        font-size: 0.85em;
+    }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .customer-card {
+        padding: 12px;
+        width: 95vw;
+
+        mat-card-header {
+            .header-content {
+                .header-logo {
+                    height: 36px;
+                }
+
+                mat-card-title {
+                    font-size: 1.2rem;
+                }
+            }
+        }
+
+        .form-row {
+            flex-direction: column;
+            gap: 6px;
+        }
+    }
+}

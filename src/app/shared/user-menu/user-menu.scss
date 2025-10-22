@@ -1,0 +1,37 @@
+.user-menu {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+
+    .menu-header {
+        padding: 16px;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+
+            .user-avatar {
+                font-size: 40px;
+                width: 40px;
+                height: 40px;
+            }
+
+            .user-details {
+                display: flex;
+                flex-direction: column;
+
+                .user-name {
+                    font-weight: 500;
+                }
+
+                .user-email {
+                    font-size: 0.8em;
+                    color: rgba(0, 0, 0, 0.6);
+                }
+            }
+        }
+    }
+}

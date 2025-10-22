@@ -1,0 +1,134 @@
+// Colores principales
+$gris-cálido: #8D8D8D;
+$beige-suave: #D8B49B;
+$gris-oscuro: #2D2D2D;
+$blanco-roto: #F4F4F4;
+$gris-claro: #E0E0E0;
+$azul-oscuro: #070F2B;
+$rojo-oscuro: #CD1818;
+
+// Colores de acento
+$amarillo-mostaza: #DFAF5D;
+$marrón-café-oscuro: #4E3629;
+$terracota-suave: #E16B47;
+
+// Colores de texto
+$gris-oscuro: #333333;
+$gris-claro: #616161;
+
+//colores normales
+$color-negro: #000000;
+$color-blanco: #ffffff;
+$verde-oscuro: #16610E;
+
+:host {
+    position: fixed;
+    top: 10px;
+    right: 10px;
+    z-index: 1000;
+    display: block;
+}
+
+.top-buttons {
+    display: flex;
+    gap: 6px;
+    background: transparent;
+    padding: 0;
+    align-items: center;
+
+    .icon-button {
+        background: transparent !important;
+        width: 36px !important;
+        height: 36px !important;
+        min-width: 36px !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        border: none !important;
+        outline: none !important;
+        transition: all 0.2s ease;
+
+        mat-icon {
+            color: #2D2D2D;
+            transition: all 0.2s ease;
+            font-size: 24px;
+            width: 24px;
+            height: 24px;
+        }
+
+        &:hover {
+            mat-icon {
+                color: #E16B47;
+                transform: scale(1.1);
+            }
+        }
+
+        .mat-button-focus-overlay {
+            display: none !important;
+        }
+
+        .mat-ripple {
+            display: none !important;
+        }
+    }
+
+    .mat-badge-content {
+        background-color: #DFAF5D;
+        color: white;
+        font-size: 10px;
+        width: 18px;
+        height: 18px;
+        line-height: 18px;
+        top: -6px;
+        right: -6px;
+        font-weight: bold;
+        border: 1px solid #4E3629;
+    }
+}
+
+.user-menu {
+    .mat-menu-item {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 14px;
+        height: 36px;
+        line-height: 36px;
+
+        mat-icon {
+            font-size: 20px;
+            width: 20px;
+            height: 20px;
+            color: #8D8D8D;
+        }
+    }
+}
+
+/* Media Queries para responsividad */
+@media (max-width: 600px) {
+    :host {
+        top: 5px;
+        right: 5px;
+    }
+    
+    .top-buttons {
+        gap: 4px;
+        
+        .icon-button {
+            width: 32px !important;
+            height: 32px !important;
+            
+            mat-icon {
+                font-size: 20px;
+                width: 20px;
+                height: 20px;
+            }
+        }
+        
+        .mat-badge-content {
+            width: 16px;
+            height: 16px;
+            line-height: 16px;
+            font-size: 9px;
+        }
+    }
+}

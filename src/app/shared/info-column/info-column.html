@@ -1,0 +1,32 @@
+<div class="info-column">
+    <!-- Logo -->
+    <div class="logo">
+        <img [src]="logoUrl" [alt]="logoAlt" />
+    </div>
+
+    <!-- Mensajes adicionales -->
+    <div class="messages">
+        <p><strong>{{title}}</strong></p>
+        <ul>
+            <li *ngFor="let instruction of instructions">{{instruction}}</li>
+        </ul>
+
+        <p>{{contactTitle}}</p>
+        <div class="contact-buttons">
+            <!-- Facebook -->
+            <button (click)="openFacebook()" matTooltip="Enviar mensaje vía Facebook">
+                <i class="bi bi-facebook" style="font-size: 30px; color: #1877F2;"></i>
+            </button>
+
+            <!-- Gmail -->
+            <button (click)="openGmail()" matTooltip="Enviar un correo por Gmail">
+                <i class="bi bi-envelope" style="font-size: 30px; color: #EA4335;"></i>
+            </button>
+
+            <!-- WhatsApp -->
+            <button (click)="openWhatsApp()" matTooltip="Enviar mensaje vía WhatsApp">
+                <i class="bi bi-whatsapp" style="font-size: 30px; color: #25D366;"></i>
+            </button>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,52 @@
+<mat-card class="product-card">
+  <mat-card-header>
+    <div class="header-content">
+      <img src="/logoPanaderiaJorge.png" alt="Logo" class="header-logo">
+      <mat-card-title>Detalles del Producto</mat-card-title>
+    </div>
+    <button mat-icon-button class="close-button" (click)="closeDialog()" matTooltip="Cerrar">
+      <mat-icon>close</mat-icon>
+    </button>
+  </mat-card-header>
+
+  <mat-divider></mat-divider>
+
+  <mat-card-content>
+    <div class="detail-item">
+      <span class="detail-label">Nombre del Producto:</span>
+      <span>{{ product.nameProduct }}</span>  <!-- Usar directamente el objeto product -->
+    </div>
+
+    <div class="detail-item">
+      <span class="detail-label">Precio:</span>
+      <span>{{ product.price | currency }}</span>
+    </div>
+
+    <div class="detail-item">
+      <span class="detail-label">Unidades:</span>
+      <span>{{ product.units }}</span>
+    </div>
+
+    <div class="detail-item">
+      <span class="detail-label">Descripción:</span>
+      <span>{{ product.description }}</span>
+    </div>
+
+    <div class="detail-item">
+      <span class="detail-label">Fecha de Creación:</span>
+      <span>{{ product.creationDate | date:'mediumDate' }}</span>
+    </div>
+
+    <div class="detail-item">
+      <span class="detail-label">Categoría:</span>
+      <span>{{ product.category }}</span>
+    </div>
+
+    <div class="detail-item">
+      <span class="detail-label">Estado:</span>
+      <span [class.active]="product.status === 'A'" [class.inactive]="product.status === 'I'">
+        {{ product.status === 'A' ? 'Activo' : 'Inactivo' }}
+      </span>
+    </div>
+  </mat-card-content>
+</mat-card>

@@ -1,0 +1,211 @@
+<!-- src/app/feature/customer/customer-edit/customer-edit.html -->
+<mat-card class="customer-card">
+    <mat-card-header>
+        <div class="header-content">
+            <img src="/logoPanaderiaJorge.png" alt="Logo" class="header-logo">
+            <mat-card-title>Editar Cliente</mat-card-title>
+            <button mat-icon-button class="close-button" (click)="closeDialog()">
+                <mat-icon>close</mat-icon>
+            </button>
+        </div>
+    </mat-card-header>
+
+    <mat-divider></mat-divider>
+
+    <mat-card-content>
+        <form [formGroup]="customerForm" (ngSubmit)="updateCustomer()" class="double-column-form">
+            <!-- Fila 1 - Nombres y Apellidos -->
+            <div class="form-row">
+                <mat-form-field appearance="outline" class="double-field">
+                    <mat-label>Nombres*</mat-label>
+                    <input matInput formControlName="firstName" (keydown)="blockInvalidChars($event, 'letters')"
+                        (blur)="formatNameToTitleCase('firstName')" maxlength="50">
+                    @if (customerForm.get('firstName')?.hasError('required')) {
+                    <mat-error>Este campo es requerido</mat-error>
+                    }
+                    @if (customerForm.get('firstName')?.hasError('pattern')) {
+                    <mat-error>Solo letras (A-Z, áéíóú, ñ)</mat-error>
+                    }
+                    @if (customerForm.get('firstName')?.hasError('maxSpaces')) {
+                    <mat-error>Máximo 2 espacios (para 3 nombres)</mat-error>
+                    }
+                </mat-form-field>
+
+                <mat-form-field appearance="outline" class="double-field">
+                    <mat-label>Apellidos*</mat-label>
+                    <input matInput formControlName="lastName" (keydown)="blockInvalidChars($event, 'letters')"
+                        (blur)="formatNameToTitleCase('lastName')" maxlength="50">
+                    @if (customerForm.get('lastName')?.hasError('required')) {
+                    <mat-error>Este campo es requerido</mat-error>
+                    }
+                    @if (customerForm.get('lastName')?.hasError('pattern')) {
+                    <mat-error>Solo letras (A-Z, áéíóú, ñ)</mat-error>
+                    }
+                    @if (customerForm.get('lastName')?.hasError('maxSpaces')) {
+                    <mat-error>Máximo 3 espacios (apellidos compuestos)</mat-error>
+                    }
+                </mat-form-field>
+            </div>
+
+            <!-- Fila 2 - Fecha de Nacimiento y Género -->
+            <div class="form-row">
+                <mat-form-field appearance="outline" class="double-field">
+                    <mat-label>Fecha de Nacimiento*</mat-label>
+                    <input matInput [matDatepicker]="picker" formControlName="birthDate">
+                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                    <mat-datepicker #picker></mat-datepicker>
+                    @if (customerForm.get('birthDate')?.hasError('required')) {
+                    <mat-error>Este campo es requerido</mat-error>
+                    }
+                </mat-form-field>
+
+                <mat-form-field appearance="outline" class="double-field">
+                    <mat-label>Género*</mat-label>
+                    <mat-select formControlName="gender">
+                        <mat-option value="M">Masculino</mat-option>
+                        <mat-option value="F">Femenino</mat-option>
+                    </mat-select>
+                    @if (customerForm.get('gender')?.hasError('required')) {
+                    <mat-error>Este campo es requerido</mat-error>
+                    }
+                </mat-form-field>
+            </div>
+
+            <!-- Fila 3 - Tipo de Documento y Número de Documento -->
+            <div class="form-row">
+                <mat-form-field appearance="outline" class="double-field">
+                    <mat-label>Tipo de Documento*</mat-label>
+                    <mat-select formControlName="documentType">
+                        <mat-option value="DNI">DNI</mat-option>
+                        <mat-option value="RUC">RUC</mat-option>
+                        <mat-option value="CE">Carnet de Extranjería</mat-option>
+                    </mat-select>
+                    @if (customerForm.get('documentType')?.hasError('required')) {
+                    <mat-error>Este campo es requerido</mat-error>
+                    }
+                </mat-form-field>
+
+                <mat-form-field appearance="outline" class="double-field">
+                    <mat-label>Número de Documento*</mat-label>
+                    <input matInput formControlName="documentNumber" (keydown)="blockInvalidChars($event, 'numbers')"
+                        maxlength="11">
+                    @if (customerForm.get('documentNumber')?.hasError('required')) {
+                    <mat-error>Este campo es requerido</mat-error>
+                    }
+                    @if (customerForm.get('documentNumber')?.hasError('pattern')) {
+                    <mat-error>Formato de documento inválido</mat-error>
+                    }
+                </mat-form-field>
+            </div>
+
+            <!-- Fila 4 - Teléfono y Email -->
+            <div class="form-row">
+                <mat-form-field appearance="outline" class="double-field">
+                    <mat-label>Teléfono*</mat-label>
+                    <input matInput formControlName="phone" (keydown)="blockInvalidChars($event, 'phone')"
+                        maxlength="9">
+                    @if (customerForm.get('phone')?.hasError('required')) {
+                    <mat-error>Este campo es requerido</mat-error>
+                    }
+                    @if (customerForm.get('phone')?.hasError('pattern')) {
+                    <mat-error>Debe comenzar con 9 y tener 9 dígitos</mat-error>
+                    }
+                </mat-form-field>
+
+                <mat-form-field appearance="outline" class="double-field">
+                    <mat-label>Email*</mat-label>
+                    <input matInput formControlName="email" type="email">
+                    @if (customerForm.get('email')?.hasError('required')) {
+                    <mat-error>El email es obligatorio</mat-error>
+                    }
+                    @if (customerForm.get('email')?.hasError('pattern')) {
+                    <mat-error>Por favor ingrese un email válido</mat-error>
+                    }
+                    @if (customerForm.get('email')?.hasError('maxlength')) {
+                    <mat-error>Máximo 100 caracteres</mat-error>
+                    }
+                </mat-form-field>
+            </div>
+
+            <!-- Fila 5 - Observaciones -->
+            <div class="form-row">
+                <mat-form-field appearance="outline" class="double-field">
+                    <mat-label>Observaciones</mat-label>
+                    <mat-select formControlName="notes">
+                        <mat-option value="">-- Ninguna --</mat-option>
+                        @for (note of notesOptions; track note) {
+                        <mat-option [value]="note">{{note}}</mat-option>
+                        }
+                    </mat-select>
+                </mat-form-field>
+            </div>
+
+            <!-- Sección de Dirección -->
+            <mat-divider class="section-divider">Dirección</mat-divider>
+
+            <!-- Fila 6 - Distrito y Tipo de Lugar -->
+            <div class="form-row">
+                <mat-form-field appearance="outline" class="double-field">
+                    <mat-label>Distrito*</mat-label>
+                    <input matInput formControlName="district" maxlength="50">
+                    @if (customerForm.get('district')?.hasError('required')) {
+                    <mat-error>Este campo es requerido</mat-error>
+                    }
+                </mat-form-field>
+
+                <mat-form-field appearance="outline" class="double-field">
+                    <mat-label>Tipo de Lugar*</mat-label>
+                    <mat-select formControlName="placeType">
+                        <mat-option value="Casa">Casa</mat-option>
+                        <mat-option value="Departamento">Departamento</mat-option>
+                        <mat-option value="Oficina">Oficina</mat-option>
+                        <mat-option value="Local">Local Comercial</mat-option>
+                    </mat-select>
+                    @if (customerForm.get('placeType')?.hasError('required')) {
+                    <mat-error>Este campo es requerido</mat-error>
+                    }
+                </mat-form-field>
+            </div>
+
+            <!-- Fila 7 - Calle y Número -->
+            <div class="form-row">
+                <mat-form-field appearance="outline" class="double-field">
+                    <mat-label>Calle/Avenida*</mat-label>
+                    <input matInput formControlName="addrStreet" maxlength="100">
+                    @if (customerForm.get('addrStreet')?.hasError('required')) {
+                    <mat-error>Este campo es requerido</mat-error>
+                    }
+                </mat-form-field>
+
+                <mat-form-field appearance="outline" class="double-field">
+                    <mat-label>Número*</mat-label>
+                    <input matInput formControlName="numberHouse" maxlength="10">
+                    @if (customerForm.get('numberHouse')?.hasError('required')) {
+                    <mat-error>Este campo es requerido</mat-error>
+                    }
+                </mat-form-field>
+            </div>
+
+            <!-- Fila 8 - Referencia -->
+            <div class="form-row">
+                <mat-form-field appearance="outline" class="full-width-field">
+                    <mat-label>Referencia</mat-label>
+                    <textarea matInput formControlName="reference" rows="2" maxlength="200"></textarea>
+                </mat-form-field>
+            </div>
+
+            <!-- Acciones -->
+            <div class="form-actions">
+                <button mat-button type="button" (click)="closeDialog()">Cancelar</button>
+                <button mat-raised-button color="primary" type="submit" [disabled]="loading || customerForm.invalid">
+                    @if (!loading) {
+                    <span>Guardar</span>
+                    }
+                    @if (loading) {
+                    <mat-spinner diameter="20"></mat-spinner>
+                    }
+                </button>
+            </div>
+        </form>
+    </mat-card-content>
+</mat-card>

@@ -1,0 +1,37 @@
+<div class="search-container">
+    <!-- Search Input -->
+    <div class="search-field">
+        <mat-icon class="search-icon">search</mat-icon>
+        <input type="text" [(ngModel)]="searchTerm" (input)="handleSearch()" [placeholder]="placeholderText"
+            class="search-input" aria-label="Search input">
+        <!-- Botón de reinicio (aparece cuando hay filtros activos) -->
+        <button mat-icon-button class="reset-btn" (click)="confirmReset()" *ngIf="hasActiveFilters()"
+            matTooltip="Reiniciar todos los filtros" aria-label="Reiniciar filtros">
+            <mat-icon>restart_alt</mat-icon>
+        </button>
+    </div>
+
+    <!-- Filter Buttons -->
+    <div class="floating-filter-buttons" *ngIf="showExtraFilters">
+        <button class="floating-button" [matMenuTriggerFor]="filterMenu" matTooltip="Filtrar por estado">
+            <mat-icon>toggle_off</mat-icon>
+        </button>
+    </div>
+</div>
+
+<!-- Status Filter Menu -->
+<mat-menu #filterMenu="matMenu" class="filter-menu">
+    <button mat-menu-item (click)="applyFilter('todos')" [class.active]="currentFilter === 'todos'">
+        <mat-icon>{{currentFilter === 'todos' ? 'radio_button_checked' : 'radio_button_unchecked'}}</mat-icon>
+        <span>Todos</span>
+    </button>
+    <button mat-menu-item (click)="applyFilter('activo')" [class.active]="currentFilter === 'activo'">
+        <mat-icon>{{currentFilter === 'activo' ? 'radio_button_checked' : 'radio_button_unchecked'}}</mat-icon>
+        <span>Activos</span>
+    </button>
+    <button mat-menu-item (click)="applyFilter('inactivo')" [class.active]="currentFilter === 'inactivo'">
+        <mat-icon>{{currentFilter === 'inactivo' ? 'radio_button_checked' : 'radio_button_unchecked'}}</mat-icon>
+        <span>Inactivos</span>
+    </button>
+</mat-menu>
+

@@ -1,0 +1,355 @@
+// Colores principales
+$gris-cálido: #8D8D8D;
+$beige-suave: #D8B49B;
+$gris-oscuro: #2D2D2D;
+$blanco-roto: #F4F4F4;
+$gris-claro: #E0E0E0;
+$azul-oscuro: #070F2B;
+$rojo-oscuro: #CD1818;
+
+// Colores de acento
+$amarillo-mostaza: #DFAF5D;
+$marrón-café-oscuro: #4E3629;
+$marro-claro: #8D6E63;
+$terracota-suave: #E16B47;
+
+// Colores de texto
+$gris-oscuro: #333333;
+$gris-claro: #616161;
+
+//colores normales
+$color-negro: #000000;
+$color-blanco: #ffffff;
+$verde-oscuro: #16610E;
+
+:host {
+    display: block;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+.content-todo {
+    width: 100%;
+    margin-left: 19%;
+    height: 100vh;
+    overflow: hidden;
+    margin-top: 5%;
+}
+
+/* Asegura que la columna del info-column no sobresalga */
+app-info-column {
+    width: 30%;
+    background-color: $blanco-roto;
+    box-sizing: border-box;
+    margin-left: 20%;
+    /* Asegura separación del formulario */
+}
+
+.scm-form-container {
+    display: flex;
+    flex-direction: column;
+    background-color: $blanco-roto;
+    width: 59%;
+    margin-left: 21%;
+    height: 75vh;
+    margin-top: -34.8%;
+    padding: 0.4rem 1rem 1rem 1rem; // un poco menos padding arriba para más espacio
+    border-radius: 20px;
+    box-sizing: border-box;
+    overflow: hidden;
+    /* Previene la aparición de barras de desplazamiento */
+    border: 2px solid $marro-claro;
+}
+
+.titleh2 {
+    margin-top: 0;
+    font-size: 2rem;
+    margin-bottom: 20px;
+    text-align: center;
+    color: $marrón-café-oscuro;
+    position: relative;
+
+    &::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 100px;
+        height: 3px;
+        background-color: $amarillo-mostaza;
+    }
+}
+
+.scm-form {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    margin-top: 8px; // menos margen arriba
+}
+
+.scm-form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    /* 2 columnas por fila */
+    grid-template-rows: repeat(3, auto);
+    /* 3 filas */
+    gap: 1rem;
+    /* Espacio entre las filas y columnas */
+
+    @media (max-width: 768px) {
+        grid-template-columns: 1fr;
+        /* Para pantallas pequeñas, todo en una sola columna */
+    }
+}
+
+.scm-form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    /* Dos columnas por fila */
+    gap: 1rem;
+}
+
+
+.scm-form-group {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 0.25rem; // menos espacio debajo para compactar
+
+    label {
+        display: flex;
+        align-items: center;
+        margin-bottom: 0.1rem;
+        font-size: 0.85rem;
+        font-weight: 600;
+        color: $color-negro;
+
+        mat-icon {
+            font-size: 16px;
+            margin-right: 4px;
+            color: $marrón-café-oscuro;
+            position: relative;
+            top: 5px; // Mueve un poco el icono hacia abajo para que el texto se vea más arriba
+        }
+    }
+
+    .scm-input {
+        width: 100%;
+        height: 40px; // input más compactos
+        border: 1px solid $gris-cálido;
+        border-radius: 5px;
+        background-color: $blanco-roto;
+        padding: 0 0.6rem;
+        font-size: 0.9rem;
+        transition: all 0.3s ease;
+        box-sizing: border-box;
+
+        &::placeholder {
+            color: $gris-cálido;
+            font-style: italic;
+            font-size: 0.8rem;
+        }
+
+        &:focus {
+            border-color: $marrón-café-oscuro;
+            outline: none;
+            box-shadow: 0 0 0 2px rgba($marrón-café-oscuro, 0.1);
+        }
+    }
+
+    select.scm-input {
+        height: 40px; // altura igual que inputs
+    }
+
+    /* textarea observaciones: más alto, pero compacto */
+    select.scm-input.full-width {
+        height: auto;
+        min-height: 75px; // un poco más alto para select
+        padding-top: 0.35rem;
+        padding-bottom: 0.35rem;
+        resize: none;
+    }
+}
+
+/* Ajuste específico para subir 2px label y select del tipo documento (mantengo por si quieres usarlo) */
+.scm-form-group label[for="documentType"],
+.scm-form-group select#documentType {
+    margin-top: -10px;
+}
+
+/* Mover juntos el icono y el texto "Tipo Documento" un poco arriba */
+.doc-type-container label mat-icon {
+    position: relative;
+    top: -4px;
+    /* ajusta este valor para subir o bajar */
+}
+
+.doc-type-container label .label-text {
+    position: relative;
+    top: 0px;
+    /* ajusta este valor para subir o bajar */
+}
+
+/* Nuevo ajuste para subir sólo el texto "Tipo Documento" con el ícono */
+.doc-type-container label .label-text {
+    margin-top: -20px;
+    /* ajusta para subir o bajar */
+    display: inline-block;
+    /* para que margin-top funcione */
+}
+
+.validation-error {
+    font-size: 0.7rem;
+    color: $rojo-oscuro;
+    height: 1rem;
+    margin-top: 0.15rem;
+    visibility: hidden;
+
+    &.show {
+        visibility: visible;
+    }
+}
+
+.scm-form-actions {
+    margin-top: 0.6rem;
+    padding-top: 0.6rem;
+    display: flex;
+    justify-content: center;
+    gap: 0.6rem;
+
+    @media (max-width: 480px) {
+        flex-direction: column;
+    }
+}
+
+.scm-reset-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    margin: 10;
+    display: flex;
+    align-items: center;
+
+    mat-icon {
+        font-size: 18px;
+        color: $marrón-café-oscuro;
+    }
+}
+
+
+
+
+
+/* Ajuste para "Tipo Documento" */
+.doc-type-container {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    /* Asegura que el select y el label se alineen correctamente */
+
+    .label-textt {
+        margin-top: 0.9rem;
+    }
+
+    label {
+        margin-bottom: 1rem;
+        font-size: 0.85rem;
+        font-weight: 600;
+        color: $color-negro;
+        display: flex;
+        align-items: center;
+        margin-top: 0;
+        /* Restablece el margen superior */
+
+        mat-icon {
+            font-size: 16px;
+            margin-right: 4px;
+            color: $marrón-café-oscuro;
+            position: relative;
+            top: 12px;
+            /* Si es necesario, ajusta la posición del icono */
+        }
+    }
+
+    select.scm-input {
+        height: 40px;
+        /* Asegura que el select tenga el mismo alto que los inputs */
+        width: 100%;
+        /* Hace que el select ocupe todo el ancho disponible */
+        border-radius: 5px;
+        border: 1px solid $gris-cálido;
+        background-color: $blanco-roto;
+        padding: 0 0.6rem;
+        font-size: 0.9rem;
+        transition: all 0.3s ease;
+        box-sizing: border-box;
+    }
+}
+
+/* Asegura que cuando el select tiene una opción seleccionada, se mantenga alineado */
+.doc-type-container select.scm-input:focus {
+    border-color: $marrón-café-oscuro;
+    outline: none;
+    box-shadow: 0 0 0 2px rgba($marrón-café-oscuro, 0.1);
+}
+
+
+
+
+
+
+/* ----------------------------- */
+/* MÓVILES GRANDES (700px+) */
+/* ----------------------------- */
+@media only screen and (min-height: 700px) {
+    .content-todo {
+        width: 90% !important;
+        margin-left: 5% !important;
+    }
+
+    .scm-form-actions {
+        flex-direction: row !important;
+        justify-content: center !important;
+    }
+}
+
+/* ----------------------------- */
+/* PANTALLAS MEDIANAS (800px+) */
+/* ----------------------------- */
+@media only screen and (min-height: 800px) {
+    .content-todo {
+        width: 80% !important;
+        margin-left: 10% !important;
+    }
+
+    .scm-form-grid {
+        grid-template-columns: 1fr 1fr !important;
+        /* 2 columnas */
+    }
+
+    .info-column {
+        display: block !important;
+        width: 25% !important;
+        margin-left: 5% !important;
+        margin-top: -77vh !important;
+    }
+}
+
+/* ----------------------------- */
+/* PANTALLAS GRANDES (900px+) */
+/* ----------------------------- */
+@media only screen and (min-height: 900px) {
+    .content-todo {
+        width: 70% !important;
+        margin-left: 30% !important;
+        height: 60vh;
+        margin-bottom: 105%;
+    }
+
+    .info-column {
+        width: 60% !important;
+        margin-left: 35% !important;
+    }
+}

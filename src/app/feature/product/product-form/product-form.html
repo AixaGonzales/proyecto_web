@@ -1,0 +1,186 @@
+<div class="contenedor">
+
+  <div class="info-column">
+    <!-- Logo -->
+    <div class="logo">
+      <img src="/logoPanaderiaJorge.png" alt="Logo de la Panadería" />
+    </div>
+
+    <!-- Mensajes adicionales -->
+    <div class="messages">
+      <p><strong>Instrucciones de uso:</strong></p>
+      <ul>
+        <li>Verifica los datos antes de guardar, especialmente en el precio.</li>
+      </ul>
+      <p><strong>Significado de Categorias</strong></p>
+      <ul>
+        <!-- pipe `uppercase` a las categorías -->
+        <li>{{ 'A : Panes' | uppercase }}</li>
+        <li>{{ 'A : Bocaditos' | uppercase }}</li>
+        <li>{{ 'A : Tortas' | uppercase }}</li>
+      </ul>
+
+      <p>Reportar problemas a través de:</p>
+      <div class="contact-buttons">
+
+        <!-- Facebook -->
+        <button (click)="openFacebook()" matTooltip="Enviar mensaje vía Facebook">
+          <i class="bi bi-facebook" style="font-size: 30px; color: #1877F2;"></i>
+        </button>
+
+        <!-- Gmail -->
+        <button (click)="openGmail()">
+          <i class="bi bi-envelope" style="font-size: 30px; color: #EA4335;"
+            matTooltip="Enviar un correo por Gmail"></i>
+        </button>
+
+        <!-- WhatsApp -->
+        <button (click)="openWhatsApp()" matTooltip="Enviar mensaje vía WhatsApp">
+          <i class="bi bi-whatsapp" style="font-size: 30px; color: #25D366;"></i>
+        </button>
+
+      </div>
+    </div>
+  </div>
+
+  <div class="columna-formulario">
+    <div class="scm-form-container">
+      <h2 class="titleh2">Registrar Producto</h2>
+      <form [formGroup]="productForm" (ngSubmit)="onSubmit()" class="scm-form" novalidate>
+        <div class="scm-form-grid">
+
+          <div class="scm-form-row">
+            <!-- Nombre del producto -->
+            <div class="scm-form-group">
+              <div class="label-container">
+                <mat-icon>assignment</mat-icon>
+                <label for="nameProduct"> Nombre del Producto </label>
+              </div>
+              <input id="nameProduct" formControlName="nameProduct" class="input-formulario" required minlength="3"
+                maxlength="100" pattern="[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+" placeholder="Ingrese el nombre del producto" />
+              <div class="validation-error"
+                [class.show]="productForm.controls['nameProduct'].invalid && (productForm.controls['nameProduct'].dirty || productForm.controls['nameProduct'].touched)">
+                <div *ngIf="productForm.controls['nameProduct'].errors?.['minlength']">Mínimo 3 caracteres</div>
+                <div *ngIf="productForm.controls['nameProduct'].errors?.['pattern']">Solo letras y espacios</div>
+
+              </div>
+            </div>
+
+            <!-- Edad / cantidad -->
+            <div class="scm-form-group">
+              <div class="label-container">
+                <mat-icon>layers</mat-icon>
+                <label for="units"> Unidades </label>
+              </div>
+              <input id="units" formControlName="units" type="number" class="input-formulario" required min="1"
+                placeholder="Ingrese la cantidad" />
+              <div class="validation-error"
+                [class.show]="productForm.controls['units'].invalid && (productForm.controls['units'].touched)">
+                <div *ngIf="productForm.controls['units'].errors?.['min']">La cantidad es requerida (Solo numeros
+                  enteros positivos)</div>
+              </div>
+            </div>
+
+          </div>
+
+          <div class="estado">
+            <div class="scm-form-row">
+              <!-- Estado -->
+              <div class="input-inline">
+                <div class="label-container">
+                  <mat-icon>toggle_on</mat-icon>
+                  <label for="status"> Estado </label>
+                </div>
+                <label class="switch">
+                  <input type="checkbox" formControlName="status" />
+                  <span class="slider round"></span>
+                </label>
+              </div>
+            </div>
+          </div>
+
+
+
+
+          <div class="scm-form-row">
+            <!-- Fecha de Creación -->
+            <div class="input-inline">
+              <div class="label-container">
+                <mat-icon>calendar_today</mat-icon>
+                <label for="creationDate"> Fecha de Creación </label>
+              </div>
+              <input type="date" id="creationDate" formControlName="creationDate" class="input-formulario" required />
+            </div>
+
+            <!-- Categoría -->
+            <div class="scm-form-group">
+              <div class="label-container">
+                <mat-icon>assignment_ind</mat-icon>
+                <label for="category"> Categoría </label>
+              </div>
+              <select id="category" formControlName="category" class="input-formulario" required>
+                <option [ngValue]="null" disabled selected>Seleccione Categoria</option>
+                <option *ngFor="let doc of category" [value]="doc.value">{{ doc.viewValue }}</option>
+              </select>
+            </div>
+
+
+
+            <div class="input-inline">
+              <div class="label-container">
+                <mat-icon>description</mat-icon>
+                <label for="description"> Descripción </label>
+              </div>
+
+              <input type="text" id="description_product" formControlName="description" class="input-formulario"
+                placeholder="Ingrese la descripción" required minlength="3" maxlength="100"
+                pattern="[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+" />
+
+              <div *ngIf="productForm.controls['description'].invalid && productForm.controls['description'].touched"
+                class="error-message">
+                <small *ngIf="productForm.controls['description'].errors?.['pattern']">La descripción es
+                  obligatoria (Solo letras y espacios)</small>
+                <small *ngIf="productForm.controls['description'].errors?.['minlength']">La descripción debe tener al
+                  menos 3 caracteres.</small>
+                <small *ngIf="productForm.controls['description'].errors?.['maxlength']">La descripción no puede exceder
+                  los 100 caracteres.</small>
+              </div>
+            </div>
+            <!-- Precio -->
+            <div class="input-inline">
+              <div class="label-container">
+                <mat-icon>attach_money</mat-icon>
+                <label for="price"> Precio </label>
+              </div>
+              <input type="number" id="price" formControlName="price" class="input-formulario" step="0.01"
+                placeholder="Ingrese el precio" required />
+              <div *ngIf="productForm.controls['price'].invalid && productForm.controls['price'].touched"
+                class="error-message">
+                <small *ngIf="productForm.controls['price'].errors?.['required']">El precio es obligatorio.</small>
+                <small *ngIf="productForm.controls['price'].errors?.['positiveNumber']">El precio debe ser un número
+                  positivo.</small>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Botones de acción -->
+        <div class="scm-form-actions">
+          <!-- Botón para cancelar -->
+          <app-reusable-button color="blanco-marron" type="button" [routerLink]="'/products'">
+            <mat-icon style="margin-right: 5px; margin-left: -7px">arrow_back</mat-icon> Cancelar
+          </app-reusable-button>
+
+          <!-- Botón para guardar cliente -->
+          <app-reusable-button color="marron" [disabled]="!isFormValid() || isSubmitting" type="submit">
+            <mat-icon style="margin-right: 6px">save</mat-icon> Guardar
+          </app-reusable-button>
+
+          <!-- Botón para limpiar el formulario -->
+          <app-reusable-button color="naranja-fuerte" type="button" (click)="resetForm()" [disabled]="!isFormChanged()">
+            <mat-icon style="margin-right: 6px">clear</mat-icon> Limpiar
+          </app-reusable-button>
+        </div>
+      </form>
+    </div>
+  </div>

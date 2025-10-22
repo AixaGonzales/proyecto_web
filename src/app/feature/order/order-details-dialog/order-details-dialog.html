@@ -1,0 +1,137 @@
+<!-- order-details-dialog.component.html -->
+<div class="order-details-container compact">
+    <div class="order-header">
+        <h2>N° PED-{{data?.id?.toString().padStart(5, '0') || 'N/A'}}</h2>
+        <button class="close-btn" (click)="close()" matTooltip="Cerrar">
+            <mat-icon>close</mat-icon>
+        </button>
+    </div>
+
+    <div class="order-content">
+        <!-- Cliente -->
+        <div class="compact-section">
+            <div class="compact-item">
+                <mat-icon class="compact-icon">person</mat-icon>
+                <div class="compact-info">
+                    <div class="text-ellipsis">{{ data?.customer?.firstName }} {{ data?.customer?.lastName || 'Cliente
+                        no especificado' }}</div>
+                    <button class="text-btn" (click)="showCustomerDetails()">
+                        <mat-icon>visibility</mat-icon> Ver cliente
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Información compacta -->
+        <div class="inline-details">
+            <!-- Fechas arriba -->
+            <div class="top-row">
+                <div class="inline-item" matTooltip="Fecha de pedido">
+                    <div class="detail-label">Pedido</div>
+                    <div class="detail-value">
+                        <mat-icon>event</mat-icon>
+                        <span>{{ (data?.orderDate | date:'d/M/yy HH:mm') || 'No especificada' }}</span>
+                    </div>
+                </div>
+                <div class="inline-item" matTooltip="Fecha de entrega">
+                    <div class="detail-label">Entrega</div>
+                    <div class="detail-value">
+                        <mat-icon>event_available</mat-icon>
+                        <span>{{ (data?.deliveryDate | date:'d/M/yy HH:mm') || 'No especificada' }}</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Estado pago abajo - CENTRADO -->
+            <div class="payment-status-wrapper">
+                <div class="inline-item payment-status" [class]="getPaymentStatusClass(data?.statusPago)"
+                    [matTooltip]="'Estado de pago: ' + getPaymentStatusText(data?.statusPago)">
+                    <div class="detail-label">Estado del Pago</div>
+                    <div class="detail-value">
+                        <mat-icon>payments</mat-icon>
+                        <span>{{ getPaymentStatusText(data?.statusPago) || 'Sin información' }}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Productos -->
+        <div class="compact-section">
+            <div class="compact-item">
+                <mat-icon class="compact-icon">shopping_cart</mat-icon>
+                <div class="compact-info">
+                    <div>{{ (data?.products?.length || 0) }} producto(s) - Total: S/ {{ (data?.total | number:'1.2-2')
+                        || '0.00' }}</div>
+                    <button class="text-btn" (click)="showProductsDialog = true" [disabled]="!data?.products?.length">
+                        <mat-icon>list</mat-icon> Ver productos
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Totales -->
+        <div class="totals-grid">
+            <div class="total-item" matTooltip="Total del pedido">
+                <div>Total</div>
+                <div class="amount">S/ {{ (data?.total | number:'1.2-2') || '0.00' }}</div>
+            </div>
+            <div class="total-item" matTooltip="Adelanto recibido">
+                <div>Adelanto</div>
+                <div class="amount">S/ {{ (data?.advancePayment | number:'1.2-2') || '0.00' }}</div>
+            </div>
+            <div class="total-item highlight" matTooltip="Saldo pendiente">
+                <div>Saldo</div>
+                <div class="amount">S/ {{ (data?.balance | number:'1.2-2') || '0.00' }}</div>
+            </div>
+        </div>
+
+        <!-- Método de pago -->
+        <div class="payment-method">
+            <div class="payment-method-title">Método de pago</div>
+            <div class="payment-method-value">
+                <mat-icon>payment</mat-icon>
+                <span>{{ getPaymentMethodText(data?.paymentMethodAdvance) }}</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal: Productos -->
+<div class="dialog-overlay" *ngIf="showProductsDialog" @fadeInOut>
+    <div class="modal-container large" @slideInOut>
+        <div class="modal-header">
+            <h2>Productos del Pedido</h2>
+            <button class="close-btn" (click)="showProductsDialog = false" matTooltip="Cerrar">
+                <mat-icon>close</mat-icon>
+            </button>
+        </div>
+        <div class="modal-content">
+            <div *ngIf="!data?.products?.length" class="empty-state">
+                <mat-icon>remove_shopping_cart</mat-icon>
+                <p>No hay productos en este pedido</p>
+            </div>
+
+            <div class="product-list" *ngIf="data?.products?.length">
+                <div class="product-item" *ngFor="let p of data.products; trackBy: trackByProduct">
+                    <div class="product-icon">
+                        <mat-icon>shopping_bag</mat-icon>
+                    </div>
+                    <div class="product-details">
+                        <div class="product-name">{{ p?.name || 'Producto sin nombre' }}</div>
+                        <div class="product-info">
+                            {{ (p?.quantity || 1) }} x S/ {{ (p?.price | number:'1.2-2') || '0.00' }}
+                            <span class="product-total">
+                                = S/ {{ ((p?.price || 0) * (p?.quantity || 1)) | number:'1.2-2' }}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="modal-action-btn" (click)="showProductsDialog = false">
+                Cerrar
+            </button>
+        </div>
+    </div>
+</div>

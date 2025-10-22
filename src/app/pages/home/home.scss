@@ -1,0 +1,1065 @@
+/* Estilos generales */
+:host {
+    display: block;
+    height: 100vh;
+    width: 100vw;
+    overflow: hidden;
+}
+
+.main-menu-container {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    width: 82%;
+    padding: 2rem;
+    background-color: #F3E5C3;
+    margin-left: 18%;
+    height: 100vh;
+    overflow-y: auto;
+    padding-top: 3rem;
+
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+
+    &::-webkit-scrollbar {
+        display: none;
+        width: 0;
+        height: 0;
+        background: transparent;
+    }
+}
+
+/* Dashboard Styles */
+.dashboard-section {
+    margin-bottom: 2.5rem;
+    margin-top: 1%;
+}
+
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+
+    @media (max-width: 1200px) {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    @media (max-width: 768px) {
+        grid-template-columns: 1fr;
+    }
+}
+
+.summary-card {
+    background-color: #FFF5E1;
+    border-radius: 8px;
+    padding: 1.5rem;
+    display: flex;
+    align-items: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+
+    &:hover {
+        transform: translateY(-3px);
+    }
+
+    mat-icon {
+        font-size: 2.5rem;
+        width: 2.5rem;
+        height: 2.5rem;
+        margin-right: 1rem;
+        color: #B95A3F;
+    }
+
+    h3 {
+        margin: 0;
+        font-size: 1.5rem;
+        color: #333;
+    }
+
+    p {
+        margin: 0.25rem 0 0;
+        color: #666;
+        font-size: 0.9rem;
+    }
+}
+
+.titleh2 {
+    margin-top: 0;
+    font-size: 2rem;
+    margin-bottom: 20px;
+    text-align: center;
+    color: #B95A3F;
+    position: relative;
+
+    &::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 100px;
+        height: 3px;
+        background-color: #ffffff;
+    }
+}
+
+/* Estilos mejorados para las tarjetas de gráficos */
+.chart-card {
+    grid-column: span 2;
+    background-color: #FFF5E1;
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    transition: transform 0.3s ease;
+
+    &:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.12);
+    }
+
+    .chart-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 1rem;
+
+        h3 {
+            margin: 0;
+            color: #333;
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+
+        .chart-icon {
+            color: #B95A3F;
+            font-size: 1.8rem;
+        }
+    }
+
+    .chart-container {
+        height: 250px;
+        width: 100%;
+        position: relative;
+    }
+
+    @media (max-width: 1200px) {
+        grid-column: span 4;
+    }
+
+    @media (max-width: 768px) {
+        grid-column: span 1;
+    }
+}
+
+/* Resto de tus estilos existentes... */
+.access {
+    margin-top: 1%;
+}
+
+.cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 1rem;
+    padding: 0;
+    width: 100%;
+    margin-top: 0;
+}
+
+.menu-card {
+    cursor: pointer;
+    transition: transform 0.3s ease;
+    width: 100%;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    background-color: #FFF5E1;
+    border-radius: 8px;
+    border: 2px solid #B95A3F;
+}
+
+/* Media queries existentes... */
+
+/* Diseño Asimétrico para desktop/tablets grandes */
+.menu-card:nth-child(odd) {
+    grid-column: span 2;
+    grid-row: span 1;
+}
+
+.menu-card:nth-child(1) {
+    grid-column: span 2;
+    grid-row: span 1;
+}
+
+.menu-card:nth-child(2) {
+    grid-column: span 1;
+    grid-row: span 2;
+}
+
+.menu-card:nth-child(3) {
+    grid-column: span 1;
+    grid-row: span 1;
+}
+
+.menu-card:nth-child(4) {
+    grid-column: span 1;
+    grid-row: span 2;
+}
+
+.menu-card:nth-child(5) {
+    grid-column: span 1;
+    grid-row: span 1;
+}
+
+.menu-card:nth-child(6) {
+    grid-column: span 1;
+    grid-row: span 2;
+}
+
+.menu-card:nth-child(7) {
+    grid-column: span 2;
+    grid-row: span 1;
+}
+
+.menu-card:nth-child(8) {
+    grid-column: span 2;
+    grid-row: span 2;
+}
+
+.menu-card:nth-child(9) {
+    grid-column: span 1;
+    grid-row: span 1;
+}
+
+.menu-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.menu-card mat-icon {
+    font-size: 40px;
+    width: 40px;
+    height: 40px;
+    display: inline-block;
+    line-height: 40px;
+    text-align: center;
+    color: #333;
+}
+
+.menu-card mat-card-title {
+    font-size: 15px;
+    font-weight: 600;
+    margin-left: -10px;
+    display: inline-block;
+    vertical-align: middle;
+    margin-top: 12px;
+    color: #333;
+}
+
+/* Estilos para el contenido dentro de las tarjetas */
+mat-card-content {
+    padding: 10px;
+    padding-left: 15px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    margin-top: 0;
+    height: auto;
+    color: #666;
+}
+
+
+
+
+
+
+
+
+/* 1. Teléfonos muy pequeños (iPhone 5, Galaxy Fold cerrado, etc.) - 1 columna */
+@media (max-width: 320px) {
+    :host {
+        /* Asegurar que el host ocupe todo el espacio disponible */
+        display: block;
+        width: 79%;
+        margin-left: 20%;
+        height: 100vh;
+        overflow: auto;
+        -webkit-overflow-scrolling: touch;
+        /* Para scroll suave en iOS */
+    }
+
+    .main-menu-container {
+        width: 100%;
+        margin-left: 0;
+        margin-top: 0;
+        padding: 0.5rem;
+        touch-action: pan-y;
+        /* Permitir solo desplazamiento vertical */
+        overflow-y: auto;
+        min-height: 100vh;
+        /* Asegurar que ocupe al menos toda la altura */
+        box-sizing: border-box;
+    }
+
+    .dashboard-grid {
+        grid-template-columns: 1fr;
+        gap: 0.5rem;
+        margin-bottom: 1rem;
+    }
+
+    .summary-card {
+        padding: 0.75rem;
+        width: 70%;
+        margin-left: 2%;
+        margin-bottom: 0.5rem;
+
+        /* Mejorar la respuesta táctil */
+        &:active {
+            background-color: rgba(0, 0, 0, 0.05);
+        }
+
+        -webkit-tap-highlight-color: transparent;
+        /* Color del highlight al tocar */
+        user-select: none;
+        /* Evitar selección de texto al tocar */
+    }
+
+    .chart-card {
+        padding: 0.75rem;
+        margin-bottom: 0.5rem;
+
+        .chart-container {
+            height: 180px;
+            /* Altura fija mejor que porcentaje */
+            width: 100%;
+        }
+    }
+
+    .menu-card {
+
+        /* Estilos para interacción táctil */
+        &:active {
+            transform: scale(0.98);
+            transition: transform 0.1s;
+            background-color: rgba(0, 0, 0, 0.05);
+        }
+
+        /* Tamaño mínimo para áreas táctiles */
+        min-height: 48px;
+        padding: 0.75rem;
+        margin-bottom: 0.5rem;
+    }
+
+    /* Elementos interactivos */
+    button,
+    [role="button"],
+    .clickable {
+        min-height: 48px;
+        min-width: 48px;
+        padding: 0.75rem;
+
+        /* Feedback visual al tocar */
+        &:active {
+            opacity: 0.8;
+        }
+    }
+
+    /* Asegurar que el contenido no se desborde */
+    mat-card-content {
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    /* Deshabilitar efectos hover en móviles */
+    *:hover {
+        transform: none !important;
+        box-shadow: none !important;
+    }
+}
+
+
+
+
+
+
+
+/* 2. Teléfonos pequeños (iPhone SE, Galaxy A12, etc.) - 1 columna */
+@media (min-width: 321px) and (max-width: 480px) {
+    :host {
+        display: block;
+        width: 84%;
+        margin-left: 16%;
+        height: 100vh;
+        overflow: hidden;
+        -webkit-overflow-scrolling: touch;
+        position: relative;
+    }
+
+    .main-menu-container {
+        width: 100%;
+        margin-left: 0;
+        padding: 0.75rem;
+        touch-action: pan-y;
+        overflow-y: auto;
+        min-height: 100vh;
+        box-sizing: border-box;
+
+        /* Mejorar rendimiento de scroll */
+        transform: translateZ(0);
+        overscroll-behavior-y: contain;
+    }
+
+    .dashboard-grid {
+        grid-template-columns: 1fr;
+        margin-left: 6%;
+        gap: 0.75rem;
+        margin-bottom: 1.25rem;
+    }
+
+    .summary-card {
+        padding: 0.85rem;
+        width: 75%;
+        margin-left: 2.5%;
+        margin-bottom: 0.75rem;
+
+        &:active {
+            background-color: rgba(0, 0, 0, 0.05);
+            transform: scale(0.98);
+        }
+
+        -webkit-tap-highlight-color: rgba(0, 0, 0, 0.1);
+        user-select: none;
+
+        mat-icon {
+            font-size: 2.2rem;
+            width: 2.2rem;
+            height: 2.2rem;
+        }
+
+        h3 {
+            font-size: 1.3rem;
+        }
+    }
+
+    .chart-card {
+        padding: 0.85rem;
+        margin-bottom: 0.75rem;
+
+        .chart-container {
+            height: 200px;
+            width: 100%;
+            touch-action: pinch-zoom;
+        }
+    }
+
+    .cards-grid {
+        grid-template-columns: 1fr;
+        gap: 0.75rem;
+    }
+
+    .menu-card {
+        min-height: 50px;
+        padding: 0.85rem;
+        margin-bottom: 0.75rem;
+
+        &:active {
+            transform: scale(0.98);
+            transition: transform 0.1s;
+            background-color: rgba(0, 0, 0, 0.05);
+        }
+
+        mat-card-title {
+            font-size: 13px;
+            margin-top: 8px;
+        }
+
+        mat-icon {
+            font-size: 30px;
+            width: 30px;
+            height: 30px;
+            line-height: 30px;
+        }
+    }
+
+    button,
+    [role="button"],
+    .clickable {
+        min-height: 50px;
+        min-width: 50px;
+        padding: 0.85rem;
+
+        &:active {
+            opacity: 0.85;
+            transform: scale(0.98);
+        }
+    }
+
+    mat-card-content {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        font-size: 0.9rem;
+    }
+
+    /* Deshabilitar hover en dispositivos táctiles */
+    @media (pointer: coarse) {
+        *:hover {
+            transform: none !important;
+            box-shadow: none !important;
+        }
+    }
+}
+
+
+
+
+
+
+
+
+
+/* 3. Teléfonos grandes (iPhone Plus/Max, Galaxy S22 Ultra, etc.) - 2 columnas */
+@media (min-width: 481px) and (max-width: 767px) {
+    :host {
+        display: block;
+        width: 82%;
+        margin-left: 18%;
+        height: 100vh;
+        overflow: hidden;
+        -webkit-overflow-scrolling: touch;
+        position: relative;
+    }
+
+    .main-menu-container {
+        width: 100%;
+        margin-left: 0;
+        padding: 1.25rem;
+        touch-action: pan-y;
+        overflow-y: auto;
+        min-height: 100vh;
+        box-sizing: border-box;
+
+        /* Optimización de rendimiento */
+        transform: translate3d(0, 0, 0);
+        overscroll-behavior: contain;
+    }
+
+    .dashboard-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .summary-card {
+        padding: 1.25rem;
+        width: 85%;
+        margin-left: 6%;
+        margin-bottom: 0.75rem;
+
+        &:active {
+            background-color: rgba(0, 0, 0, 0.05);
+            transform: scale(0.98);
+        }
+
+        -webkit-tap-highlight-color: rgba(0, 0, 0, 0.1);
+        user-select: none;
+
+        mat-icon {
+            font-size: 2.8rem;
+            width: 2.8rem;
+            height: 2.8rem;
+        }
+
+        h3 {
+            font-size: 1.4rem;
+        }
+    }
+
+    .chart-card {
+        grid-column: span 2;
+        padding: 1.25rem;
+        margin-bottom: 0.75rem;
+
+        .chart-container {
+            height: 220px;
+            touch-action: pinch-zoom;
+        }
+    }
+
+    .cards-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1rem;
+    }
+
+    .menu-card {
+        min-height: 55px;
+        padding: 1rem;
+        margin-bottom: 0.75rem;
+
+        &:active {
+            transform: scale(0.97);
+            transition: transform 0.1s;
+            background-color: rgba(0, 0, 0, 0.05);
+        }
+
+        mat-card-title {
+            font-size: 14px;
+            margin-top: 10px;
+        }
+
+        mat-icon {
+            font-size: 36px;
+            width: 36px;
+            height: 36px;
+            line-height: 36px;
+        }
+    }
+
+    button,
+    [role="button"],
+    .clickable {
+        min-height: 55px;
+        min-width: 55px;
+        padding: 1rem;
+
+        &:active {
+            opacity: 0.85;
+            transform: scale(0.97);
+        }
+    }
+
+    mat-card-content {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        font-size: 0.95rem;
+    }
+
+    /* Diseño asimétrico adaptado */
+    .menu-card:nth-child(1),
+    .menu-card:nth-child(7) {
+        grid-column: span 2;
+    }
+
+    .menu-card:nth-child(2),
+    .menu-card:nth-child(4),
+    .menu-card:nth-child(6),
+    .menu-card:nth-child(8) {
+        grid-row: span 2;
+        min-height: 120px;
+    }
+
+    /* Deshabilitar hover en dispositivos táctiles */
+    @media (pointer: coarse) {
+        *:hover {
+            transform: none !important;
+            box-shadow: none !important;
+        }
+    }
+}
+
+
+
+
+
+
+
+/* Orientación horizontal en móviles */
+@media (max-width: 991px) and (orientation: landscape) {
+    .main-menu-container {
+        padding: 0.75rem;
+    }
+
+    .cards-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    .chart-card {
+        .chart-container {
+            height: 180px;
+        }
+    }
+}
+
+
+
+
+
+
+/* 4. Tablets pequeñas (iPad Mini, Galaxy Tab S7, etc.) - 2 columnas */
+@media (min-width: 768px) and (max-width: 991px) {
+    :host {
+        display: block;
+        width: 70%;
+        margin-left: 30%;
+        height: 100vh;
+        overflow: hidden;
+        -webkit-overflow-scrolling: touch;
+        position: relative;
+    }
+
+    .main-menu-container {
+        width: 100%;
+        margin-left: 0;
+        padding: 1.75rem;
+        touch-action: pan-y;
+        overflow-y: auto;
+        min-height: 100vh;
+        box-sizing: border-box;
+
+        /* Optimización de rendimiento */
+        transform: translate3d(0, 0, 0);
+        overscroll-behavior: contain;
+
+        .titleh2 {
+            margin-top: 0;
+            font-size: 2rem;
+            margin-bottom: 21px;
+            text-align: center;
+            color: #B95A3F;
+            position: relative;
+        }
+    }
+
+    .dashboard-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1.25rem;
+        margin-bottom: 2rem;
+    }
+
+    .summary-card {
+        padding: 1.5rem;
+        width: 90%;
+        margin-left: 5%;
+        margin-bottom: 1rem;
+
+        &:active {
+            background-color: rgba(0, 0, 0, 0.05);
+            transform: scale(0.98);
+        }
+
+        -webkit-tap-highlight-color: rgba(0, 0, 0, 0.1);
+        user-select: none;
+
+        mat-icon {
+            font-size: 3rem;
+            width: 3rem;
+            height: 3rem;
+        }
+
+        h3 {
+            font-size: 1.6rem;
+        }
+
+        p {
+            font-size: 1rem;
+        }
+    }
+
+    .chart-card {
+        grid-column: span 2;
+        padding: 1.5rem;
+        margin-bottom: 1rem;
+
+        .chart-container {
+            height: 250px;
+            touch-action: pinch-zoom;
+        }
+    }
+
+    .cards-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1.25rem;
+    }
+
+    .menu-card {
+        min-height: 60px;
+        padding: 1.25rem;
+        margin-bottom: 1rem;
+
+        &:active {
+            transform: scale(0.97);
+            transition: transform 0.1s;
+            background-color: rgba(0, 0, 0, 0.05);
+        }
+
+        mat-card-title {
+            font-size: 15px;
+            margin-top: 12px;
+        }
+
+        mat-icon {
+            font-size: 40px;
+            width: 40px;
+            height: 40px;
+            line-height: 40px;
+        }
+    }
+
+    button,
+    [role="button"],
+    .clickable {
+        min-height: 60px;
+        min-width: 60px;
+        padding: 1.25rem;
+
+        &:active {
+            opacity: 0.85;
+            transform: scale(0.97);
+        }
+    }
+
+    mat-card-content {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        font-size: 1rem;
+        padding: 1rem;
+    }
+
+    /* Diseño asimétrico adaptado para tablet */
+    .menu-card:nth-child(1),
+    .menu-card:nth-child(2),
+    .menu-card:nth-child(2) {
+        grid-column: span 2;
+    }
+
+    .menu-card:nth-child(2),
+    .menu-card:nth-child(1),
+    .menu-card:nth-child(1),
+    .menu-card:nth-child(2) {
+        grid-row: span 2;
+        min-height: 150px;
+    }
+
+    /* Efectos hover solo para dispositivos con puntero fino */
+    @media (pointer: fine) {
+        .menu-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .summary-card:hover {
+            transform: translateY(-3px);
+        }
+    }
+
+    /* Deshabilitar hover en dispositivos táctiles */
+    @media (pointer: coarse) {
+        *:hover {
+            transform: none !important;
+            box-shadow: none !important;
+        }
+    }
+}
+
+
+
+
+
+
+/* Dispositivos plegables en modo tablet (Galaxy Z Flip3 abierto, etc.) */
+@media (min-width: 600px) and (max-height: 600px) {
+    .main-menu-container {
+        padding: 1rem;
+    }
+
+    .cards-grid {
+        grid-template-columns: repeat(4, 1fr);
+        gap: 0.75rem;
+    }
+
+    .menu-card mat-card-title {
+        font-size: 12px;
+    }
+}
+
+
+
+
+
+
+/* 5. Tablets grandes (iPad Pro 11", Surface Duo, etc.) */
+@media (min-width: 992px) and (max-width: 1200px) {
+    .main-menu-container {
+        width: 82%;
+        margin-left: 18%;
+        
+    }
+
+    .cards-grid {
+        grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    }
+
+    .chart-card {
+        .chart-container {
+            height: 220px;
+        }
+    }
+}
+
+
+
+
+
+
+/* Desktop estándar */
+@media (min-width: 1201px) and (max-width: 1919px) {
+    .main-menu-container {
+        width: 82%;
+
+    }
+
+    .cards-grid {
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    }
+}
+
+
+
+/* 6. Smart TVs y kioscos (pantallas muy grandes) */
+@media (min-width: 1920px) {
+    .main-menu-container {
+        width: 85%;
+        padding: 3rem;
+    }
+
+    .dashboard-grid {
+        gap: 1.5rem;
+    }
+
+    .cards-grid {
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        gap: 1.5rem;
+    }
+
+    .summary-card {
+        padding: 2rem;
+
+        mat-icon {
+            font-size: 3rem;
+            width: 3rem;
+            height: 3rem;
+        }
+    }
+
+    .menu-card mat-card-title {
+        font-size: 18px;
+    }
+
+    .menu-card mat-icon {
+        font-size: 48px;
+        width: 48px;
+        height: 48px;
+        line-height: 48px;
+    }
+
+    .chart-card {
+        padding: 2rem;
+
+        .chart-container {
+            height: 300px;
+        }
+    }
+}
+
+/* Ajustes para pantallas ultra anchas */
+@media (min-width: 2500px) {
+    .main-menu-container {
+        width: 88%;
+        margin-left: 12%;
+    }
+
+    .cards-grid {
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    }
+}
+
+
+
+/* 7. Monitores altos institucionales (Relación de aspecto especial) */
+@media (min-width: 1200px) and (min-height: 1000px) {
+    :host {
+        height: 100vh;
+    }
+
+    .main-menu-container {
+        height: 100vh;
+        padding-top: 4rem;
+        padding-bottom: 4rem;
+    }
+
+    .dashboard-grid {
+        grid-template-columns: repeat(4, 1fr);
+        gap: 1.5rem;
+        margin-bottom: 2rem;
+    }
+
+    .summary-card {
+        padding: 2rem;
+        min-height: 180px;
+        
+        mat-icon {
+            font-size: 3.5rem;
+            width: 3.5rem;
+            height: 3.5rem;
+        }
+        
+        h3 {
+            font-size: 1.8rem;
+        }
+        
+        p {
+            font-size: 1.1rem;
+        }
+    }
+
+    .chart-card {
+        .chart-container {
+            height: 350px;
+        }
+    }
+
+    .cards-grid {
+        grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+        gap: 1.5rem;
+    }
+
+    .menu-card {
+        min-height: 180px;
+        
+        mat-icon {
+            font-size: 45px;
+            width: 45px;
+            height: 45px;
+            line-height: 45px;
+        }
+        
+        mat-card-title {
+            font-size: 16px;
+            margin-top: 15px;
+        }
+    }
+
+    .titleh2 {
+        font-size: 2.5rem;
+        margin-bottom: 30px;
+        
+        &::after {
+            height: 4px;
+            width: 120px;
+        }
+    }
+
+    mat-card-content {
+        font-size: 1.1rem;
+        padding: 1.25rem;
+    }
+
+    /* Ajuste especial para el layout asimétrico */
+    .menu-card:nth-child(2),
+    .menu-card:nth-child(4),
+    .menu-card:nth-child(6),
+    .menu-card:nth-child(8) {
+        min-height: 250px;
+    }
+}

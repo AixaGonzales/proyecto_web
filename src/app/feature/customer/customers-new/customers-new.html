@@ -1,0 +1,34 @@
+<div class="customers-section">
+    <div class="customers-grid">
+        <div class="customer-card" *ngFor="let customer of customers" (click)="openCustomerDetails(customer)">
+            <mat-card class="card">
+                <mat-card-header>
+                    <mat-card-title class="customer-name">
+                        {{ customer.firstName }} {{ customer.lastName }}
+                    </mat-card-title>
+                </mat-card-header>
+
+                <mat-card-content class="card-content">
+                    <div class="info-row">
+                        <span class="info-label">Email:</span>
+                        <span class="info-value">{{ customer.email }}</span>
+                    </div>
+
+                    <div class="info-row">
+                        <span class="info-label">Phone:</span>
+                        <span class="info-value">{{ customer.phone }}</span>
+                    </div>
+
+                    <div class="info-row">
+                        <span class="info-label">Address:</span>
+                        <span class="info-value">{{ customer.address }}</span>
+                    </div>
+                </mat-card-content>
+
+                <mat-card-footer class="card-footer">
+                    <span class="status-badge">New</span>
+                </mat-card-footer>
+            </mat-card>
+        </div>
+    </div>
+</div>

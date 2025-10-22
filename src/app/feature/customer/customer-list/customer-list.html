@@ -1,0 +1,232 @@
+<!-- src/app/feature/customer/customer-list/customer-list.html -->
+<div class="customer-list-container">
+    <mat-card class="customer-card">
+        <div class="header-section">
+            <app-top-bar></app-top-bar>
+
+            <!-- Header compacto con título -->
+            <div class="compact-header">
+                <div class="header-title">
+                    <h2 class="titleh2">Gestión de Clientes</h2>
+                    <p class="subtitle">Administra y visualiza todos los clientes del sistema</p>
+                </div>
+            </div>
+
+            <!-- Tarjetas de estadísticas compactas -->
+            <div class="compact-stats-cards">
+                <div class="stat-card total" (click)="showAllCustomers()"
+                    [class.active]="!hasActiveFiltersExceptStatus()">
+                    <div class="stat-content">
+                        <div class="stat-number">{{ getTotalCustomers() }}</div>
+                        <div class="stat-label">Total Clientes</div>
+                    </div>
+                    <mat-icon class="stat-icon">groups</mat-icon>
+                </div>
+
+                <div class="stat-card active" (click)="showActiveCustomers()"
+                    [class.active]="currentFilter() === 'active'">
+                    <div class="stat-content">
+                        <div class="stat-number">{{ getActiveCustomersCount() }}</div>
+                        <div class="stat-label">Clientes Activos</div>
+                    </div>
+                    <mat-icon class="stat-icon">check_circle</mat-icon>
+                </div>
+
+                <div class="stat-card inactive" (click)="showInactiveCustomers()"
+                    [class.active]="currentFilter() === 'inactive'">
+                    <div class="stat-content">
+                        <div class="stat-number">{{ getInactiveCustomersCount() }}</div>
+                        <div class="stat-label">Clientes Inactivos</div>
+                    </div>
+                    <mat-icon class="stat-icon">cancel</mat-icon>
+                </div>
+            </div>
+
+            <!-- Search, Filtros y Botones en línea -->
+            <div class="search-actions-row">
+                <div class="search-container">
+                    <!-- Search Filter personalizado sin autocomplete -->
+                    <div class="custom-search-filter">
+                        <app-search-filter placeholderText="Buscar cliente por nombre, apellido, documento..."
+                            customFiltersLabel="Filtros Avanzados" [customFilters]="customerFilters"
+                            (searchChange)="onSearchChange($event)" (customFilterChange)="onCustomFilterChange($event)"
+                            (clearAll)="onClearAllFilters()">
+                        </app-search-filter>
+                    </div>
+                </div>
+
+                <div class="actions-container">
+                    <button class="action-btn report-btn" (click)="reportPdf()" matTooltip="Descargar Reporte PDF">
+                        <mat-icon>picture_as_pdf</mat-icon>
+                        <span>Reporte</span>
+                    </button>
+                    <button class="action-btn add-btn" routerLink="/customers/customer-form"
+                        matTooltip="Registrar Nuevo Cliente">
+                        <mat-icon>person_add</mat-icon>
+                        <span>Nuevo Cliente</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tabla de clientes -->
+        <div class="table-container">
+            <!-- Indicador de carga automática -->
+            @if (isLoading()) {
+            <div class="auto-load-indicator">
+                <div class="loading-overlay">
+                    <mat-spinner diameter="40"></mat-spinner>
+                    <span>Cargando clientes automáticamente...</span>
+                </div>
+            </div>
+            }
+
+            <div class="table-wrapper">
+                <table class="customer-table mat-elevation-z2">
+                    <thead class="table-header">
+                        <tr>
+                            <th class="name-column">Cliente</th>
+                            <th class="document-column">Documento</th>
+                            <th class="phone-column">Contacto</th>
+                            <th class="gender-column">Género</th>
+                            <th class="age-column">Edad</th>
+                            <th class="address-column">Dirección</th>
+                            <th class="actions-header">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody class="table-body">
+                        @for (customer of filteredCustomers(); track customer.idCustomer) {
+                        <tr class="customer-row" [class.inactive]="customer.status !== 'A'">
+                            <td class="name-column" data-label="Cliente">
+                                <div class="customer-info">
+                                    <mat-icon class="customer-icon">{{ customer.gender === 'F' ? 'face_3' :
+                                        customer.gender === 'M' ? 'face' : 'person' }}</mat-icon>
+                                    <div class="customer-details">
+                                        <div class="customer-name">{{ customer.firstName }} {{ customer.lastName }}
+                                        </div>
+                                        @if (customer.email) {
+                                        <div class="customer-email">{{ customer.email }}</div>
+                                        }
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="document-column" data-label="Documento">
+                                <div class="document-info">
+                                    <span class="document-type">{{ getDocumentTypeDisplay(customer.documentType)
+                                        }}</span>
+                                    <span class="document-number">{{ customer.documentNumber }}</span>
+                                </div>
+                            </td>
+                            <td class="phone-column" data-label="Contacto">
+                                <div class="contact-info">
+                                    <div class="phone">
+                                        <mat-icon>phone</mat-icon>
+                                        {{ customer.phone || 'N/A' }}
+                                    </div>
+                                    @if (customer.email) {
+                                    <div class="email">
+                                        <mat-icon>email</mat-icon>
+                                        {{ customer.email }}
+                                    </div>
+                                    }
+                                </div>
+                            </td>
+                            <td class="gender-column" data-label="Género">
+                                <span class="gender-badge" [class.male]="customer.gender === 'M'"
+                                    [class.female]="customer.gender === 'F'">
+                                    {{ getGenderDisplay(customer.gender) }}
+                                </span>
+                            </td>
+                            <td class="age-column" data-label="Edad">
+                                <div class="age-info">
+                                    <span class="age-badge">{{ customer.age || 'N/A' }} años</span>
+                                    @if (customer.birthDate) {
+                                    <div class="birth-date">
+                                        {{ formatBirthDate(customer.birthDate) }}
+                                    </div>
+                                    }
+                                </div>
+                            </td>
+                            <td class="address-column" data-label="Dirección">
+                                @if (customer.address) {
+                                <div class="address-info">
+                                    <div class="address-line">
+                                        {{ customer.address.addrStreet }} {{ customer.address.numberHouse }}
+                                    </div>
+                                    <div class="address-district">
+                                        {{ customer.address.district }}
+                                    </div>
+                                    @if (customer.address.reference) {
+                                    <div class="address-reference">
+                                        Ref: {{ customer.address.reference }}
+                                    </div>
+                                    }
+                                </div>
+                                } @else {
+                                <div class="no-address">
+                                    Sin dirección
+                                </div>
+                                }
+                            </td>
+                            <td class="actions" data-label="Acciones">
+                                <div class="actions-container">
+                                    <button mat-icon-button class="action-btn details"
+                                        (click)="openDetailsDialog(customer.idCustomer)" matTooltip="Ver detalles">
+                                        <mat-icon>visibility</mat-icon>
+                                    </button>
+                                    <button mat-icon-button class="action-btn edit"
+                                        (click)="openEditDialog(customer.idCustomer, customer.status)"
+                                        matTooltip="Editar cliente" [disabled]="customer.status !== 'A'">
+                                        <mat-icon>edit</mat-icon>
+                                    </button>
+                                    @if (customer.status === 'A') {
+                                    <button mat-icon-button class="action-btn delete"
+                                        (click)="deleteCustomer(customer.idCustomer)" matTooltip="Desactivar cliente">
+                                        <mat-icon>delete</mat-icon>
+                                    </button>
+                                    } @else {
+                                    <button mat-icon-button class="action-btn restore"
+                                        (click)="restoreCustomer(customer.idCustomer)" matTooltip="Reactivar cliente">
+                                        <mat-icon>restore</mat-icon>
+                                    </button>
+                                    }
+                                </div>
+                            </td>
+                        </tr>
+                        }
+
+                        @if (filteredCustomers().length === 0 && !isLoading()) {
+                        <tr class="no-results-row">
+                            <td colspan="7">
+                                <div class="no-results-message">
+                                    <mat-icon>search_off</mat-icon>
+                                    <div class="no-results-text">
+                                        <h3>No se encontraron clientes</h3>
+                                        @if (hasActiveFilters()) {
+                                        <p>Intenta ajustar los filtros o buscar con otros términos.</p>
+                                        } @else {
+                                        <p>No hay clientes registrados en el sistema.</p>
+                                        }
+                                        @if (hasActiveFilters()) {
+                                        <button class="reset-filters-btn" (click)="onClearAllFilters()">
+                                            <mat-icon>refresh</mat-icon>
+                                            Mostrar todos los clientes
+                                        </button>
+                                        }
+                                        @if (!hasActiveFilters() && customers().length === 0) {
+                                        <button class="add-first-customer-btn" routerLink="/customers/customer-form">
+                                            <mat-icon>person_add</mat-icon>
+                                            Registrar primer cliente
+                                        </button>
+                                        }
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </mat-card>
+</div>

@@ -1,0 +1,225 @@
+<div class="main-container">
+    <app-info-column [logoUrl]="'/logoPanaderiaJorge.png'"
+        [instructions]="['Seleccione cliente y productos primero', 'Verifique fecha y hora de entrega']"
+        [contactTitle]="'Soporte para pedidos'">
+    </app-info-column>
+</div>
+
+<form (ngSubmit)="onSubmit(orderForm)" #orderForm="ngForm" class="scm-form-container">
+    <h2 class="titleh2">Registrar Pedido</h2>
+
+    <div class="scm-form">
+        <div class="scm-form-grid">
+            <!-- Columna 1 -->
+            <div class="column-group">
+                <!-- CLIENTE -->
+                <div class="scm-form-group cliente-select-button-group">
+                    <label><mat-icon>person</mat-icon> Cliente</label>
+                    <app-reusable-button variant="white" type="button" class="select-button-client"
+                        (click)="openClientSelector()">
+                        <mat-icon>person_search</mat-icon>
+                        {{" Clientes "}}
+                    </app-reusable-button>
+                </div>
+
+                <!-- NOMBRE (Solo lectura) -->
+                <div class="scm-form-group">
+                    <label><mat-icon>badge</mat-icon> Nombre</label>
+                    <input matInput [value]="
+                        order.customer.firstName && order.customer.lastName
+                        ? order.customer.firstName + ' ' + order.customer.lastName
+                        : 'Seleccione un cliente'
+                    " disabled placeholder="Seleccione un cliente" class="scm-input" />
+                </div>
+
+                <!-- PRODUCTOS -->
+                <div class="scm-form-group productos-select-button-group">
+                    <label><mat-icon>shopping_cart</mat-icon> Productos</label>
+                    <app-reusable-button variant="white" type="button" class="select-button-product"
+                        (click)="openProductSelector()">
+                        <mat-icon>add_shopping_cart</mat-icon> Productos
+                    </app-reusable-button>
+                </div>
+            </div>
+
+            <!-- Columna 2 -->
+            <div class="column-group">
+                <!-- FECHA DE ENTREGA -->
+                <div class="scm-form-group">
+                    <label><mat-icon>today</mat-icon> Fecha de Entrega</label>
+                    <input matInput [(ngModel)]="order.deliveryDate" name="deliveryDate" required type="date"
+                        class="scm-input" [attr.min]="minOrderDate" [attr.max]="maxOrderDate" />
+                </div>
+
+                <!-- HORA DE ENTREGA -->
+                <div class="scm-form-group">
+                    <label><mat-icon>schedule</mat-icon> Hora de Entrega</label>
+                    <input matInput [(ngModel)]="order.deliveryTime" name="deliveryTime" required type="time"
+                        class="scm-input" />
+                </div>
+
+                <!-- TIPO DE ENTREGA -->
+                <div class="scm-form-group">
+                    <label><mat-icon>local_shipping</mat-icon> Tipo de Entrega</label>
+                    <select matInput [(ngModel)]="order.deliveryType" name="deliveryType" required class="scm-input">
+                        <option value="Local">Recojo en tienda</option>
+                        <option value="Domicilio">Delivery</option>
+                        <option value="Express">Express</option>
+                    </select>
+                </div>
+
+                <!-- PRODUCTOS SELECCIONADOS -->
+                <div *ngIf="selectedProducts.length > 0" class="selected-products-list">
+                    <h3>Productos seleccionados:</h3>
+                    <ul>
+                        <li *ngFor="let p of selectedProducts">{{ p.nameProduct }} - {{ p.price | soles }}</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Columna 3 -->
+            <div class="column-group">
+                <!-- DIRECCIÓN DE ENTREGA - Distrito -->
+                <div class="scm-form-group" *ngIf="order.deliveryType !== 'Local'">
+                    <label><mat-icon>location_city</mat-icon> Distrito</label>
+                    <input matInput [(ngModel)]="order.deliveryAddress.district" name="district" type="text"
+                        placeholder="Distrito" class="scm-input" />
+                </div>
+
+                <!-- DIRECCIÓN DE ENTREGA - Calle -->
+                <div class="scm-form-group" *ngIf="order.deliveryType !== 'Local'">
+                    <label><mat-icon>home</mat-icon> Calle</label>
+                    <input matInput [(ngModel)]="order.deliveryAddress.addrStreet" name="addrStreet" type="text"
+                        placeholder="Calle/Avenida" class="scm-input" />
+                </div>
+
+                <!-- DIRECCIÓN DE ENTREGA - Número -->
+                <div class="scm-form-group" *ngIf="order.deliveryType !== 'Local'">
+                    <label><mat-icon>home</mat-icon> Número</label>
+                    <input matInput [(ngModel)]="order.deliveryAddress.numberHouse" name="numberHouse" type="text"
+                        placeholder="Número" class="scm-input" />
+                </div>
+
+                <!-- TOTAL -->
+                <div class="scm-form-group">
+                    <label><mat-icon>attach_money</mat-icon> Total</label>
+                    <input matInput type="text" class="scm-input no-pointer" [value]="totalDisplay" readonly
+                        tabindex="-1" />
+                </div>
+
+                <!-- ADELANTO -->
+                <div class="scm-form-group">
+                    <label><mat-icon>money</mat-icon> Adelanto</label>
+                    <div class="input-with-prefix">
+                        <input matInput type="text" class="scm-input advance-input" [value]="advanceDisplay"
+                            (input)="onAdvanceInput($event)" (blur)="onAdvanceBlur()"
+                            (keydown)="allowOnlyNumbers($event)" placeholder="S/ 0" />
+                    </div>
+                </div>
+            </div>
+
+            <!-- Columna 4 -->
+            <div class="column-group">
+                <!-- DIRECCIÓN DE ENTREGA - Tipo de Lugar -->
+                <div class="scm-form-group" *ngIf="order.deliveryType !== 'Local'">
+                    <label><mat-icon>apartment</mat-icon> Tipo de Lugar</label>
+                    <input matInput [(ngModel)]="order.deliveryAddress.placeType" name="placeType" type="text"
+                        placeholder="Casa, Departamento, Oficina..." class="scm-input" />
+                </div>
+
+                <!-- DIRECCIÓN DE ENTREGA - Referencia -->
+                <div class="scm-form-group" *ngIf="order.deliveryType !== 'Local'">
+                    <label><mat-icon>location_on</mat-icon> Referencia</label>
+                    <input matInput [(ngModel)]="order.deliveryAddress.reference" name="reference" type="text"
+                        placeholder="Punto de referencia" class="scm-input" />
+                </div>
+
+                <!-- SALDO -->
+                <div class="scm-form-group">
+                    <label><mat-icon>account_balance_wallet</mat-icon> Saldo</label>
+                    <input matInput type="text" class="scm-input no-pointer" [value]="balanceDisplay" readonly
+                        tabindex="-1" />
+                </div>
+
+                <!-- MÉTODO DE PAGO ADELANTO -->
+                <div class="scm-form-group">
+                    <label><mat-icon>credit_card</mat-icon> Método de Pago (Adelanto)</label>
+                    <select matInput [(ngModel)]="order.advancePaymentMethod" name="advancePaymentMethod" required
+                        class="scm-input">
+                        <option value="" disabled selected>Seleccione método</option>
+                        <option value="Yape">Yape</option>
+                        <option value="Plin">Plin</option>
+                        <option value="Tarjeta">Tarjeta</option>
+                        <option value="Transferencia">Transferencia</option>
+                        <option value="Efectivo">Efectivo</option>
+                    </select>
+                </div>
+
+                <!-- MÉTODO DE PAGO SALDO -->
+                <div class="scm-form-group" *ngIf="order.balanceAmount > 0">
+                    <label><mat-icon>credit_card</mat-icon> Método de Pago (Saldo)</label>
+                    <select matInput [(ngModel)]="order.balancePaymentMethod" name="balancePaymentMethod"
+                        class="scm-input">
+                        <option value="" disabled selected>Seleccione método</option>
+                        <option value="Yape">Yape</option>
+                        <option value="Plin">Plin</option>
+                        <option value="Tarjeta">Tarjeta</option>
+                        <option value="Transferencia">Transferencia</option>
+                        <option value="Efectivo">Efectivo</option>
+                    </select>
+                </div>
+
+                <!-- NOTAS -->
+                <div class="scm-form-group">
+                    <label><mat-icon>notes</mat-icon> Notas</label>
+                    <textarea matInput [(ngModel)]="order.notes" name="notes" rows="3"
+                        placeholder="Ingrese notas adicionales" class="scm-input"></textarea>
+                </div>
+
+                <!-- RAZÓN DE CANCELACIÓN -->
+                <div class="scm-form-group" *ngIf="order.orderStatus === 'CA'">
+                    <label><mat-icon>cancel</mat-icon> Razón de Cancelación</label>
+                    <textarea matInput [(ngModel)]="order.cancellationReason" name="cancellationReason" rows="2"
+                        placeholder="Motivo de la cancelación" class="scm-input"></textarea>
+                </div>
+            </div>
+        </div>
+
+        <!-- BOTONES -->
+        <div class="scm-form-actions">
+            <!-- Botón para volver a pedidos -->
+            <app-reusable-button color="blanco-marron" type="button" [routerLink]="['/order']">
+                <mat-icon style="margin-right: 5px; margin-left: -7px">arrow_back</mat-icon> Cancelar
+            </app-reusable-button>
+
+            <!-- Botón para guardar pedido -->
+            <app-reusable-button color="marron" [disabled]="!!orderForm.invalid" type="submit">
+                <mat-icon style="margin-right: 6px">save</mat-icon> Guardar
+            </app-reusable-button>
+
+            <!-- Botón para limpiar formulario -->
+            <app-reusable-button color="naranja-fuerte" type="button" (click)="resetForm()">
+                <mat-icon>clear</mat-icon> Limpiar
+            </app-reusable-button>
+
+            <!-- Botón para cancelar pedido -->
+            <app-reusable-button color="naranja-fuerte" type="button" (click)="cancelOrder()"
+                *ngIf="order.idCustomerOrder && order.idCustomerOrder !== 0 && order.orderStatus !== 'CA'">
+                <mat-icon>cancel</mat-icon> Cancelar Pedido
+            </app-reusable-button>
+        </div>
+    </div>
+
+    <!-- MODALES -->
+    <div *ngIf="showCustomerSelector" class="modal-overlay">
+        <app-customer-selector [customers]="customers" (customerSelected)="onClienteSeleccionado($event)"
+            (cancel)="onCancelSelector()">
+        </app-customer-selector>
+    </div>
+
+    <div *ngIf="showProductSelector" class="modal-overlay">
+        <app-product-selector [products]="products" (productsSelected)="onProductsSelected($event)"
+            (cancel)="cancelProductSelection()">
+        </app-product-selector>
+    </div>
+</form>

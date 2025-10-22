@@ -1,0 +1,704 @@
+@use "sass:color";
+
+// Variables de diseño
+$primary-color: #6366f1;
+$primary-light: #818cf8;
+$primary-dark: #4f46e5;
+$warning-color: #f59e0b;
+$error-color: #ef4444;
+$surface-color: #ffffff;
+$surface-dark: #f8fafc;
+$text-primary: #1e293b;
+$text-secondary: #64748b;
+$text-tertiary: #94a3b8;
+$border-color: #e2e8f0;
+$border-light: #f1f5f9;
+$shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+$shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+$shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+$radius-md: 12px;
+$radius-lg: 16px;
+$transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+
+// ========== SOLUCIÓN NUCLEAR CONTRA AUTOCOMPLETE ==========
+.search-filter-container {
+  // Eliminar completamente cualquier sugerencia de autocomplete
+  input, select {
+    &::-webkit-contacts-auto-fill-button,
+    &::-webkit-credentials-auto-fill-button,
+    &::-webkit-strong-password-auto-fill-button {
+      visibility: hidden !important;
+      display: none !important;
+      pointer-events: none !important;
+      position: absolute !important;
+      right: -9999px !important;
+      width: 0 !important;
+      height: 0 !important;
+      opacity: 0 !important;
+    }
+
+    &:-webkit-autofill,
+    &:-webkit-autofill:hover,
+    &:-webkit-autofill:focus,
+    &:-webkit-autofill:active {
+      -webkit-box-shadow: 0 0 0 1000px $surface-color inset !important;
+      box-shadow: 0 0 0 1000px $surface-color inset !important;
+      -webkit-text-fill-color: $text-primary !important;
+      transition: background-color 9999s ease-in-out 0s;
+      border: 2px solid $border-color !important;
+    }
+  }
+
+  // Eliminar flechas de inputs number
+  input[type="number"]::-webkit-outer-spin-button,
+  input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  input[type="number"] {
+    -moz-appearance: textfield;
+    appearance: textfield;
+  }
+}
+
+.search-filter-container {
+  width: 95%;
+  margin-bottom: 1rem;
+
+  .search-main-area {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: nowrap;
+
+    @media (max-width: 768px) {
+      gap: 0.75rem;
+      flex-wrap: wrap;
+    }
+  }
+
+  .search-field-wrapper {
+    flex: 1;
+    min-width: 300px;
+    position: relative;
+
+    // BARRERA FÍSICA CONTRA AUTOCOMPLETE
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: -35px;
+      left: 0;
+      width: 100%;
+      height: 35px;
+      background: transparent;
+      z-index: 10000;
+      pointer-events: none;
+      border: none;
+      outline: none;
+    }
+
+    @media (max-width: 768px) {
+      min-width: 100%;
+    }
+
+    .search-field {
+      display: flex;
+      align-items: center;
+      height: 50px;
+      padding: 0 1rem;
+      border-radius: $radius-lg;
+      background: $surface-color;
+      border: 2px solid $border-color;
+      transition: $transition;
+      position: relative;
+      box-shadow: $shadow-sm;
+      overflow: hidden;
+      z-index: 10001;
+
+      // SEGUNDA BARRERA
+      &::before {
+        content: '';
+        position: absolute;
+        bottom: -30px;
+        left: 0;
+        width: 100%;
+        height: 30px;
+        background: $surface-color;
+        z-index: 10002;
+        pointer-events: none;
+      }
+
+      &:hover {
+        border-color: color.adjust($border-color, $lightness: -10%);
+        box-shadow: $shadow-md;
+      }
+
+      &.focused {
+        border-color: $primary-color;
+        box-shadow: 0 0 0 3px rgba($primary-color, 0.1);
+      }
+
+      &.has-filters {
+        border-color: $warning-color;
+        background: linear-gradient(135deg, color.adjust($warning-color, $lightness: 45%), $surface-color);
+      }
+
+      .search-icon {
+        color: $text-tertiary;
+        margin-right: 0.75rem;
+        font-size: 1.5rem;
+        position: relative;
+        z-index: 10003;
+      }
+
+      .search-input {
+        flex: 1;
+        border: none;
+        outline: none;
+        background: transparent;
+        font-size: 1rem;
+        color: $text-primary;
+        font-weight: 500;
+        position: relative;
+        z-index: 10003;
+
+        // CSS NUCLEAR - Eliminar completamente autocomplete
+        &:-webkit-autofill,
+        &:-webkit-autofill:hover,
+        &:-webkit-autofill:focus,
+        &:-webkit-autofill:active {
+          -webkit-box-shadow: 0 0 0 1000px $surface-color inset !important;
+          box-shadow: 0 0 0 1000px $surface-color inset !important;
+          -webkit-text-fill-color: $text-primary !important;
+          transition: background-color 9999s ease-in-out 0s;
+          border: none !important;
+        }
+
+        // Eliminar cualquier dropdown del navegador
+        &::-webkit-contacts-auto-fill-button,
+        &::-webkit-credentials-auto-fill-button {
+          visibility: hidden;
+          display: none !important;
+          pointer-events: none;
+          position: absolute;
+          right: -9999px;
+        }
+
+        // Eliminar flechas de número
+        &[type="number"]::-webkit-outer-spin-button,
+        &[type="number"]::-webkit-inner-spin-button {
+          -webkit-appearance: none;
+          margin: 0;
+        }
+
+        &[type="number"] {
+          -moz-appearance: textfield;
+          appearance: textfield;
+        }
+
+        // Ocultar cualquier elemento de UI del navegador
+        &::-webkit-search-cancel-button,
+        &::-webkit-search-decoration,
+        &::-webkit-search-results-button,
+        &::-webkit-search-results-decoration {
+          display: none;
+        }
+
+        &::placeholder {
+          color: $text-tertiary;
+          font-weight: 400;
+        }
+      }
+
+      .active-filters-indicator {
+        margin-right: 0.5rem;
+        position: relative;
+        z-index: 10003;
+
+        .filter-count {
+          background: linear-gradient(135deg, $warning-color, color.adjust($warning-color, $lightness: -10%));
+          color: white;
+          font-size: 0.75rem;
+          font-weight: 700;
+          padding: 0.25rem 0.5rem;
+          border-radius: 20px;
+          min-width: 20px;
+          text-align: center;
+          box-shadow: $shadow-sm;
+        }
+      }
+
+      .clear-btn {
+        color: $text-tertiary;
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        transition: $transition;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        z-index: 10003;
+
+        &:hover {
+          color: $error-color;
+          background: rgba($error-color, 0.1);
+        }
+
+        mat-icon {
+          font-size: 1.25rem;
+        }
+      }
+    }
+  }
+
+  .filter-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.25rem;
+    border: 2px solid $border-color;
+    border-radius: $radius-lg;
+    background: $surface-color;
+    color: $text-secondary;
+    font-weight: 600;
+    font-size: 0.9rem;
+    transition: $transition;
+    cursor: pointer;
+    white-space: nowrap;
+    flex-shrink: 0;
+    position: relative;
+
+    &:hover {
+      border-color: $primary-light;
+      background: color.adjust($primary-color, $lightness: 45%);
+      color: $primary-dark;
+    }
+
+    &.active,
+    &.has-filters {
+      border-color: $primary-color;
+      background: linear-gradient(135deg, color.adjust($primary-color, $lightness: 45%), $surface-color);
+      color: $primary-dark;
+
+      .filter-icon {
+        color: $primary-color;
+      }
+    }
+
+    .filter-btn-content {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      position: relative;
+    }
+
+    .filter-icon {
+      font-size: 1.25rem;
+      transition: color 0.3s ease;
+    }
+
+    .active-dot {
+      width: 8px;
+      height: 8px;
+      background: $primary-color;
+      border-radius: 50%;
+      border: 2px solid $surface-color;
+      position: absolute;
+      top: -2px;
+      right: -2px;
+    }
+
+    .filter-label {
+      @media (max-width: 480px) {
+        display: none;
+      }
+    }
+  }
+}
+
+// Menú de filtros personalizados
+.custom-filters-menu {
+  border-radius: $radius-lg;
+  box-shadow: $shadow-lg;
+  border: 1px solid $border-color;
+  overflow: hidden;
+  min-width: 320px;
+  max-width: 380px;
+  margin-top: 8px;
+  background: $surface-color;
+  z-index: 10000;
+
+  .filter-menu-header {
+    padding: 1.25rem;
+    border-bottom: 1px solid $border-light;
+    background: $surface-dark;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 1rem;
+
+    .header-content {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.75rem;
+
+      .header-icon-wrapper {
+        background: linear-gradient(135deg, $primary-color, $primary-light);
+        border-radius: 50%;
+        padding: 0.5rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        .header-icon {
+          color: white;
+          font-size: 1.25rem;
+        }
+      }
+
+      .header-text {
+        h3 {
+          margin: 0 0 0.25rem 0;
+          color: $text-primary;
+          font-size: 1.1rem;
+          font-weight: 700;
+        }
+
+        .filter-subtitle {
+          margin: 0;
+          color: $text-secondary;
+          font-size: 0.8rem;
+          line-height: 1.4;
+        }
+      }
+    }
+
+    .header-clear-btn {
+      display: flex;
+      align-items: center;
+      gap: 0.375rem;
+      padding: 0.5rem 0.75rem;
+      border: 1px solid $border-color;
+      border-radius: 6px;
+      background: $surface-color;
+      color: $text-secondary;
+      font-size: 0.8rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: $transition;
+      flex-shrink: 0;
+
+      &:hover {
+        background: color.adjust($error-color, $lightness: 45%);
+        border-color: $error-color;
+        color: $error-color;
+      }
+
+      mat-icon {
+        font-size: 1rem;
+      }
+    }
+  }
+
+  .filters-container {
+    max-height: 400px;
+    overflow-y: auto;
+    padding: 0.5rem;
+
+    &.has-scroll {
+      padding-right: 0.25rem;
+    }
+  }
+
+  .custom-filter-item {
+    padding: 1rem;
+    border-radius: $radius-md;
+    margin-bottom: 0.5rem;
+    background: $surface-color;
+    border: 1px solid transparent;
+    transition: $transition;
+
+    &:hover {
+      border-color: $border-color;
+      background: $surface-dark;
+    }
+
+    &.active {
+      border-color: $primary-light;
+      background: linear-gradient(135deg, color.adjust($primary-color, $lightness: 48%), $surface-color);
+    }
+
+    .filter-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 0.5rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .filter-label {
+      font-weight: 600;
+      color: $text-primary;
+      font-size: 0.9rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .filter-type-icon {
+      font-size: 1rem;
+      color: $text-tertiary;
+    }
+
+    .clear-filter-btn {
+      width: 24px;
+      height: 24px;
+      color: $text-tertiary;
+      background: $surface-dark;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: $transition;
+
+      &:hover {
+        color: $error-color;
+        background: color.adjust($error-color, $lightness: 45%);
+      }
+
+      mat-icon {
+        font-size: 1rem;
+      }
+    }
+
+    .select-wrapper {
+      position: relative;
+
+      .filter-select {
+        width: 100%;
+        padding: 0.75rem 1rem;
+        border: 2px solid $border-color;
+        border-radius: $radius-md;
+        font-size: 0.9rem;
+        transition: $transition;
+        background: $surface-color;
+        appearance: none;
+        cursor: pointer;
+
+        &:focus {
+          outline: none;
+          border-color: $primary-color;
+        }
+      }
+
+      .select-arrow {
+        position: absolute;
+        right: 1rem;
+        top: 50%;
+        transform: translateY(-50%);
+        color: $text-tertiary;
+        pointer-events: none;
+      }
+    }
+
+    .input-wrapper {
+      position: relative;
+
+      .filter-input {
+        width: 100%;
+        padding: 0.75rem 1rem;
+        border: 2px solid $border-color;
+        border-radius: $radius-md;
+        font-size: 0.9rem;
+        transition: $transition;
+        background: $surface-color;
+
+        &:focus {
+          outline: none;
+          border-color: $primary-color;
+        }
+      }
+
+      .input-clear {
+        position: absolute;
+        right: 0.75rem;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 20px;
+        height: 20px;
+        border: none;
+        background: $surface-dark;
+        color: $text-tertiary;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: $transition;
+
+        &:hover {
+          color: $error-color;
+          background: color.adjust($error-color, $lightness: 45%);
+        }
+
+        mat-icon {
+          font-size: 0.875rem;
+        }
+      }
+    }
+
+    .range-inputs {
+      display: flex;
+      align-items: flex-end;
+      gap: 0.75rem;
+
+      .range-input-group {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        gap: 0.375rem;
+      }
+
+      .range-label {
+        font-size: 0.8rem;
+        color: $text-secondary;
+        font-weight: 500;
+      }
+
+      .range-separator {
+        padding-bottom: 0.75rem;
+        display: flex;
+        align-items: center;
+
+        mat-icon {
+          color: $text-tertiary;
+          font-size: 1rem;
+        }
+      }
+
+      .filter-input {
+        width: 100%;
+        padding: 0.75rem;
+        border: 2px solid $border-color;
+        border-radius: $radius-md;
+        font-size: 0.9rem;
+        transition: $transition;
+        background: $surface-color;
+        text-align: center;
+
+        &:focus {
+          outline: none;
+          border-color: $primary-color;
+        }
+      }
+    }
+  }
+
+  .filter-footer {
+    padding: 1rem 1.25rem;
+    border-top: 1px solid $border-light;
+    background: $surface-dark;
+
+    .results-info {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: $text-secondary;
+      font-size: 0.8rem;
+      font-weight: 500;
+
+      mat-icon {
+        font-size: 1rem;
+        color: $primary-color;
+      }
+    }
+  }
+}
+
+// Animaciones
+@keyframes pulse {
+  0% {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 0.7;
+  }
+  50% {
+    transform: translate(-50%, -50%) scale(1.5);
+    opacity: 0.3;
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 0.7;
+  }
+}
+
+// Responsive
+@media (max-width: 768px) {
+  .search-filter-container {
+    .search-main-area {
+      flex-direction: column;
+      gap: 0.75rem;
+
+      .search-field-wrapper {
+        min-width: 100%;
+      }
+
+      .filter-btn {
+        width: 100%;
+        justify-content: center;
+      }
+    }
+  }
+
+  .custom-filters-menu {
+    min-width: 280px;
+    max-width: 90vw;
+
+    .filter-menu-header {
+      padding: 1rem;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .custom-filter-item {
+      padding: 0.875rem;
+    }
+  }
+}
+
+// REGLAS NUCLEARES GLOBALES - ELIMINAR COMPLETAMENTE AUTOCOMPLETE
+:host {
+  // Destruir cualquier panel de autocomplete del navegador
+  ::ng-deep {
+    .pac-container,
+    .autocomplete-container,
+    .suggestions-box,
+    .dropdown-results,
+    .mat-autocomplete-panel,
+    inputlist,
+    datalist,
+    .autocomplete-suggestions,
+    .autocomplete-dropdown,
+    [role="listbox"],
+    [aria-autocomplete="list"] {
+      display: none !important;
+      visibility: hidden !important;
+      height: 0 !important;
+      width: 0 !important;
+      overflow: hidden !important;
+      opacity: 0 !important;
+      pointer-events: none !important;
+      position: absolute !important;
+      top: -9999px !important;
+      left: -9999px !important;
+      z-index: -9999 !important;
+    }
+
+    // Eliminar cualquier sombra o borde de autocomplete
+    input:-webkit-autofill {
+      -webkit-box-shadow: 0 0 0 1000px $surface-color inset !important;
+      box-shadow: 0 0 0 1000px $surface-color inset !important;
+    }
+  }
+}

@@ -1,0 +1,179 @@
+<!-- src/app/feature/employee/employee-details/employee-details.html -->
+<div class="employee-details-dialog">
+    <div class="dialog-header">
+        <h2 mat-dialog-title>Detalles del Empleado</h2>
+        <button mat-icon-button class="close-btn" (click)="close()" aria-label="Cerrar">
+            <mat-icon>close</mat-icon>
+        </button>
+    </div>
+
+    <mat-dialog-content class="dialog-content">
+        <div class="employee-profile">
+            <div class="profile-header">
+                <div class="avatar-section">
+                    <div class="avatar-large">
+                        <mat-icon>person</mat-icon>
+                    </div>
+                    <div class="profile-info">
+                        <h3>{{ employee.firstName }} {{ employee.lastName }}</h3>
+                        <p class="position">{{ getPositionDisplay(employee.position) }}</p>
+                        <span class="role-badge" [class]="getRoleColor(employee.rolUsuario || employee.roleName || '')">
+                            {{ getRoleDisplay(employee.rolUsuario || employee.roleName || '') }}
+                        </span>
+                    </div>
+                </div>
+                <div class="status-section">
+                    <span class="status-badge" [class]="getStatusBadgeClass(employee.status)">
+                        {{ getStatusText(employee.status) }}
+                    </span>
+                </div>
+            </div>
+
+            <mat-divider></mat-divider>
+
+            <div class="details-grid">
+                <!-- Información Personal -->
+                <div class="detail-section">
+                    <h4>Información Personal</h4>
+                    <div class="detail-item">
+                        <mat-icon>badge</mat-icon>
+                        <div class="detail-content">
+                            <span class="label">Documento</span>
+                            <span class="value">{{ employee.documentType }}: {{ employee.documentNumber }}</span>
+                        </div>
+                    </div>
+                    <div class="detail-item" *ngIf="employee.birthDate">
+                        <mat-icon>cake</mat-icon>
+                        <div class="detail-content">
+                            <span class="label">Fecha de Nacimiento</span>
+                            <span class="value">{{ employee.birthDate | date:'dd/MM/yyyy' }}</span>
+                        </div>
+                    </div>
+                    <div class="detail-item" *ngIf="employee.age">
+                        <mat-icon>person_outline</mat-icon>
+                        <div class="detail-content">
+                            <span class="label">Edad</span>
+                            <span class="value">{{ employee.age }} años</span>
+                        </div>
+                    </div>
+                    <div class="detail-item" *ngIf="employee.gender">
+                        <mat-icon>wc</mat-icon>
+                        <div class="detail-content">
+                            <span class="label">Género</span>
+                            <span class="value">{{ getGenderDisplay(employee.gender) }}</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Información de Contacto -->
+                <div class="detail-section">
+                    <h4>Información de Contacto</h4>
+                    <div class="detail-item">
+                        <mat-icon>email</mat-icon>
+                        <div class="detail-content">
+                            <span class="label">Email</span>
+                            <span class="value">{{ employee.email }}</span>
+                        </div>
+                    </div>
+                    <div class="detail-item" *ngIf="employee.phone">
+                        <mat-icon>phone</mat-icon>
+                        <div class="detail-content">
+                            <span class="label">Teléfono</span>
+                            <span class="value">{{ employee.phone }}</span>
+                        </div>
+                    </div>
+                    <div class="detail-item" *ngIf="employee.address">
+                        <mat-icon>location_on</mat-icon>
+                        <div class="detail-content">
+                            <span class="label">Dirección</span>
+                            <span class="value">{{ employee.address }}</span>
+                        </div>
+                    </div>
+                    <div class="detail-item" *ngIf="employee.emergencyContactName">
+                        <mat-icon>contact_emergency</mat-icon>
+                        <div class="detail-content">
+                            <span class="label">Contacto de Emergencia</span>
+                            <span class="value">{{ employee.emergencyContactName }}</span>
+                        </div>
+                    </div>
+                    <div class="detail-item" *ngIf="employee.emergencyContactPhone">
+                        <mat-icon>emergency</mat-icon>
+                        <div class="detail-content">
+                            <span class="label">Teléfono de Emergencia</span>
+                            <span class="value">{{ employee.emergencyContactPhone }}</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Información Laboral -->
+                <div class="detail-section">
+                    <h4>Información Laboral</h4>
+                    <div class="detail-item">
+                        <mat-icon>work</mat-icon>
+                        <div class="detail-content">
+                            <span class="label">Cargo</span>
+                            <span class="value">{{ getPositionDisplay(employee.position) }}</span>
+                        </div>
+                    </div>
+                    <div class="detail-item" *ngIf="employee.hireDate">
+                        <mat-icon>event</mat-icon>
+                        <div class="detail-content">
+                            <span class="label">Fecha de Contratación</span>
+                            <span class="value">{{ employee.hireDate | date:'dd/MM/yyyy' }}</span>
+                        </div>
+                    </div>
+                    <div class="detail-item">
+                        <mat-icon>security</mat-icon>
+                        <div class="detail-content">
+                            <span class="label">Rol del Sistema</span>
+                            <span class="value">{{ getRoleDisplay(employee.rolUsuario || employee.roleName || '')
+                                }}</span>
+                        </div>
+                    </div>
+                    <div class="detail-item" *ngIf="employee.idRole">
+                        <mat-icon>badge</mat-icon>
+                        <div class="detail-content">
+                            <span class="label">ID de Rol</span>
+                            <span class="value">{{ employee.idRole }}</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Información del Sistema -->
+                <div class="detail-section">
+                    <h4>Información del Sistema</h4>
+                    <div class="detail-item" *ngIf="employee.createdAt">
+                        <mat-icon>calendar_today</mat-icon>
+                        <div class="detail-content">
+                            <span class="label">Fecha de Creación</span>
+                            <span class="value">{{ employee.createdAt | date:'dd/MM/yyyy HH:mm' }}</span>
+                        </div>
+                    </div>
+                    <div class="detail-item" *ngIf="employee.updatedAt">
+                        <mat-icon>update</mat-icon>
+                        <div class="detail-content">
+                            <span class="label">Última Actualización</span>
+                            <span class="value">{{ employee.updatedAt | date:'dd/MM/yyyy HH:mm' }}</span>
+                        </div>
+                    </div>
+                    <div class="detail-item">
+                        <mat-icon>info</mat-icon>
+                        <div class="detail-content">
+                            <span class="label">ID del Empleado</span>
+                            <span class="value">{{ employee.idEmployee }}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </mat-dialog-content>
+
+    <mat-dialog-actions align="end">
+        <button mat-button (click)="close()">Cerrar</button>
+        <button mat-raised-button color="primary" [routerLink]="['/employees/edit', employee.idEmployee]"
+            (click)="close()">
+            <mat-icon>edit</mat-icon>
+            Editar Empleado
+        </button>
+    </mat-dialog-actions>
+</div>

@@ -1,0 +1,67 @@
+<!-- src/app/features/auth/login/login.component.html -->
+<div class="login-wrapper">
+    <div class="login-container">
+        <div class="left-side">
+            <img src="/images/auth/fondologin.jpeg" alt="Bakery Background" class="background-image">
+            <div class="logo-container">
+                <img src="/logoblancoprovicional.png" alt="Bakery Logo" class="logo">
+            </div>
+        </div>
+
+        <mat-card class="login-card">
+            <div class="login-header">
+                <div class="title-container">
+                    <mat-icon>bakery_dining</mat-icon>
+                    <h2 class="login-title">Jorge Abrahan</h2>
+                </div>
+                <p class="login-subtitle">Ingresa tus credenciales</p>
+            </div>
+
+            <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="login-form">
+                <!-- Username Field -->
+                <mat-form-field appearance="outline" class="form-field">
+                    <mat-label>Usuario o Email</mat-label>
+                    <input matInput formControlName="username" type="text" required>
+                    <mat-icon matPrefix>person</mat-icon>
+
+                    <mat-error *ngIf="usernameControl?.hasError('required')">
+                        El usuario o email es requerido
+                    </mat-error>
+                    <mat-error *ngIf="usernameControl?.hasError('minlength')">
+                        Mínimo 3 caracteres requeridos
+                    </mat-error>
+                </mat-form-field>
+
+                <!-- Password Field -->
+                <mat-form-field appearance="outline" class="form-field">
+                    <mat-label>Contraseña</mat-label>
+                    <input matInput formControlName="password" [type]="hidePassword() ? 'password' : 'text'" required>
+                    <mat-icon matPrefix>lock</mat-icon>
+
+                    <button type="button" mat-icon-button matSuffix (click)="togglePasswordVisibility()"
+                        [attr.aria-label]="hidePassword() ? 'Ocultar contraseña' : 'Mostrar contraseña'">
+                        <mat-icon>{{ hidePassword() ? 'visibility_off' : 'visibility' }}</mat-icon>
+                    </button>
+
+                    <mat-error *ngIf="passwordControl?.hasError('required')">
+                        La contraseña es requerida
+                    </mat-error>
+                    <mat-error *ngIf="passwordControl?.hasError('minlength')">
+                        Mínimo 6 caracteres requeridos
+                    </mat-error>
+                </mat-form-field>
+
+                <!-- Login Button -->
+                <button mat-raised-button color="primary" type="submit" [disabled]="loginForm.invalid || isLoading()"
+                    class="login-button">
+                    <span *ngIf="isLoading()">
+                        <mat-spinner diameter="24" color="accent"></mat-spinner>
+                    </span>
+                    <span *ngIf="!isLoading()" class="login-button-text">
+                        INICIAR SESIÓN
+                    </span>
+                </button>
+            </form>
+        </mat-card>
+    </div>
+</div>

@@ -1,0 +1,79 @@
+<div class="main-menu-container">
+    <!-- Dashboard Section -->
+    <div class="dashboard-section">
+        <h2 class="titleh2">Resumen General</h2>
+        <div class="dashboard-grid">
+            <!-- Summary Cards -->
+            <div class="summary-card" style="border-left: 4px solid #b95a3f;" routerLink="/order">
+                <mat-icon>shopping_cart</mat-icon>
+                <div>
+                    <h3>125</h3>
+                    <p>Pedidos Hoy</p>
+                </div>
+            </div>
+
+            <div class="summary-card" style="border-left: 4px solid #f5a25d;" routerLink="/sale">
+                <mat-icon>attach_money</mat-icon>
+                <div>
+                    <h3>$8,450</h3>
+                    <p>Ventas Hoy</p>
+                </div>
+            </div>
+
+            <!-- Card de Clientes Nuevos -->
+            <div class="summary-card" style="border-left: 4px solid #d57f6d;" routerLink="/customers-new">
+                <mat-icon>people</mat-icon>
+                <div>
+                    <h3>{{ customerCount }}</h3> <!-- Ahora customerCount está definido -->
+                    <p>Clientes Nuevos</p>
+                </div>
+            </div>
+
+            <div class="summary-card" style="border-left: 4px solid #a6492c;" routerLink="/products">
+                <mat-icon>inventory</mat-icon>
+                <div>
+                    <h3>15</h3>
+                    <p>Productos Bajos</p>
+                </div>
+            </div>
+
+            <!-- Charts -->
+            <div class="chart-card">
+                <div class="chart-header">
+                    <h3>Ventas Semanales</h3>
+                    <mat-icon class="chart-icon">trending_up</mat-icon>
+                </div>
+                <div class="chart-container">
+                    <canvas id="weeklySalesChart"></canvas>
+                </div>
+            </div>
+
+            <div class="chart-card">
+                <div class="chart-header">
+                    <h3>Productos Más Vendidos</h3>
+                    <mat-icon class="chart-icon">star</mat-icon>
+                </div>
+                <div class="chart-container">
+                    <canvas id="topProductsChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Menu Cards -->
+    <div class="access">
+        <h2 class="titleh2">Accesos Rápidos</h2>
+        <div *ngIf="!isLoading" class="cards-grid">
+            <mat-card *ngFor="let card of menuCards" [routerLink]="card.route" class="menu-card"
+                [style.border-top]="'4px solid ' + card.color" [style.box-shadow]="'0 4px 8px ' + card.color + '20'">
+                <mat-card-header>
+                    <mat-icon mat-card-avatar [style.color]="card.color">{{ card.icon }}</mat-icon>
+                    <mat-card-title>{{ card.title }}</mat-card-title>
+                </mat-card-header>
+                <mat-card-content>
+                    <p>{{ card.description }}</p>
+                </mat-card-content>
+            </mat-card>
+        </div>
+    </div>
+</div>

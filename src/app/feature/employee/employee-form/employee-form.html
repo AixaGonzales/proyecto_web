@@ -1,0 +1,268 @@
+<!-- src/app/feature/employee/employee-form/employee-form.html -->
+<div class="form-container">
+    <!-- Header -->
+    <div class="form-header">
+        <div class="header-content">
+            <div class="title-section">
+                <mat-icon class="header-icon">{{ isEditMode() ? 'edit' : 'person_add' }}</mat-icon>
+                <div class="title-group">
+                    <h1 class="page-title">{{ isEditMode() ? 'Editar Empleado' : 'Nuevo Empleado' }}</h1>
+                    <p class="page-subtitle">
+                        {{ isEditMode() ? 'Actualice la información del empleado' : 'Complete la información para registrar un nuevo empleado' }}
+                    </p>
+                </div>
+            </div>
+            <div class="header-actions">
+                <button mat-stroked-button color="basic" (click)="onCancel()" [disabled]="isSubmitting()">
+                    <mat-icon>arrow_back</mat-icon>
+                    Volver
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Loading State -->
+    @if (isLoading()) {
+    <div class="loading-overlay">
+        <mat-spinner diameter="50"></mat-spinner>
+        <p>Cargando información del empleado...</p>
+    </div>
+    }
+
+    <!-- Main Form -->
+    <div class="form-content" [class.loading]="isLoading()">
+        <form [formGroup]="employeeForm" (ngSubmit)="onSubmit()" class="employee-form">
+
+            <!-- Información Personal -->
+            <mat-card class="form-section-card">
+                <mat-card-header class="section-header">
+                    <mat-icon class="section-icon">person</mat-icon>
+                    <h2>Información Personal</h2>
+                </mat-card-header>
+                <mat-divider></mat-divider>
+                <mat-card-content class="section-content">
+                    <div class="form-row">
+                        <mat-form-field appearance="outline" class="form-field">
+                            <mat-label>Nombres *</mat-label>
+                            <input matInput formControlName="firstName" placeholder="Ingrese los nombres">
+                            <mat-icon matPrefix>badge</mat-icon>
+                            @if (firstName?.hasError('required') && firstName?.touched) {
+                            <mat-error>Los nombres son requeridos</mat-error>
+                            }
+                            @if (firstName?.hasError('minlength') && firstName?.touched) {
+                            <mat-error>Mínimo 2 caracteres</mat-error>
+                            }
+                        </mat-form-field>
+
+                        <mat-form-field appearance="outline" class="form-field">
+                            <mat-label>Apellidos *</mat-label>
+                            <input matInput formControlName="lastName" placeholder="Ingrese los apellidos">
+                            <mat-icon matPrefix>badge</mat-icon>
+                            @if (lastName?.hasError('required') && lastName?.touched) {
+                            <mat-error>Los apellidos son requeridos</mat-error>
+                            }
+                            @if (lastName?.hasError('minlength') && lastName?.touched) {
+                            <mat-error>Mínimo 2 caracteres</mat-error>
+                            }
+                        </mat-form-field>
+                    </div>
+
+                    <div class="form-row">
+                        <mat-form-field appearance="outline" class="form-field">
+                            <mat-label>Tipo de Documento *</mat-label>
+                            <mat-select formControlName="documentType">
+                                @for (type of documentTypes; track type.value) {
+                                <mat-option [value]="type.value">{{ type.label }}</mat-option>
+                                }
+                            </mat-select>
+                            <mat-icon matPrefix>description</mat-icon>
+                        </mat-form-field>
+
+                        <mat-form-field appearance="outline" class="form-field">
+                            <mat-label>Número de Documento *</mat-label>
+                            <input matInput formControlName="documentNumber" placeholder="Ej: 12345678">
+                            <mat-icon matPrefix>numbers</mat-icon>
+                            @if (documentNumber?.hasError('required') && documentNumber?.touched) {
+                            <mat-error>El número de documento es requerido</mat-error>
+                            }
+                            @if (documentNumber?.hasError('pattern') && documentNumber?.touched) {
+                            <mat-error>Formato inválido (8-11 dígitos)</mat-error>
+                            }
+                        </mat-form-field>
+                    </div>
+
+                    <div class="form-row">
+                        <mat-form-field appearance="outline" class="form-field">
+                            <mat-label>Fecha de Nacimiento</mat-label>
+                            <input matInput [matDatepicker]="birthPicker" formControlName="birthDate">
+                            <mat-datepicker-toggle matIconSuffix [for]="birthPicker"></mat-datepicker-toggle>
+                            <mat-datepicker #birthPicker></mat-datepicker>
+                            <mat-icon matPrefix>cake</mat-icon>
+                        </mat-form-field>
+
+                        <mat-form-field appearance="outline" class="form-field">
+                            <mat-label>Género</mat-label>
+                            <mat-select formControlName="gender">
+                                @for (gender of genderOptions; track gender.value) {
+                                <mat-option [value]="gender.value">{{ gender.label }}</mat-option>
+                                }
+                            </mat-select>
+                            <mat-icon matPrefix>wc</mat-icon>
+                        </mat-form-field>
+                    </div>
+                </mat-card-content>
+            </mat-card>
+
+            <!-- Información de Contacto -->
+            <mat-card class="form-section-card">
+                <mat-card-header class="section-header">
+                    <mat-icon class="section-icon">contact_mail</mat-icon>
+                    <h2>Información de Contacto</h2>
+                </mat-card-header>
+                <mat-divider></mat-divider>
+                <mat-card-content class="section-content">
+                    <div class="form-row">
+                        <mat-form-field appearance="outline" class="form-field">
+                            <mat-label>Email *</mat-label>
+                            <input matInput formControlName="email" type="email" placeholder="ejemplo@correo.com">
+                            <mat-icon matPrefix>email</mat-icon>
+                            @if (email?.hasError('required') && email?.touched) {
+                            <mat-error>El email es requerido</mat-error>
+                            }
+                            @if (email?.hasError('email') && email?.touched) {
+                            <mat-error>Formato de email inválido</mat-error>
+                            }
+                        </mat-form-field>
+
+                        <mat-form-field appearance="outline" class="form-field">
+                            <mat-label>Teléfono</mat-label>
+                            <input matInput formControlName="phone" placeholder="Ej: 987654321">
+                            <mat-icon matPrefix>phone</mat-icon>
+                            @if (phone?.hasError('pattern') && phone?.touched) {
+                            <mat-error>Formato inválido (9 dígitos)</mat-error>
+                            }
+                        </mat-form-field>
+                    </div>
+
+                    <mat-form-field appearance="outline" class="full-width">
+                        <mat-label>Dirección</mat-label>
+                        <textarea matInput formControlName="address" placeholder="Ingrese la dirección completa"
+                            rows="2"></textarea>
+                        <mat-icon matPrefix>home</mat-icon>
+                        @if (address?.hasError('maxlength') && address?.touched) {
+                        <mat-error>Máximo 200 caracteres</mat-error>
+                        }
+                    </mat-form-field>
+                </mat-card-content>
+            </mat-card>
+
+            <!-- Información Laboral -->
+            <mat-card class="form-section-card">
+                <mat-card-header class="section-header">
+                    <mat-icon class="section-icon">work</mat-icon>
+                    <h2>Información Laboral</h2>
+                </mat-card-header>
+                <mat-divider></mat-divider>
+                <mat-card-content class="section-content">
+                    <div class="form-row">
+                        <mat-form-field appearance="outline" class="form-field">
+                            <mat-label>Cargo *</mat-label>
+                            <mat-select formControlName="position">
+                                @for (position of positionOptions; track position.value) {
+                                <mat-option [value]="position.value">{{ position.label }}</mat-option>
+                                }
+                            </mat-select>
+                            <mat-icon matPrefix>work</mat-icon>
+                            @if (position?.hasError('required') && position?.touched) {
+                            <mat-error>El cargo es requerido</mat-error>
+                            }
+                        </mat-form-field>
+
+                        <mat-form-field appearance="outline" class="form-field">
+                            <mat-label>Rol del Sistema *</mat-label>
+                            <mat-select formControlName="idRole">
+                                @for (role of roleOptions; track role.value) {
+                                <mat-option [value]="role.value">{{ role.label }}</mat-option>
+                                }
+                            </mat-select>
+                            <mat-icon matPrefix>security</mat-icon>
+                        </mat-form-field>
+                    </div>
+
+                    <mat-form-field appearance="outline" class="form-field">
+                        <mat-label>Fecha de Contratación *</mat-label>
+                        <input matInput [matDatepicker]="hirePicker" formControlName="hireDate">
+                        <mat-datepicker-toggle matIconSuffix [for]="hirePicker"></mat-datepicker-toggle>
+                        <mat-datepicker #hirePicker></mat-datepicker>
+                        <mat-icon matPrefix>event</mat-icon>
+                        @if (hireDate?.hasError('required') && hireDate?.touched) {
+                        <mat-error>La fecha de contratación es requerida</mat-error>
+                        }
+                    </mat-form-field>
+                </mat-card-content>
+            </mat-card>
+
+            <!-- Contacto de Emergencia -->
+            <mat-card class="form-section-card">
+                <mat-card-header class="section-header">
+                    <mat-icon class="section-icon">emergency</mat-icon>
+                    <h2>Contacto de Emergencia</h2>
+                </mat-card-header>
+                <mat-divider></mat-divider>
+                <mat-card-content class="section-content">
+                    <div class="form-row">
+                        <mat-form-field appearance="outline" class="form-field">
+                            <mat-label>Nombre del Contacto</mat-label>
+                            <input matInput formControlName="emergencyContactName"
+                                placeholder="Nombre completo del contacto de emergencia">
+                            <mat-icon matPrefix>contact_emergency</mat-icon>
+                        </mat-form-field>
+
+                        <mat-form-field appearance="outline" class="form-field">
+                            <mat-label>Teléfono de Emergencia</mat-label>
+                            <input matInput formControlName="emergencyContactPhone"
+                                placeholder="Teléfono del contacto de emergencia">
+                            <mat-icon matPrefix>emergency</mat-icon>
+                        </mat-form-field>
+                    </div>
+                </mat-card-content>
+            </mat-card>
+
+            <!-- Información del Sistema -->
+            <mat-card class="info-card">
+                <div class="info-content">
+                    <mat-icon class="info-icon">info</mat-icon>
+                    <div class="info-text">
+                        <h4>Información Importante</h4>
+                        <p>
+                            @if (isEditMode()) {
+                            Al guardar los cambios, se actualizará la información del empleado en el sistema.
+                            } @else {
+                            Al registrar un nuevo empleado, se creará automáticamente una cuenta de usuario con acceso al sistema.
+                            Los datos de acceso serán enviados al email proporcionado.
+                            }
+                        </p>
+                    </div>
+                </div>
+            </mat-card>
+
+            <!-- Actions -->
+            <div class="form-actions">
+                <button mat-stroked-button type="button" (click)="onCancel()" [disabled]="isSubmitting()"
+                    class="cancel-btn">
+                    <mat-icon>cancel</mat-icon>
+                    Cancelar
+                </button>
+                <button mat-raised-button color="primary" type="submit"
+                    [disabled]="!employeeForm.valid || isSubmitting()" class="submit-btn">
+                    @if (isSubmitting()) {
+                    <mat-spinner diameter="20"></mat-spinner>
+                    } @else {
+                    <mat-icon>{{ isEditMode() ? 'save' : 'person_add' }}</mat-icon>
+                    }
+                    {{ isSubmitting() ? 'Guardando...' : (isEditMode() ? 'Actualizar Empleado' : 'Registrar Empleado') }}
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

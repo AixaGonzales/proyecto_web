@@ -1,0 +1,76 @@
+// Colores principales
+$gris-cálido: #8D8D8D;
+$beige-suave: #D8B49B;
+$gris-oscuro: #2D2D2D;
+$blanco-roto: #F4F4F4;
+$gris-claro: #E0E0E0;
+$azul-oscuro: #070F2B;
+$rojo-oscuro: #CD1818;
+
+// Colores de acento
+$amarillo-mostaza: #DFAF5D;
+$marrón-café-oscuro: #4E3629;
+$terracota-suave: #E16B47;
+
+// Colores de texto
+$gris-oscuro: #333333;
+$gris-claro: #616161;
+
+//colores normales
+$color-negro: #000000;
+$color-blanco: #ffffff;
+$verde-oscuro: #16610E;
+
+
+html,
+body {
+    height: 100%;
+    margin: 0;
+    width: 100%;
+    padding: 0%;
+}
+
+.layout-container {
+    display: flex;
+    width: 100%;
+    min-height: 100vh;
+    position: relative;
+    /* Asegúrate de que el contenedor tenga position relative */
+    z-index: 10;
+    /* Asegura que el layout se muestre por encima */
+}
+
+.main-content {
+    flex: 1;
+    padding: 0;
+    margin: 0;
+    background-color: $beige-suave;
+    overflow-y: auto;
+    width: 100%;
+    position: relative;
+    z-index: 1;
+    /* Esto asegura que el contenido esté debajo del sidebar */
+}
+
+app-sidebar {
+    display: block;
+    /* Asegúrate de que el sidebar esté visible */
+    position: fixed;
+    /* Asegura que el sidebar esté fijo en su lugar */
+    z-index: 100;
+    /* Esto hace que el sidebar se muestre por encima del contenido */
+    height: 100%;
+    /* Asegura que el sidebar ocupe toda la altura */
+    width: 250px;
+    /* Ajusta el tamaño según sea necesario */
+}
+
+
+
+@media (max-width: 768px) {
+    app-sidebar {
+        display: block;
+        width: 100%;
+        /* El sidebar ocupa el 100% de ancho en pantallas pequeñas */
+    }
+}

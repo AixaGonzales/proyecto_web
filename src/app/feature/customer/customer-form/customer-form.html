@@ -1,0 +1,234 @@
+<!-- src/app/feature/customer/customer-form/customer-form.html -->
+<div class="content-todo">
+    <app-info-column [logoUrl]="'/logoPanaderiaJorge.png'" [instructions]="[
+    'La dirección puede ser opcional',
+    'Verifica los datos antes de guardar, especialmente el documento'
+  ]" [socialLinks]="{
+    facebook: 'https://www.facebook.com/messages/t/yourpage',
+    whatsapp: '51930574584',
+    gmail: 'support@panaderia.com'
+  }" [defaultMessages]="{
+    whatsapp: 'Hola, tengo un problema con el sistema de ventas.',
+    gmail: 'Hola, tengo un problema con el sistema de ventas.'
+  }">
+    </app-info-column>
+
+    <div class="scm-form-container">
+        <h2 class="titleh2">Registrar cliente</h2>
+
+        <form (ngSubmit)="onSubmit(customerForm)" #customerForm="ngForm" class="scm-form" novalidate>
+            <div class="scm-form-grid">
+
+                <!-- Fila 1 -->
+                <div class="scm-form-row">
+                    <!-- Nombres -->
+                    <div class="scm-form-group">
+                        <label for="firstName"><mat-icon>badge</mat-icon> Nombres</label>
+                        <input id="firstName" [(ngModel)]="customer.firstName" name="firstName" #firstName="ngModel"
+                            class="scm-input" required minlength="3" maxlength="100"
+                            pattern="^([a-zA-ZáéíóúÁÉÍÓÚñÑ]+(?: [a-zA-ZáéíóúÁÉÍÓÚñÑ]+){0,2})$"
+                            (ngModelChange)="onFieldChange(customerForm)" placeholder="Ingrese su nombre"
+                            (blur)="capitalizeFirstLetter('firstName')" (keypress)="validateNameInput($event)" />
+                        @if (firstName.invalid && (firstName.dirty || firstName.touched)) {
+                        <div class="validation-error show">
+                            @if (firstName.errors?.['required']) {
+                            <div>El nombre es requerido</div>
+                            }
+                            @if (firstName.errors?.['minlength']) {
+                            <div>Mínimo 3 caracteres</div>
+                            }
+                            @if (firstName.errors?.['pattern']) {
+                            <div>Solo se permiten hasta 3 nombres con máximo 2 espacios</div>
+                            }
+                        </div>
+                        }
+                    </div>
+
+                    <!-- Apellidos -->
+                    <div class="scm-form-group">
+                        <label for="lastName"><mat-icon>group</mat-icon> Apellidos</label>
+                        <input id="lastName" [(ngModel)]="customer.lastName" name="lastName" #lastName="ngModel"
+                            class="scm-input" required minlength="3" maxlength="100"
+                            pattern="^([a-zA-ZáéíóúÁÉÍÓÚñÑ]+(?: [a-zA-ZáéíóúÁÉÍÓÚñÑ]+){0,1})(?: [a-zA-ZáéíóúÁÉÍÓÚñÑ]+(?: [a-zAéíóúÁÉÍÓÚñÑ]+){0,1})?$"
+                            (ngModelChange)="onFieldChange(customerForm)" placeholder="Ingrese su apellido"
+                            (blur)="capitalizeFirstLetter('lastName')" (keypress)="validateNameInput($event)" />
+                        @if (lastName.invalid && (lastName.dirty || lastName.touched)) {
+                        <div class="validation-error show">
+                            @if (lastName.errors?.['required']) {
+                            <div>El apellido es requerido</div>
+                            }
+                            @if (lastName.errors?.['minlength']) {
+                            <div>Mínimo 3 caracteres</div>
+                            }
+                            @if (lastName.errors?.['pattern']) {
+                            <div>Solo se permiten hasta 2 apellidos, con 2 palabras como máximo en cada uno</div>
+                            }
+                        </div>
+                        }
+                    </div>
+                </div>
+
+                <!-- Fila 2 -->
+                <div class="scm-form-row">
+                    <!-- Género -->
+                    <div class="scm-form-group">
+                        <label for="gender"><mat-icon>wc</mat-icon> Género</label>
+                        <select id="gender" [(ngModel)]="customer.gender" name="gender" #gender="ngModel"
+                            class="scm-input" required (ngModelChange)="onFieldChange(customerForm)">
+                            <option value="Seleccione género" disabled>Seleccione género</option>
+                            <option value="M">Masculino</option>
+                            <option value="F">Femenino</option>
+                        </select>
+                        @if (gender.invalid && (gender.dirty || gender.touched)) {
+                        <div class="validation-error show">
+                            @if (gender.errors?.['required']) {
+                            <div>El género es requerido</div>
+                            }
+                        </div>
+                        }
+                    </div>
+
+                    <!-- Tipo y Número de Documento -->
+                    <div class="scm-form-group">
+                        @if (!selectedDocument) {
+                        <div class="doc-type-container">
+                            <label for="documentType">
+                                <mat-icon>assignment_ind</mat-icon>
+                                <span class="label-textt">Tipo Documento</span>
+                            </label>
+                            <select id="documentType" [(ngModel)]="selectedDocument" name="documentType"
+                                class="scm-input" (change)="updateDocumentType()" required>
+                                <option [ngValue]="null" disabled selected>Seleccione tipo</option>
+                                @for (doc of documentTypes; track doc.value) {
+                                <option [value]="doc.value">{{ doc.viewValue }}</option>
+                                }
+                            </select>
+                        </div>
+                        }
+
+                        @if (selectedDocument) {
+                        <div style="display: flex; align-items: center; justify-content: space-between;">
+                            <label><mat-icon>assignment_ind</mat-icon> {{ selectedDocumentLabel }}</label>
+                            <button type="button" (click)="clearDocumentSelection()"
+                                matTooltip="Cambiar tipo de documento" class="scm-reset-button">
+                                <mat-icon>autorenew</mat-icon>
+                            </button>
+                        </div>
+                        <input id="documentNumber" [(ngModel)]="customer.documentNumber" name="documentNumber"
+                            #documentNumber="ngModel" class="scm-input" required
+                            [attr.minlength]="documentMinLength" [attr.maxlength]="documentMaxLength"
+                            [attr.pattern]="documentPattern" (input)="onFieldChange(customerForm)"
+                            (keypress)="validateDocumentInput($event)" [placeholder]="documentPlaceholder" />
+                        }
+                    </div>
+                </div>
+
+                <!-- Fila 3 -->
+                <div class="scm-form-row">
+                    <!-- Teléfono -->
+                    <div class="scm-form-group">
+                        <label for="phone"><mat-icon>phone</mat-icon> Teléfono</label>
+                        <input id="phone" [(ngModel)]="customer.phone" name="phone" #phone="ngModel" class="scm-input"
+                            required minlength="9" maxlength="9" pattern="9[0-9]{8}"
+                            (ngModelChange)="onFieldChange(customerForm)" placeholder="N.º de teléfono"
+                            (keypress)="validatePhoneInput($event)" (paste)="validatePastePhone($event)" />
+                    </div>
+
+                    <!-- Email -->
+                    <div class="scm-form-group">
+                        <label for="email"><mat-icon>email</mat-icon> Email</label>
+                        <input id="email" [(ngModel)]="customer.email" name="email" #email="ngModel" type="email"
+                            class="scm-input" required maxlength="100"
+                            pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$"
+                            (ngModelChange)="onFieldChange(customerForm)" placeholder="Correo" />
+                    </div>
+                </div>
+
+                <!-- Fila 4 -->
+                <div class="scm-form-row">
+                    <!-- Fecha de Nacimiento -->
+                    <div class="scm-form-group">
+                        <label for="birthDate"><mat-icon>cake</mat-icon> Fecha de Nacimiento</label>
+                        <input id="birthDate" [(ngModel)]="customer.birthDate" name="birthDate" #birthDate="ngModel"
+                            type="date" class="scm-input" required (ngModelChange)="onFieldChange(customerForm)"
+                            [max]="maxBirthDate | date:'yyyy-MM-dd'" [min]="minBirthDate | date:'yyyy-MM-dd'"
+                            [disabled]="isSubmitting" />
+                        @if (birthDate.invalid && (birthDate.dirty || birthDate.touched)) {
+                        <div class="validation-error show">
+                            @if (birthDate.errors?.['required']) {
+                            <div>La fecha de nacimiento es requerida</div>
+                            }
+                            @if (birthDate.errors?.['min'] || birthDate.errors?.['max']) {
+                            <div>La edad debe estar entre 18 y 99 años</div>
+                            }
+                        </div>
+                        }
+                    </div>
+
+                    <!-- Observaciones -->
+                    <div class="scm-form-group">
+                        <label for="notes"><mat-icon>notes</mat-icon> Observaciones</label>
+                        <select id="notes" [(ngModel)]="customer.notes" name="notes" class="scm-input" #notes="ngModel"
+                            required (ngModelChange)="onNotesChange()" [disabled]="isSubmitting">
+                            <option value="Cliente nuevo" selected>Cliente nuevo</option>
+                            <option value="Prefiere contacto telefónico">Prefiere contacto telefónico</option>
+                            <option value="Prefiere contacto por WhatsApp">Prefiere contacto por WhatsApp</option>
+                            <option value="Cliente potencial">Cliente potencial</option>
+                            <option value="Cliente difícil">Cliente difícil</option>
+                            <option value="Cliente con habilidades especiales">Cliente con habilidades especiales
+                            </option>
+                        </select>
+                        @if (notes.invalid && (notes.dirty || notes.touched)) {
+                        <div class="validation-error show">
+                            @if (notes.errors?.['required']) {
+                            <div>La observación es requerida</div>
+                            }
+                        </div>
+                        }
+                    </div>
+                </div>
+
+                <!-- Dirección (fila completa) -->
+                <div class="scm-form-group full-width">
+                    <label for="address"><mat-icon>location_on</mat-icon> Dirección (Opcional)</label>
+                    <input id="address" [(ngModel)]="customer.address" name="address" #address="ngModel"
+                        class="scm-input" minlength="5" maxlength="200" (ngModelChange)="onFieldChange(customerForm)"
+                        placeholder="Dejar vacío para registrar 'Sin dirección'" />
+
+                    @if (address.invalid && (address.dirty || address.touched)) {
+                    <div class="validation-error show">
+                        @if (address.errors?.['minlength'] && address.value) {
+                        <div>Mínimo 5 caracteres</div>
+                        }
+                    </div>
+                    }
+                </div>
+
+            </div>
+
+            <!-- Hidden Inputs -->
+            <input type="hidden" [(ngModel)]="customer.registrationDate" name="registrationDate" />
+            <input type="hidden" [(ngModel)]="customer.status" name="status" />
+
+            <div class="scm-form-actions">
+                <!-- Botón para cancelar -->
+                <app-reusable-button color="blanco-marron" type="button" [routerLink]="'/customers'">
+                    <mat-icon style="margin-right: 5px; margin-left: -7px">arrow_back</mat-icon> Volver
+                </app-reusable-button>
+
+                <!-- Botón para guardar cliente -->
+                <app-reusable-button color="marron" [disabled]="!isFormValid() || isSubmitting" type="submit"
+                    (click)="onSubmit(customerForm)">
+                    <mat-icon style="margin-right: 6px">save</mat-icon> Guardar
+                </app-reusable-button>
+
+                <!-- Botón para limpiar el formulario -->
+                <app-reusable-button color="naranja-fuerte" type="button" (click)="resetForm(customerForm)"
+                    [disabled]="!isFormChanged(customerForm)">
+                    <mat-icon>clear</mat-icon>
+                    Limpiar
+                </app-reusable-button>
+            </div>
+        </form>
+    </div>
+</div>

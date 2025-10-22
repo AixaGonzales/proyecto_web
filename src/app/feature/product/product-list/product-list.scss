@@ -1,0 +1,398 @@
+@use "sass:color";
+
+// Colores principales
+$gris-cálido: #8D8D8D;
+$beige-suave: #D8B49B;
+$gris-oscuro: #2D2D2D;
+$blanco-roto: #F4F4F4;
+$gris-claro: #E0E0E0;
+$azul-oscuro: #070F2B;
+$rojo-oscuro: #CD1818;
+
+// Colores de acento
+$amarillo-mostaza: #DFAF5D;
+$marrón-café-oscuro: #4E3629;
+$terracota-suave: #E16B47;
+
+// Colores de texto
+$gris-oscuro: #333333;
+$gris-claro: #616161;
+
+//colores normales
+$color-negro: #000000;
+$color-blanco: #ffffff;
+$verde-oscuro: #16610E;
+
+
+/* Aseguramos que el campo de búsqueda no se vea afectado */
+app-search-filter-product {
+    flex-grow: 0;
+    width: 100%;
+}
+
+
+// Añade esto a tu archivo de estilos
+.floating-action-buttons {
+    position: fixed;
+    right: 2%; // Cambiado de left: 90% para mejor posicionamiento responsive
+    bottom: 580.5px;
+    display: flex;
+    gap: 15px;
+    z-index: 1000;
+
+    // Estilo base para los botones flotantes
+    .floating-button {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 60px;
+        height: 40px;
+        border-radius: 6px;
+        border: 1px solid $gris-claro;
+        background-color: $blanco-roto;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+        transition: all 0.3s ease;
+        cursor: pointer;
+        text-decoration: none;
+
+        // Estilos para los iconos dentro de los botones
+        mat-icon {
+            font-size: 22px;
+            width: 22px;
+            height: 22px;
+            color: $color-negro;
+        }
+
+        // Efecto hover
+        &:hover {
+            background-color: color.scale($blanco-roto, $lightness: -5%);
+            border-color: color.scale($gris-claro, $lightness: -10%);
+
+        }
+
+        // Efecto activo
+        &:active {
+            transform: scale(0.95);
+        }
+    }
+
+    // Versión responsive para móviles
+    @media (max-width: 768px) {
+        bottom: 20px;
+        right: 20px;
+        flex-direction: column;
+
+        .floating-button {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+
+            mat-icon {
+                font-size: 24px;
+            }
+        }
+    }
+}
+
+.titleh2 {
+  margin-top: 10px;
+  font-size: 2.5rem;
+  margin-bottom: 20px;
+  text-align: center;
+  color: #5D4037;
+  font-family: 'Roboto', sans-serif;
+  position: relative;
+  z-index: 10;
+
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100px;
+    height: 3px;
+    background-color: #FFC107;
+  }
+}
+
+/* Estilo para el contenedor principal */
+.product-list-container {
+  padding: 25px;
+  width: 82%;
+  height: 100%;
+  margin-left: 18%;
+  border-radius: 10px;
+  box-shadow: 0 6px 12px rgba(162, 11, 11, 0.1);
+  flex-direction: column;
+  overflow-y: auto;
+  position: absolute;
+  background-color: #F4F4F4;
+}
+
+
+/* Contenedor común para la búsqueda y la tabla */
+.search-and-table-container {
+  flex-direction: column;
+  gap: 1px;
+  width: 100%;
+  height: auto;
+  min-height: 10px;
+  /* Establece la altura mínima para evitar que se colapse */
+  overflow: hidden;
+  /* Asegura que el contenido no se desborde */
+
+}
+
+
+.customer-action-buttons {
+  /* Mantenemos toda la posición exacta igual */
+  display: flex;
+  gap: 4px;
+  /* Reducido a 8px */
+  align-items: center;
+  position: relative;
+  padding-left: 970px;
+  top: -10%;
+  transform: translateY(-50%);
+  z-index: 10;
+
+  /* Versión ultra-compacta */
+  app-reusable-button {
+    padding: 6px 10px !important;
+    /* Altura/anchura reducida */
+    min-height: 32px !important;
+    /* Altura mínima ajustada */
+    min-width: auto !important;
+    /* Ancho automático */
+    left: 80%;
+
+
+    mat-icon {
+      font-size: 16px !important;
+      /* Iconos más pequeños */
+      margin-right: 4px !important;
+      height: 16px !important;
+      width: 16px !important;
+    }
+
+    span {
+      font-size: 11px !important;
+      /* Texto más compacto */
+      line-height: 1.2 !important;
+    }
+  }
+}
+
+.table-responsive {
+  width: 100%;
+  height: 75%;
+  background-color: #F4F4F4;
+  border-radius: 15px;
+  padding: 0px;
+  box-shadow: 0 6px 12px rgba(162, 11, 11, 0.1);
+  display: flex;
+  flex-direction: column;
+  border: 0.5px solid #a39f9f;
+  overflow-y: auto;
+}
+
+/* Estilo para la tabla */
+.tabla-productos {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+  text-align: center;
+  color: #212121;
+  box-sizing: border-box;
+  /* Esto asegura que la tabla tenga al menos 300px de altura */
+
+  /* Cambié a "table" para un mejor comportamiento */
+  height: 40%;
+  /* Tamaño fijo para la tabla, para que no se contraiga */
+  table-layout: fixed;
+  /* Para asegurar que las celdas tengan un ancho fijo */
+}
+
+/* Estilo de las celdas de la tabla */
+.tabla-productos th,
+.tabla-productos td {
+  padding: 4px 6px;
+  /* Ajuste para hacer las celdas más delgadas */
+  /* Líneas más delgadas */
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  /* Evita que el texto se desborde */
+  box-sizing: border-box;
+  display: table-cell;
+  /* Cambié a "table-cell" para un mejor comportamiento */
+  height: 20px;
+  /* Tamaño fijo para las celdas, para que no se contraiga */
+  table-layout: fixed;
+  /* Para asegurar que las celdas tengan un ancho fijo */
+  position: relative;
+  border-bottom: #a39f9f solid 1px;
+
+}
+
+
+/* Fondo de las cabeceras */
+.tabla-productos th {
+  color: rgb(0, 0, 0);
+  font-weight: bold;
+  padding: 15px 0px;
+
+}
+
+/* Estilo de las filas alternadas */
+.tabla-productos tr:nth-child(even) {
+  background-color: #F4F4F4;
+}
+
+/* Estilo de los íconos en la columna de acciones */
+.tabla-productos .acciones {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+/* Estilo de los botones con íconos */
+.tabla-productos button {
+  padding: 6px;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+/* Efecto hover para los botones */
+.tabla-productos button:hover {
+  background-color: #8d6e63;
+}
+
+/* Estilo de los íconos dentro de los botones */
+.tabla-productos mat-icon {
+  font-size: 20px;
+  color: #212121;
+}
+
+/* Efecto de foco en los botones */
+.tabla-productos button:focus {
+  outline: none;
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+/* Estilo para el estado activo e inactivo */
+.estado-activo {
+  color: #4CAF50;
+  font-weight: bold;
+}
+
+.estado-inactivo {
+  color: #f44336;
+  font-weight: bold;
+}
+
+/* Estilo para el mensaje cuando no hay productos */
+.no-results-message {
+  text-align: center;
+  margin-top: 50px;
+  font-size: 16px;
+  color: #888;
+}
+
+
+.dialog-overlay {
+  margin-left: 130px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+
+  background-color: rgba(255, 255, 255, 0.6);
+
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  padding: 1rem;
+  box-sizing: border-box;
+
+  transition: background-color 0.3s ease;
+}
+
+
+
+
+
+.close-dialog-btn {
+  position: fixed;
+  top: 1rem;
+  right: 1rem;
+  z-index: 1100;
+  background-color: $beige-suave;
+  color: $marrón-café-oscuro;
+  border-radius: 50%;
+  box-shadow: 0 3px 10px rgba(123, 94, 60, 0.25);
+  width: 42px;
+  height: 42px;
+  min-width: unset;
+  font-weight: 700;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease;
+
+  &:hover {
+    background-color: $gris-claro;
+    color: $gris-oscuro;
+  }
+}
+
+/* Efecto blur para el fondo cuando el diálogo está abierto */
+.product-list-container.blur-active {
+  filter: blur(3px);
+  transition: filter 0.3s ease;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.1);
+    z-index: 10;
+  }
+}
+
+.app-search-filter {
+  display: flex;
+}
+
+
+.header-section {
+  position: relative;
+  z-index: 10;
+  text-align: center;
+  }
+
+  .actions {
+    position: relative;
+    z-index: 5;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center
+
+    button {
+      position: relative;
+      z-index: 5;
+    }
+  }

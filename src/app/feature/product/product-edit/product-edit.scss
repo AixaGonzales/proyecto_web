@@ -1,0 +1,179 @@
+/* Variables de color */
+$primary-color: #5D4037; // Marrón café principal
+$secondary-color: #D7CCC8; // Beige claro
+$accent-color: #8D6E63; // Marrón medio
+$text-color: #3E2723; // Marrón oscuro
+$light-gray: #F5F5F5;
+$error-color: #D32F2F;
+
+
+.header-logo {
+    height: 70px;
+    width: auto;
+    margin-right: 15px;
+    margin-top: 52px;
+    margin-left: 20px;
+}
+
+/* Tarjeta principal */
+.customer-card {
+    width: 100%;
+    height: 100%;
+    border-radius: 8px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    background-color: white;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+/* Cabecera con nuevo diseño */
+mat-card-header {
+    padding: 0 0 12px 0;
+    position: relative;
+    margin-bottom: 8px;
+}
+
+.header-content {
+    display: flex;
+    align-items: center;
+    width: 100% // Cambié de 10px a 100%
+}
+
+mat-card-title {
+    flex-grow: 1;
+    text-align: center;
+    font-size: 2rem;
+    color: $primary-color;
+    font-weight: 500;
+    margin: 0;
+    padding-right: 40px;
+    line-height: 1.2;
+}
+
+.close-button {
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 36px;
+    height: 76px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0;
+    border-radius: 50%;
+}
+
+mat-icon {
+    font-size: 22px;
+    width: 22px;
+    height: 22px;
+    line-height: 22px;
+}
+
+.close-button:hover {
+    background-color: rgba(0, 0, 0, 0.04);
+}
+
+/* Divisor */
+mat-divider {
+    margin-bottom: 16px;
+    border-top-width: 1px;
+}
+
+/* Formulario - Campos más pequeños */
+.double-column-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.form-row {
+    display: flex;
+    gap: 15px;
+    width: 100%;
+}
+
+/* Ajuste del ancho de los campos para que no sean tan grandes */
+.double-field {
+    flex: 1;
+    min-width: calc(50% - 7.5px); /* Ajuste para 2 columnas (menos ancho) */
+    max-width: 250px;  /* Limitar el ancho máximo de cada campo */
+}
+
+/* Para los campos de ancho completo */
+.full-width-field {
+    width: 100%;
+}
+
+/* Estilos para los campos de formulario más compactos */
+mat-form-field {
+    font-size: 0.9em;
+}
+
+.mat-form-field-wrapper {
+    padding-bottom: 0.8em;
+}
+
+.mat-form-field-flex {
+    padding: 0.3em 0.6em;
+    height: 44px; /* Mantener la altura */
+}
+
+.mat-form-field-infix {
+    padding: 0.4em 0;
+    border-top: 0.4em solid transparent;
+}
+
+.mat-input-element {
+    height: 1.2em;
+}
+
+.mat-select-value {
+    line-height: 1.2em;
+}
+
+/* Asegurar que el botón "Guardar" y "Cancelar" tengan suficiente espacio */
+.form-actions {
+    margin-top: 14px;
+    padding-top: 10px;
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+}
+
+button {
+    min-width: 90px;
+    padding: 5px 10px;
+    font-size: 0.9em;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .customer-card {
+        padding: 15px;
+        width: 95vw;
+
+        mat-card-header {
+            .header-content {
+                .header-logo {
+                    height: 40px;
+                }
+
+                mat-card-title {
+                    font-size: 1.3rem;
+                }
+            }
+        }
+
+        .form-row {
+            flex-direction: column;
+            gap: 8px;
+
+            .double-field {
+                min-width: 100%;
+            }
+        }
+    }
+}
+

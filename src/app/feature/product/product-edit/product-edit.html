@@ -1,0 +1,104 @@
+<mat-card class="product-card">
+  <mat-card-header>
+    <div class="header-content">
+      <img src="/logoPanaderiaJorge.png" alt="Logo" class="header-logo">
+      <mat-card-title>{{ productForm.value.id ? 'Editar Producto' : 'Registrar Producto' }}</mat-card-title>
+      <button mat-icon-button class="close-button" (click)="closeDialog()">
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
+  </mat-card-header>
+
+  <mat-divider></mat-divider>
+
+  <mat-card-content>
+    <form [formGroup]="productForm" (ngSubmit)="updateProduct()" class="double-column-form">
+
+      <!-- Fila 1 - Nombre del Producto y Precio -->
+      <div class="form-row">
+        <mat-form-field appearance="outline" class="double-field">
+          <mat-label>Nombre del Producto*</mat-label>
+          <input matInput formControlName="nameProduct" placeholder="Ingrese el nombre del producto" required maxlength="100">
+          <mat-error *ngIf="productForm.get('nameProduct')?.hasError('required')">
+            Este campo es obligatorio.
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="double-field">
+          <mat-label>Precio*</mat-label>
+          <input matInput formControlName="price" type="number" step="0.01" placeholder="Ingrese el precio" required>
+          <mat-error *ngIf="productForm.get('price')?.hasError('required')">
+            Este campo es obligatorio.
+          </mat-error>
+          <mat-error *ngIf="productForm.get('price')?.hasError('positiveNumber')">
+            El precio debe ser un número positivo.
+          </mat-error>
+        </mat-form-field>
+      </div>
+
+      <!-- Fila 2 - Unidades y Descripción -->
+      <div class="form-row">
+        <mat-form-field appearance="outline" class="double-field">
+          <mat-label>Unidades*</mat-label>
+          <input matInput formControlName="units" type="number" placeholder="Ingrese la cantidad" required min="1">
+          <mat-error *ngIf="productForm.get('units')?.hasError('required')">
+            Este campo es obligatorio.
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="double-field">
+          <mat-label>Descripción*</mat-label>
+          <input matInput formControlName="description" placeholder="Ingrese la descripción" required maxlength="100">
+          <mat-error *ngIf="productForm.get('description')?.hasError('required')">
+            Este campo es obligatorio.
+          </mat-error>
+        </mat-form-field>
+      </div>
+
+      <!-- Fila 3 - Fecha de Creación y Categoría -->
+      <div class="form-row">
+        <mat-form-field appearance="outline" class="double-field">
+          <mat-label>Fecha de Creación*</mat-label>
+          <input matInput formControlName="creationDate" type="date" required>
+          <mat-error *ngIf="productForm.get('creationDate')?.hasError('required')">
+            Este campo es obligatorio.
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="double-field">
+          <mat-label>Categoría*</mat-label>
+          <select matNativeControl formControlName="category" required>
+            <option [ngValue]="null" disabled>Seleccione Categoría</option>
+            <option *ngFor="let cat of category" [value]="cat.value">{{ cat.viewValue }}</option>
+          </select>
+          <mat-error *ngIf="productForm.get('category')?.hasError('required')">
+            Este campo es obligatorio.
+          </mat-error>
+        </mat-form-field>
+      </div>
+
+      <!-- Fila 4 - Estado -->
+      <div class="form-row">
+        <mat-form-field appearance="outline" class="double-field">
+          <mat-label>Estado*</mat-label>
+          <mat-select formControlName="status" required>
+            <mat-option value="A">Activo</mat-option>
+            <mat-option value="I">Inactivo</mat-option>
+          </mat-select>
+          <mat-error *ngIf="productForm.get('status')?.hasError('required')">
+            Este campo es obligatorio.
+          </mat-error>
+        </mat-form-field>
+      </div>
+
+      <!-- Acciones -->
+      <div class="form-actions">
+        <button mat-button type="button" (click)="closeDialog()">Cancelar</button>
+        <button mat-raised-button color="primary" type="submit" [disabled]="loading || productForm.invalid">
+          <span *ngIf="!loading">Guardar</span>
+          <mat-spinner *ngIf="loading" diameter="20"></mat-spinner>
+        </button>
+      </div>
+    </form>
+  </mat-card-content>
+</mat-card>

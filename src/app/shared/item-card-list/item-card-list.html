@@ -1,0 +1,10 @@
+<div class="card-list-container">
+    <mat-card *ngFor="let item of items" class="item-card" [class.selected]="item.id === selectedItemId"
+        (click)="onSelect(item)">
+        <img mat-card-image [src]="item.imageUrl || 'assets/default-user.png'" alt="{{ item.name }}" />
+        <mat-card-content>
+            <h3>{{ item.name }}</h3>
+            <p>{{ item.description }}</p>
+        </mat-card-content>
+    </mat-card>
+</div>

@@ -1,0 +1,213 @@
+<!-- src/app/features/employees/employee-list/employee-list.html -->
+<div class="employee-list-container">
+    <!-- Header Section -->
+    <div class="header-section">
+        <div class="header-content">
+            <div class="title-group">
+                <h1 class="page-title">
+                    <mat-icon class="title-icon">groups</mat-icon>
+                    Gestión de Empleados
+                </h1>
+                <p class="page-subtitle">Administra y gestiona el personal de tu panadería</p>
+            </div>
+            <div class="header-actions">
+                <button mat-stroked-button color="primary" class="download-btn" (click)="downloadReport()">
+                    <mat-icon>insert_chart_outlined</mat-icon>
+                    Descargar Reporte
+                </button>
+                <button mat-raised-button color="primary" class="create-btn" (click)="createEmployee()">
+                    <mat-icon>person_add</mat-icon>
+                    Nuevo Empleado
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Statistics Cards -->
+    <div class="stats-section">
+        <mat-card class="stat-card" (click)="currentFilter = 'todos'; onFilterChange('todos')">
+            <div class="stat-content">
+                <div class="stat-icon total">
+                    <mat-icon>groups</mat-icon>
+                </div>
+                <div class="stat-info">
+                    <h3 class="stat-value">{{ stats().total }}</h3>
+                    <span class="stat-label">Total</span>
+                </div>
+            </div>
+        </mat-card>
+
+        <mat-card class="stat-card" (click)="currentFilter = 'activo'; onFilterChange('activo')">
+            <div class="stat-content">
+                <div class="stat-icon active">
+                    <mat-icon>check_circle</mat-icon>
+                </div>
+                <div class="stat-info">
+                    <h3 class="stat-value">{{ stats().active }}</h3>
+                    <span class="stat-label">Activos</span>
+                </div>
+            </div>
+        </mat-card>
+
+        <mat-card class="stat-card" (click)="currentFilter = 'inactivo'; onFilterChange('inactivo')">
+            <div class="stat-content">
+                <div class="stat-icon inactive">
+                    <mat-icon>pause_circle</mat-icon>
+                </div>
+                <div class="stat-info">
+                    <h3 class="stat-value">{{ stats().inactive }}</h3>
+                    <span class="stat-label">Inactivos</span>
+                </div>
+            </div>
+        </mat-card>
+    </div>
+
+    <!-- Search Filter Component CORREGIDO -->
+    <app-search-filter
+        placeholderText="Buscar empleados por nombre, documento, email..."
+        (searchChange)="onSearchChange($event)">
+    </app-search-filter>
+
+    <!-- Employees Table -->
+    <mat-card class="table-card">
+        <div class="table-container">
+            @if (isLoading()) {
+            <div class="loading-state">
+                <mat-spinner diameter="40"></mat-spinner>
+                <p>Cargando empleados...</p>
+            </div>
+            } @else {
+            @if (filteredEmployees().length === 0) {
+            <div class="empty-state">
+                <mat-icon class="empty-icon">search_off</mat-icon>
+                <h3>No se encontraron empleados</h3>
+                <p>@if (searchTerm() || currentFilter !== 'activo') {
+                    No hay empleados que coincidan con los criterios de búsqueda
+                    } @else {
+                    No hay empleados registrados en el sistema
+                    }</p>
+                <button mat-raised-button color="primary" (click)="createEmployee()">
+                    <mat-icon>person_add</mat-icon>
+                    Agregar Primer Empleado
+                </button>
+            </div>
+            } @else {
+            <table mat-table [dataSource]="filteredEmployees()" class="employees-table">
+                <!-- Column definitions... -->
+                <ng-container matColumnDef="avatar">
+                    <th mat-header-cell *matHeaderCellDef></th>
+                    <td mat-cell *matCellDef="let employee" class="avatar-cell">
+                        <div class="employee-avatar" [class.inactive]="employee.status === 'I'">
+                            {{ getInitials(employee.firstName, employee.lastName) }}
+                        </div>
+                    </td>
+                </ng-container>
+
+                <ng-container matColumnDef="name">
+                    <th mat-header-cell *matHeaderCellDef>Empleado</th>
+                    <td mat-cell *matCellDef="let employee" class="name-cell">
+                        <div class="employee-name">
+                            <span class="full-name">{{ employee.firstName }} {{ employee.lastName }}</span>
+                            <div class="employee-details">
+                                <span class="employee-gender">{{ getGenderText(employee.gender) }}</span>
+                                @if (employee.age) {
+                                <span class="employee-age">{{ employee.age }} años</span>
+                                }
+                            </div>
+                        </div>
+                    </td>
+                </ng-container>
+
+                <ng-container matColumnDef="document">
+                    <th mat-header-cell *matHeaderCellDef>Documento</th>
+                    <td mat-cell *matCellDef="let employee" class="document-cell">
+                        <div class="document-info">
+                            <span class="doc-type">{{ employee.documentType }}</span>
+                            <span class="doc-number">{{ employee.documentNumber }}</span>
+                        </div>
+                    </td>
+                </ng-container>
+
+                <ng-container matColumnDef="contact">
+                    <th mat-header-cell *matHeaderCellDef>Contacto</th>
+                    <td mat-cell *matCellDef="let employee" class="contact-cell">
+                        <div class="contact-info">
+                            <div class="contact-item">
+                                <mat-icon>email</mat-icon>
+                                <span>{{ employee.email }}</span>
+                            </div>
+                            @if (employee.phone) {
+                            <div class="contact-item">
+                                <mat-icon>phone</mat-icon>
+                                <span>{{ employee.phone }}</span>
+                            </div>
+                            }
+                        </div>
+                    </td>
+                </ng-container>
+
+                <ng-container matColumnDef="role">
+                    <th mat-header-cell *matHeaderCellDef>Rol</th>
+                    <td mat-cell *matCellDef="let employee" class="role-cell">
+                        <div class="role-info">
+                            <mat-icon class="role-icon">{{ getRoleIcon(employee) }}</mat-icon>
+                            <span class="role-text">{{ getRoleName(employee) }}</span>
+                        </div>
+                    </td>
+                </ng-container>
+
+                <ng-container matColumnDef="status">
+                    <th mat-header-cell *matHeaderCellDef>Estado</th>
+                    <td mat-cell *matCellDef="let employee" class="status-cell">
+                        <mat-chip [color]="getStatusColor(employee.status)" selected class="status-chip">
+                            {{ getStatusText(employee.status) }}
+                        </mat-chip>
+                    </td>
+                </ng-container>
+
+                <ng-container matColumnDef="actions">
+                    <th mat-header-cell *matHeaderCellDef>Acciones</th>
+                    <td mat-cell *matCellDef="let employee" class="actions-cell">
+                        <div class="actions-buttons">
+                            <button mat-icon-button color="primary" matTooltip="Ver detalles"
+                                (click)="viewEmployee(employee.idEmployee)">
+                                <mat-icon>visibility</mat-icon>
+                            </button>
+
+                            <button mat-icon-button color="accent" matTooltip="Editar"
+                                (click)="editEmployee(employee.idEmployee)">
+                                <mat-icon>edit</mat-icon>
+                            </button>
+
+                            @if (employee.status === 'A') {
+                            <button mat-icon-button color="warn" matTooltip="Desactivar"
+                                (click)="deactivateEmployee(employee); $event.stopPropagation()">
+                                <mat-icon>toggle_off</mat-icon>
+                            </button>
+                            } @else {
+                            <button mat-icon-button color="success" matTooltip="Activar"
+                                (click)="activateEmployee(employee); $event.stopPropagation()">
+                                <mat-icon>toggle_on</mat-icon>
+                            </button>
+                            }
+                        </div>
+                    </td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumns" class="header-row"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;" class="employee-row"
+                    [class.inactive]="row.status === 'I'" (click)="viewEmployee(row.idEmployee)">
+                </tr>
+            </table>
+
+            <!-- Results Info -->
+            <div class="results-info">
+                <span class="results-count">
+                    Mostrando {{ filteredEmployees().length }} de {{ employees().length }} empleados
+                </span>
+            </div>
+            }
+            }
+        </div>
+    </mat-card>
+</div>

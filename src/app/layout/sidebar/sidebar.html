@@ -1,0 +1,60 @@
+<!-- src/app/layout/sidebar/sidebar.html -->
+<div class="sidebar-container" [class.expanded]="isExpanded">
+
+    <div class="logo">
+        <img src="/logoblancoprovicional.png" alt="Logo de la Panadería" class="sidebar-logo" />
+    </div>
+
+    <nav class="sidebar-nav">
+        <ul class="nav-menu">
+            <li class="nav-item">
+                <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+                    <mat-icon class="nav-icon">home</mat-icon>
+                    <span class="nav-text">Menú Principal</span>
+                </a>
+            </li>
+
+            <li class="nav-item">
+                <a routerLink="/employees" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+                    <mat-icon class="nav-icon">people</mat-icon>
+                    <span class="nav-text">Gestión de Empleados</span>
+                </a>
+            </li>
+
+            <li class="nav-item">
+                <a routerLink="/customers" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+                    <mat-icon class="nav-icon">groups</mat-icon>
+                    <span class="nav-text">Gestión de Clientes</span>
+                </a>
+            </li>
+
+            <li class="nav-item">
+                <a routerLink="/products" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+                    <mat-icon class="nav-icon">store</mat-icon>
+                    <span class="nav-text">Gestión de Productos</span>
+                </a>
+            </li>
+
+            <li class="nav-item">
+                <a routerLink="/orders" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+                    <mat-icon class="nav-icon">shopping_cart</mat-icon>
+                    <span class="nav-text">Gestión de Pedidos</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+
+    <div class="sidebar-footer">
+        <div class="user-info">
+            <mat-icon class="user-icon">{{getRoleIcon()}}</mat-icon>
+            <div class="user-details">
+                <span class="user-name">{{getUserName()}}</span>
+                <span class="user-role">{{getUserRoleDisplay()}}</span>
+            </div>
+        </div>
+        <button mat-icon-button class="logout-btn" (click)="logout()" matTooltip="Cerrar sesión"
+            *ngIf="authService.isAuthenticated()">
+            <mat-icon>logout</mat-icon>
+        </button>
+    </div>
+</div>

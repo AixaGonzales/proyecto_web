@@ -1,0 +1,114 @@
+@use 'sass:color';
+
+$scm-primary: #945631; // Marrón
+$scm-secondary: #FFA440; // Naranja claro
+$scm-tertiary: #FF7C00; // Naranja fuerte
+$scm-success: #4CAF50; // Verde
+$scm-danger: #F44336; // Rojo
+$scm-light: #EDE0C1; // Beige claro
+
+.btn {
+    font-weight: 600;
+    font-size: 1rem;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    padding: 12px 30px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 100%;
+    max-width: 100%;
+    text-transform: uppercase;
+    font-size: 0.9rem;
+    font-weight: bold;
+
+    &[disabled] {
+        opacity: 0.6;
+        cursor: not-allowed;
+    }
+
+    // Botón Naranja claro con letra blanca
+    &.naranja {
+        background-color: $scm-secondary;
+        color: white;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+
+        &:hover:not([disabled]) {
+            background-color: color.adjust($scm-secondary, $lightness: -10%);
+        }
+    }
+
+    // Botón Marrón con letra blanca
+    &.marron {
+        background-color: $scm-primary;
+        color: white;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+
+        &:hover:not([disabled]) {
+            background-color: color.adjust($scm-primary, $lightness: 10%);
+        }
+    }
+
+    // Botón Beige claro con texto marrón
+    &.beige {
+        background-color: $scm-light;
+        color: $scm-primary;
+        border: 2px solid $scm-primary;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+
+        &:hover:not([disabled]) {
+            background-color: color.adjust($scm-light, $lightness: 10%);
+            color: white;
+        }
+    }
+
+    // Botón Naranja fuerte con letra blanca
+    &.naranja-fuerte {
+        background-color: $scm-tertiary;
+        color: white;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+
+        &:hover:not([disabled]) {
+            background-color: color.adjust($scm-tertiary, $lightness: -10%);
+        }
+    }
+
+    // Botón Blanco con texto naranja claro
+    &.blanco-naranja {
+        background-color: white;
+        color: $scm-secondary;
+        border: 2px solid $scm-secondary;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+
+        &:hover:not([disabled]) {
+            background-color: $scm-secondary;
+            color: white;
+        }
+    }
+
+    // Botón Blanco con borde y texto marrón
+    &.blanco-marron {
+        background-color: white;
+        color: $scm-primary;
+        border: 0.5px solid $scm-primary;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+
+        &:hover:not([disabled]) {
+            background-color: #b8b3b0;
+            color: white;
+        }
+    }
+
+    // NUEVO ESTILO: Botón Verde con letra blanca
+    &.verde {
+        background-color: $scm-success;
+        color: white;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+
+        &:hover:not([disabled]) {
+            background-color: color.adjust($scm-success, $lightness: -10%);
+        }
+    }
+}

@@ -1,0 +1,456 @@
+// Colores principales
+$gris-cálido: #8D8D8D;
+$beige-suave: #D8B49B;
+$gris-oscuro: #2D2D2D;
+$blanco-roto: #F4F4F4;
+$gris-claro: #E0E0E0;
+$azul-oscuro: #070F2B;
+$rojo-oscuro: #CD1818;
+
+// Colores de acento
+$amarillo-mostaza: #DFAF5D;
+$marrón-café-oscuro: #4E3629;
+$marro-claro: #8D6E63;
+$terracota-suave: #E16B47;
+
+// Colores de texto
+$gris-oscuro: #333333;
+$gris-claro: #616161;
+
+//colores normales
+$color-negro: #000000;
+$color-blanco: #ffffff;
+$verde-oscuro: #16610E;
+
+
+
+.contenedor {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  gap: 10px;
+}
+
+
+
+.scm-form-grid {
+  margin-top: 30px;
+  display: grid;
+  grid-template-columns: 1fr 0.3fr;
+  /* 2 columnas por fila */
+  grid-template-rows: repeat(3, auto);
+  /* 3 filas */
+  gap: 1rem;
+  /* Espacio entre las filas y columnas */
+
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr;
+    /* Para pantallas pequeñas, todo en una sola columna */
+  }
+
+}
+
+.estado{
+  margin-left: 10px;
+}
+/* Contenedor de la columna del formulario */
+.columna-formulario {
+  margin-right: 10px;
+  border: 2px solid $marro-claro;
+  width: 60%;
+  border-radius: 10px;
+  height: 70vh;
+  background-color: $blanco-roto;
+  padding: 15px;
+  box-shadow: 0 6px 12px rgba(162, 11, 11, 0.1);
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  overflow: hidden;
+}
+
+
+.titleh2 {
+  margin-top: 0;
+  font-size: 2rem;
+  margin-bottom: 20px;
+  text-align: center;
+  color: $marrón-café-oscuro;
+  position: relative;
+
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100px;
+    height: 3px;
+    background-color: $amarillo-mostaza;
+  }
+}
+
+.scm-form-row {
+  padding-right: 50px;
+  display: grid;
+  grid-template-columns: 4fr 4fr;
+  /* Dos columnas por fila */
+  gap: 1rem;
+}
+
+
+
+.scm-form-group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 0.25rem; // menos espacio debajo para compactar
+
+  label {
+    display: flex;
+    align-items: center;
+    margin-bottom: 0.1rem;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: $color-negro;
+  }
+
+  mat-icon {
+    font-size: 16px;
+    margin-right: 4px;
+    color: $marrón-café-oscuro;
+    position: relative;
+    top: 5px; // Mueve un poco el icono hacia abajo para que el texto se vea más arriba
+  }
+}
+
+
+/* Estilo para alinear el icono y el título */
+.label-container {
+  display: flex;
+  align-items: center;
+  /* Centra el icono y el texto verticalmente */
+  gap: 8px;
+  /* Espaciado entre el icono y el texto */
+}
+
+label {
+  font-size: 14px;
+  font-weight: 500;
+  margin-bottom: 4px;
+  color: #5D4037;
+  display: block;
+}
+
+.mat-icon {
+  color: #5D4037;
+  /* Color marrón para los iconos */
+}
+
+/* Estilo para todos los inputs (tanto estándar como Angular Material) */
+.input-formulario,
+select.input-formulario {
+  width: 100%;
+  height: 40px; // input más compactos
+  border: 1px solid $gris-cálido;
+  border-radius: 5px;
+  background-color: $blanco-roto;
+  padding: 0 0.6rem;
+  font-size: 0.9rem;
+  transition: all 0.3s ease;
+  box-sizing: border-box;
+
+  &::placeholder {
+    color: $gris-cálido;
+    font-style: italic;
+    font-size: 0.8rem;
+  }
+
+  &:focus {
+    border-color: $marrón-café-oscuro;
+    outline: none;
+    box-shadow: 0 0 0 2px rgba($marrón-café-oscuro, 0.1);
+  }
+
+  select.scm-input {
+    height: 40px; // altura igual que inputs
+  }
+
+  /* textarea observaciones: más alto, pero compacto */
+  select.scm-input.full-width {
+    height: auto;
+    min-height: 75px; // un poco más alto para select
+    padding-top: 0.35rem;
+    padding-bottom: 0.35rem;
+    resize: none;
+  }
+}
+
+.input-formulario:focus,
+select.input-formulario:focus {
+  outline: none;
+  border-color: #8D6E63;
+}
+
+.error-message {
+  color: #f44336;
+  font-size: 15px;
+}
+
+/* Estilo para los mensajes de error */
+.validation-error {
+  font-size: 12px;
+  color: #f44336;
+}
+
+/* Agrupación de los inputs */
+.scm-form-group {
+  margin-bottom: 2px;
+  display: flex;
+  flex-direction: column;
+}
+
+
+.scm-form-actions {
+  margin-top: 0.6rem;
+  padding-top: 0.6rem;
+  display: flex;
+  justify-content: center;
+  gap: 0.6rem;
+
+  @media (max-width: 480px) {
+    flex-direction: column;
+  }
+}
+
+/* Agrupación en línea de los inputs */
+.input-inline {
+  width: 100%;
+  /* Ajuste para que ocupe todo el espacio */
+  height: 100%;
+}
+
+/* Los campos de descripción ocupan todo el ancho disponible */
+.scm-input.full-width {
+  width: 100%;
+}
+
+/* Estilo para los botones */
+.form-buttons {
+  display: block;
+  justify-content: space-between;
+  gap: 10px;
+  /* Espacio entre los botones */
+  margin-top: 20px;
+}
+
+.scm-form-actions {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  padding-top: 1rem;
+  border-top: 1px solid #ddd;
+}
+
+button {
+  padding: 10px 5px;
+  font-size: 14px;
+  background-color: #5D4037;
+  border: none;
+  border-radius: 6px;
+  color: white;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  transition: background-color 0.3s ease;
+  flex: 1;
+}
+
+button:disabled {
+  background-color: #BDBDBD;
+}
+
+
+/* Botón Limpiar */
+.boton-limpiar {
+  background-color: #FF5722;
+  transition: background-color 0.3s ease;
+}
+
+.boton-limpiar:hover {
+  background-color: #E64A19;
+}
+
+/* Media Queries */
+@media (max-width: 768px) {
+  .columna-formulario {
+    padding: 15px;
+    width: 90%;
+  }
+
+  .form-title {
+    font-size: 18px;
+  }
+
+  .form-buttons {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  button {
+    width: 100%;
+  }
+}
+
+/* Estilos para el interruptor (toggle) */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 34px;
+  height: 20px;
+}
+
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  transition: 0.4s;
+  border-radius: 50px;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 12px;
+  width: 12px;
+  border-radius: 50px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  transition: 0.4s;
+}
+
+input:checked+.slider {
+  background-color: #4CAF50;
+}
+
+input:checked+.slider:before {
+  transform: translateX(14px);
+}
+
+.slider.round {
+  border-radius: 34px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
+
+
+.info-column {
+  flex: 1;
+  background-color: $blanco-roto;
+  padding: 20px;
+  border-radius: 10px;
+  height: 70vh;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin-left: 18.8%;
+  width: 19.9%;
+  border-radius: 20px;
+  border: 2px solid $marro-claro;
+
+  .logo {
+    text-align: center;
+    margin-bottom: 5px;
+  }
+
+  .logo img {
+    max-width: 50%;
+    /* Ajusta el tamaño del logo */
+  }
+
+  .messages {
+    font-size: 0.9rem;
+    line-height: 1.6;
+
+    p {
+      margin: 10px 0;
+    }
+
+    ul {
+      margin: 10px 0 20px 20px;
+      list-style-type: disc;
+    }
+  }
+}
+
+
+
+//para Redes
+
+.contact-buttons {
+  display: flex;
+  /* Usamos flexbox para los botones */
+  justify-content: center;
+  /* Centra los botones horizontalmente */
+  align-items: center;
+  /* Centra los botones verticalmente */
+  gap: 15px;
+  /* Espacio entre los botones */
+  height: 100%;
+  /* Asegura que ocupe todo el alto disponible */
+  text-align: center;
+  /* Centra el texto (si es necesario) */
+}
+
+button {
+  background-color: transparent;
+  /* Elimina el fondo */
+  border: none;
+  /* Elimina el borde */
+  padding: 0;
+  /* Elimina el padding extra */
+  display: inline-flex;
+  /* Hace que el ícono se alinee correctamente */
+  align-items: center;
+  /* Centra el ícono verticalmente */
+  justify-content: center;
+  /* Centra el ícono dentro del botón */
+  cursor: pointer;
+  /* Cambia el cursor para indicar que es un elemento clickeable */
+  transition: transform 0.2s ease-in-out;
+  /* Suaviza la transición */
+}
+
+button:hover {
+  transform: scale(1.2);
+  /* Efecto hover para hacer que el ícono se agrande */
+}
+
+button i {
+  font-size: 24px;
+  /* Tamaño del ícono */
+  margin: 0;
+  /* Elimina cualquier margen alrededor del ícono */
+}
+
+/* Personalizar la apariencia del Tooltip */
+::ng-deep .mat-tooltip {
+  font-size: 14px;
+  background-color: #333;
+  /* Fondo oscuro */
+  color: white;
+  /* Texto blanco */
+}

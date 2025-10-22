@@ -1,0 +1,218 @@
+<div class="order-list-container">
+    <!-- Header Section -->
+    <div class="header-section">
+        <div class="title-section">
+            <h1 class="page-title">Pedidos</h1>
+        </div>
+        
+        <!-- Stats Cards -->
+        <div class="stats-container">
+            <div class="stat-card" (click)="filtrarTodos()" [class.active]="currentFilter === 'all'">
+                <div class="stat-icon total">
+                    <mat-icon>shopping_bag</mat-icon>
+                </div>
+                <div class="stat-info">
+                    <span class="stat-number">{{getTotalCount()}}</span>
+                    <span class="stat-label">Total Activos</span>
+                </div>
+            </div>
+            
+            <div class="stat-card" (click)="filtrarParaLlevar()" [class.active]="currentFilter === 'delivery'">
+                <div class="stat-icon delivery">
+                    <mat-icon>local_shipping</mat-icon>
+                </div>
+                <div class="stat-info">
+                    <span class="stat-number">{{getParaLlevarCount()}}</span>
+                    <span class="stat-label">Para Llevar</span>
+                </div>
+            </div>
+
+            <div class="stat-card" (click)="filtrarRecojoLocal()" [class.active]="currentFilter === 'local'">
+                <div class="stat-icon local">
+                    <mat-icon>store</mat-icon>
+                </div>
+                <div class="stat-info">
+                    <span class="stat-number">{{getRecojoLocalCount()}}</span>
+                    <span class="stat-label">Recojo en Local</span>
+                </div>
+            </div>
+
+            <div class="stat-card" (click)="filtrarPendientesPago()" [class.active]="currentFilter === 'pending-payment'">
+                <div class="stat-icon payment">
+                    <mat-icon>payments</mat-icon>
+                </div>
+                <div class="stat-info">
+                    <span class="stat-number">{{getPendientesPagoCount()}}</span>
+                    <span class="stat-label">Pago Pendiente</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Controls Section CORREGIDO -->
+    <div class="controls-section">
+        <div class="search-container">
+            <app-search-filter 
+                placeholderText="Buscar por cliente, número de pedido..."
+                (searchChange)="handleSearch($event)">
+            </app-search-filter>
+        </div>
+        
+        <div class="actions-group">
+            <button class="btn-secondary" matTooltip="Exportar reporte">
+                <mat-icon>download</mat-icon>
+                Exportar
+            </button>
+            <button class="btn-primary" routerLink="/order/form">
+                <mat-icon>add</mat-icon>
+                Nuevo Pedido
+            </button>
+        </div>
+    </div>
+
+    <!-- Table Section -->
+    <div class="table-section">
+        <div class="table-header">
+            <h3>Lista de Pedidos</h3>
+            <span class="results-count">{{filteredOrders.length}} pedidos</span>
+        </div>
+
+        <div class="table-container">
+            <table class="orders-table">
+                <thead>
+                    <tr>
+                        <th class="order-number">N° PEDIDO</th>
+                        <th class="customer">CLIENTE</th>
+                        <th class="dates">FECHAS</th>
+                        <th class="amount">MONTO</th>
+                        <th class="status">ESTADO PAGO</th>
+                        <th class="payment">MÉTODO PAGO</th>
+                        <th class="delivery">TIPO ENTREGA</th>
+                        <th class="actions">ACCIONES</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let order of filteredOrders" 
+                        [class.cancelled-row]="order.orderStatus === 'CA'">
+                        
+                        <!-- Número de Pedido -->
+                        <td class="order-number">
+                            <div class="order-id">
+                                <strong>{{ order.idCustomerOrder | orderNumber }}</strong>
+                            </div>
+                        </td>
+
+                        <!-- Cliente -->
+                        <td class="customer">
+                            <div class="customer-info">
+                                <span class="customer-name">{{ getCustomerName(order.customer) }}</span>
+                                <span class="customer-contact">{{ order.customer.phone }}</span>
+                            </div>
+                        </td>
+
+                        <!-- Fechas -->
+                        <td class="dates">
+                            <div class="date-info">
+                                <div class="date-item">
+                                    <span class="date-label">Pedido:</span>
+                                    <span>{{ order.orderDate | date: 'dd/MM/yy' }}</span>
+                                </div>
+                                <div class="date-item">
+                                    <span class="date-label">Entrega:</span>
+                                    <span>{{ order.deliveryDate | date: 'dd/MM/yy' }} {{ order.deliveryTime | slice:0:5 }}</span>
+                                </div>
+                            </div>
+                        </td>
+
+                        <!-- Monto -->
+                        <td class="amount">
+                            <div class="amount-info">
+                                <span class="total-amount">{{ order.totalAmount | soles }}</span>
+                                <div class="payment-breakdown">
+                                    <span class="advance">Adelanto: {{ order.advancePayment | soles }}</span>
+                                </div>
+                            </div>
+                        </td>
+
+                        <!-- Estado Pago -->
+                        <td class="status">
+                            <span [class]="getPaymentStatusClass(order.paymentStatus)">
+                                {{ getPaymentStatusText(order.paymentStatus) }}
+                            </span>
+                        </td>
+
+                        <!-- Método Pago -->
+                        <td class="payment">
+                            <div class="payment-method-info">
+                                {{ order.advancePaymentMethod }}
+                                <span *ngIf="order.balancePaymentMethod">/ {{ order.balancePaymentMethod }}</span>
+                            </div>
+                        </td>
+
+                        <!-- Tipo Entrega -->
+                        <td class="delivery">
+                            <div class="delivery-info">
+                                {{ getDeliveryTypeText(order.deliveryType) }}
+                            </div>
+                        </td>
+
+                        <!-- Acciones -->
+                        <td class="actions">
+                            <div class="action-buttons">
+                                <button class="btn-icon view" (click)="verDetalles(order)" matTooltip="Ver detalles">
+                                    <mat-icon>visibility</mat-icon>
+                                </button>
+                                
+                                <button class="btn-icon edit" 
+                                        (click)="editarPedido(order)"
+                                        matTooltip="Editar pedido">
+                                    <mat-icon>edit</mat-icon>
+                                </button>
+                                
+                                <button class="btn-icon receipt" 
+                                        (click)="generarComprobante(order)" 
+                                        matTooltip="Generar comprobante">
+                                    <mat-icon>receipt</mat-icon>
+                                </button>
+                                
+                                <button class="btn-icon cancel" 
+                                        (click)="cancelarPedido(order.idCustomerOrder)" 
+                                        matTooltip="Cancelar pedido">
+                                    <mat-icon>close</mat-icon>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+
+                    <!-- Empty State -->
+                    <tr *ngIf="filteredOrders.length === 0 && !loading">
+                        <td colspan="8">
+                            <div class="empty-state">
+                                <mat-icon>inventory_2</mat-icon>
+                                <h4>No se encontraron pedidos</h4>
+                                <button class="btn-primary" routerLink="/order/form">
+                                    <mat-icon>add</mat-icon>
+                                    Crear pedido
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Loading State -->
+        <div *ngIf="loading" class="loading-state">
+            <mat-spinner diameter="40"></mat-spinner>
+            <span>Cargando pedidos...</span>
+        </div>
+    </div>
+
+    <!-- Details Dialog -->
+    <div *ngIf="showDetailsDialog" class="dialog-overlay">
+        <app-order-details-dialog 
+            [data]="selectedOrder" 
+            (closeDialog)="closeDetailsDialog()">
+        </app-order-details-dialog>
+    </div>
+</div>

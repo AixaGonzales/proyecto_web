@@ -1,0 +1,251 @@
+// src/app/feature/employee/employee-details/employee-details.scss
+@use "sass:color";
+
+// Colores principales
+$primary-color: #F99333;
+$primary-dark: #E16B47;
+$secondary-color: #4E3629;
+$accent-color: #DFAF5D;
+$background-color: #F8F9FA;
+$surface-color: #FFFFFF;
+$text-primary: #2C3E50;
+$text-secondary: #6C757D;
+$success-color: #27AE60;
+$warning-color: #F39C12;
+$error-color: #E74C3C;
+$info-color: #3498DB;
+
+.employee-details-dialog {
+    max-width: 800px;
+    width: 100%;
+
+    .dialog-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 24px 24px 0;
+        background: linear-gradient(135deg, $surface-color 0%, color.adjust($primary-color, $lightness: 45%) 100%);
+        border-radius: 12px 12px 0 0;
+
+        h2 {
+            margin: 0;
+            color: $secondary-color;
+            font-weight: 600;
+        }
+
+        .close-btn {
+            color: $text-secondary;
+            
+            &:hover {
+                background: rgba(0,0,0,0.04);
+            }
+        }
+    }
+
+    .dialog-content {
+        padding: 0;
+        max-height: 70vh;
+        overflow-y: auto;
+
+        .employee-profile {
+            padding: 24px;
+
+            .profile-header {
+                display: flex;
+                justify-content: space-between;
+                align-items: flex-start;
+                margin-bottom: 24px;
+
+                .avatar-section {
+                    display: flex;
+                    align-items: center;
+                    gap: 16px;
+
+                    .avatar-large {
+                        width: 80px;
+                        height: 80px;
+                        border-radius: 50%;
+                        background: linear-gradient(135deg, $primary-color 0%, $primary-dark 100%);
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        color: white;
+                        box-shadow: 0 4px 12px rgba($primary-color, 0.3);
+
+                        mat-icon {
+                            font-size: 40px;
+                            width: 40px;
+                            height: 40px;
+                        }
+                    }
+
+                    .profile-info {
+                        h3 {
+                            margin: 0 0 4px 0;
+                            font-size: 1.5rem;
+                            font-weight: 600;
+                            color: $text-primary;
+                        }
+
+                        .position {
+                            margin: 0 0 8px 0;
+                            color: $text-secondary;
+                            font-size: 1.1rem;
+                        }
+
+                        .role-badge {
+                            padding: 6px 12px;
+                            border-radius: 20px;
+                            font-size: 0.75rem;
+                            font-weight: 600;
+                            text-transform: uppercase;
+                            letter-spacing: 0.5px;
+
+                            &.role-developer { background: #e3f2fd; color: #1976d2; }
+                            &.role-superadmin { background: #fce4ec; color: #c2185b; }
+                            &.role-administrador { background: #e8f5e8; color: #2e7d32; }
+                            &.role-cajero { background: #fff3e0; color: #ef6c00; }
+                            &.role-panadero { background: #f3e5f5; color: #7b1fa2; }
+                            &.role-inventario { background: #e0f2f1; color: #00695c; }
+                            &.role-proveedor { background: #e8eaf6; color: #303f9f; }
+                            &.role-colaborador { background: #fff8e1; color: #ff8f00; }
+                            &.role-default { background: #f5f5f5; color: #616161; }
+                        }
+                    }
+                }
+
+                .status-section {
+                    .status-badge {
+                        padding: 8px 16px;
+                        border-radius: 20px;
+                        font-size: 0.875rem;
+                        font-weight: 600;
+                        text-transform: uppercase;
+                        letter-spacing: 0.5px;
+
+                        &.badge-active {
+                            background: color.adjust($success-color, $lightness: 45%);
+                            color: $success-color;
+                        }
+
+                        &.badge-inactive {
+                            background: color.adjust($error-color, $lightness: 40%);
+                            color: $error-color;
+                        }
+                    }
+                }
+            }
+
+            .details-grid {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+                gap: 24px;
+                margin-top: 24px;
+
+                .detail-section {
+                    h4 {
+                        margin: 0 0 16px 0;
+                        color: $secondary-color;
+                        font-weight: 600;
+                        font-size: 1.1rem;
+                        padding-bottom: 8px;
+                        border-bottom: 2px solid color.adjust($primary-color, $lightness: 40%);
+                    }
+
+                    .detail-item {
+                        display: flex;
+                        align-items: flex-start;
+                        gap: 12px;
+                        margin-bottom: 16px;
+                        padding: 12px;
+                        border-radius: 8px;
+                        transition: background-color 0.3s ease;
+
+                        &:hover {
+                            background: color.adjust($primary-color, $lightness: 48%);
+                        }
+
+                        mat-icon {
+                            color: $primary-color;
+                            margin-top: 2px;
+                            flex-shrink: 0;
+                        }
+
+                        .detail-content {
+                            flex: 1;
+
+                            .label {
+                                display: block;
+                                font-size: 0.875rem;
+                                color: $text-secondary;
+                                margin-bottom: 4px;
+                                font-weight: 500;
+                            }
+
+                            .value {
+                                display: block;
+                                font-size: 1rem;
+                                color: $text-primary;
+                                font-weight: 500;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    mat-dialog-actions {
+        padding: 16px 24px;
+        border-top: 1px solid #e0e0e0;
+        background: #fafafa;
+
+        button {
+            min-width: 120px;
+
+            &[color="primary"] {
+                background: $primary-color;
+                color: white;
+
+                &:hover {
+                    background: $primary-dark;
+                }
+            }
+        }
+    }
+}
+
+// Responsive
+@media (max-width: 768px) {
+    .employee-details-dialog {
+        .dialog-content {
+            .employee-profile {
+                padding: 16px;
+
+                .profile-header {
+                    flex-direction: column;
+                    gap: 16px;
+
+                    .avatar-section {
+                        flex-direction: column;
+                        text-align: center;
+                    }
+                }
+
+                .details-grid {
+                    grid-template-columns: 1fr;
+                    gap: 16px;
+                }
+            }
+        }
+
+        mat-dialog-actions {
+            flex-direction: column;
+            gap: 8px;
+
+            button {
+                width: 100%;
+            }
+        }
+    }
+}

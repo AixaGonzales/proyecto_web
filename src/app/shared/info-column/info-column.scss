@@ -1,0 +1,326 @@
+// Variables de colores (basadas en tu paleta)
+$gris-cálido: #8D8D8D;
+$beige-suave: #D8B49B;
+$gris-oscuro: #2D2D2D;
+$blanco-roto: #F4F4F4;
+$gris-claro: #E0E0E0;
+$azul-oscuro: #070F2B;
+$rojo-oscuro: #CD1818;
+
+// Colores de acento
+$amarillo-mostaza: #DFAF5D;
+$marrón-café-oscuro: #4E3629;
+$marro-claro: #8D6E63;
+$terracota-suave: #E16B47;
+
+// Colores de texto
+$gris-oscuro-texto: #333333;
+$gris-claro-texto: #616161;
+
+// Colores básicos
+$color-negro: #000000;
+$color-blanco: #ffffff;
+$verde-oscuro: #16610E;
+
+// Colores para redes sociales
+$facebook-color: #1877F2;
+$whatsapp-color: #25D366;
+$gmail-color: #EA4335;
+
+// Estilos del componente
+.info-column {
+    display: flex;
+    flex-direction: column;
+    background-color: $blanco-roto;
+    padding: 0.2rem;
+    border-radius: 20px;
+    box-shadow: 0 2px 8px rgba($color-negro, 0.1);
+    border: 2px solid $marro-claro;
+    height: 75vh;
+    width: 20%;
+    box-sizing: border-box;
+    position: relative;
+    overflow: hidden; /* Asegura que nada sobresalga */
+
+    /* Aseguramos que la imagen no se desborde */
+    .logo {
+        text-align: center;
+        margin-bottom: 1.5rem;
+        padding-bottom: 1rem;
+        border-bottom: 1px solid $gris-claro;
+
+        img {
+            max-width: 100%; /* Evita que la imagen sobresalga */
+            height: auto;
+            max-height: 120px;
+            object-fit: contain;
+            transition: transform 0.3s ease;
+
+            &:hover {
+                transform: scale(1.05);
+            }
+        }
+    }
+
+    .messages {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+        font-size: 0.95rem;
+        line-height: 1.6;
+        color: $gris-oscuro-texto;
+
+        p {
+            margin: 0;
+            font-weight: 600;
+            color: $marrón-café-oscuro;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+
+            &::before {
+                content: "";
+                display: inline-block;
+                width: 8px;
+                height: 8px;
+                background-color: $amarillo-mostaza;
+                border-radius: 50%;
+            }
+        }
+
+        ul {
+            margin: 0;
+            padding-left: 1.25rem;
+            list-style-type: none;
+
+            li {
+                position: relative;
+                padding-left: 1rem;
+                margin-bottom: 0.5rem;
+
+                &::before {
+                    content: "•";
+                    position: absolute;
+                    left: 0;
+                    color: $amarillo-mostaza;
+                    font-weight: bold;
+                }
+            }
+        }
+    }
+
+    .contact-buttons {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 0.5rem;
+        margin-top: 0.5rem;
+        padding-top: 0.5rem;
+        border-top: 1px solid $gris-claro;
+
+        button {
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0.5rem;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 44px;
+            height: 44px;
+            position: relative;
+            overflow: hidden;
+
+            &::before {
+                content: "";
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba($color-blanco, 0.1);
+                border-radius: 50%;
+                transform: scale(0);
+                transition: transform 0.3s ease;
+            }
+
+            &:hover {
+                transform: translateY(-3px);
+
+                &::before {
+                    transform: scale(1);
+                }
+
+                i {
+                    transform: scale(1.1);
+                }
+            }
+
+            i {
+                font-size: 1.75rem;
+                transition: all 0.3s ease;
+            }
+
+            // Estilos específicos para cada red social
+            &:first-child {
+                i {
+                    color: $facebook-color;
+                }
+
+                &:hover {
+                    box-shadow: 0 4px 12px rgba($facebook-color, 0.3);
+                }
+            }
+
+            &:nth-child(2) {
+                i {
+                    color: $gmail-color;
+                }
+
+                &:hover {
+                    box-shadow: 0 4px 12px rgba($gmail-color, 0.3);
+                }
+            }
+
+            &:last-child {
+                i {
+                    color: $whatsapp-color;
+                }
+
+                &:hover {
+                    box-shadow: 0 4px 12px rgba($whatsapp-color, 0.3);
+                }
+            }
+        }
+    }
+}
+
+/* Estilos responsivos */
+@media (max-width: 1200px) {
+    .info-column {
+        padding: 1.25rem;
+
+        .logo img {
+            max-width: 70%;
+        }
+
+        .contact-buttons {
+            gap: 1rem;
+
+            button {
+                width: 40px;
+                height: 40px;
+
+                i {
+                    font-size: 1.5rem;
+                }
+            }
+        }
+    }
+}
+
+@media (max-width: 992px) {
+    .info-column {
+        width: 100%;
+        max-height: none;
+        height: auto;
+        margin: 1rem 0;
+
+        .logo {
+            margin-bottom: 1rem;
+
+            img {
+                max-height: 100px;
+            }
+        }
+
+        .messages {
+            font-size: 0.9rem;
+        }
+    }
+}
+
+@media (max-width: 768px) {
+    .info-column {
+        border-radius: 16px;
+        padding: 1rem;
+
+        .logo img {
+            max-width: 60%;
+        }
+
+        .contact-buttons {
+            gap: 0.75rem;
+
+            button {
+                width: 36px;
+                height: 36px;
+
+                i {
+                    font-size: 1.25rem;
+                }
+            }
+        }
+    }
+}
+
+@media (max-width: 576px) {
+    .info-column {
+        border-radius: 12px;
+
+        .logo {
+            padding-bottom: 0.75rem;
+            margin-bottom: 0.75rem;
+
+            img {
+                max-height: 80px;
+            }
+        }
+
+        .messages {
+            gap: 0.75rem;
+            font-size: 0.85rem;
+
+            ul li {
+                margin-bottom: 0.25rem;
+            }
+        }
+
+        .contact-buttons {
+            margin-top: 1rem;
+            padding-top: 1rem;
+        }
+    }
+}
+
+/* Animaciones */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.info-column {
+    animation: fadeIn 0.5s ease-out forwards;
+
+    .logo img {
+        animation: fadeIn 0.6s ease-out 0.1s both;
+    }
+
+    .messages {
+        animation: fadeIn 0.6s ease-out 0.2s both;
+    }
+
+    .contact-buttons {
+        animation: fadeIn 0.6s ease-out 0.3s both;
+    }
+}
